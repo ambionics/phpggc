@@ -2,7 +2,7 @@
 
 *PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically*.
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.
-Currently, the tool supports Laravel, Monolog, Doctrine, SlimPHP, ...
+Currently, the tool supports: Doctrine, Guzzle, Laravel, Monolog, Slim, SwiftMailer.
 
 ## Usage
 
