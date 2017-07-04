@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?php
+
+require_once('lib/PHPGGC.php');
+
+$x = new PHPGGC();
+
+try
+{
+	$x->generate();
+}
+catch(\PHPGGC\Exception $e)
+{
+	print("ERROR: " . $e->getMessage() . "\n");
+}
