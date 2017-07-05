@@ -31,9 +31,6 @@ namespace Doctrine\Common\Annotations
 {
     final class CachedReader
     {
-        private $delegate;
-        private $cache;
-        private $debug;
         private $loadedAnnotations;
 
         function __construct($loadedAnnotations)
@@ -47,23 +44,10 @@ namespace Doctrine\ORM\Query
 {
     class ResultSetMapping
     {
-        public $isMixed = false;
-        public $isSelect = true;
-        public $aliasMap = array();
-        public $relationMap = array();
-        public $parentAliasMap = array();
-        public $fieldMappings = array();
-        public $scalarMappings = array();
-        public $typeMappings = array();
-        public $entityMappings = array();
-        public $metaMappings = array();
-        public $columnOwnerMap = array();
-        public $discriminatorColumns = array();
-        public $indexByMap = array();
         public $declaringClasses = array();
-        public $isIdentifierColumn = array();
-        public $newObjectMappings = array();
-        public $metadataParameterMapping = array();
+        public $columnOwnerMap = array();
+        public $fieldMappings = array();
+
     }
 
     # $class = $this->em->getClassMetadata($this->declaringClasses[$columnName]);
@@ -88,16 +72,8 @@ namespace Doctrine\ORM
     class EntityManager
     {
         private $config;
-        private $conn;
         private $metadataFactory;
-        private $unitOfWork;
-        private $eventManager;
-        private $proxyFactory;
-        private $repositoryFactory;
-        private $expressionBuilder;
         private $closed = false;
-        private $filterCollection;
-        private $cache;
 
         function __construct($metadataFactory, $config)
         {
@@ -131,9 +107,7 @@ namespace Doctrine\Common\Persistence\Mapping
     {
         protected $cacheSalt = '$CLASSMETADATA';
         private $cacheDriver;
-        private $loadedMetadata = [];
         protected $initialized = true;
-        private $reflectionService = null;
 
         function __construct($cacheDriver)
         {
@@ -150,10 +124,8 @@ namespace Doctrine\ORM\Mapping
     class ClassMetadataFactory extends AbstractClassMetadataFactory
     {
         private $em;
-        private $targetPlatform;
         private $driver;
         private $evm;
-        private $embeddablesActiveNesting = array();
 
         function __construct($cacheDriver, $em, $driver)
         {
@@ -209,7 +181,9 @@ namespace Doctrine\Common\Cache
         function __construct($directory, $extension)
         {
             $this->directory = $directory;
+            $this->directoryStringLength = strlen($directory);
             $this->extension = $extension;
+            $this->extensionStringLength = strlen($extension);
         }
     }
 
