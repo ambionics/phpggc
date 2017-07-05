@@ -7,9 +7,9 @@ $x = new PHPGGC();
 
 try
 {
-	$x->generate();
+    $x->generate();
 }
 catch(\PHPGGC\Exception $e)
 {
-	print("ERROR: " . $e->getMessage() . "\n");
+    print("ERROR: " . $e->getMessage() . "\n");
 }

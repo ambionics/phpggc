@@ -51,9 +51,9 @@ You could use a __toString() chain, wrapping it like so:
 
 function wrapper($chain)
 {
-	return array(
-		'message' => $chain
-	);
+    return array(
+        'message' => $chain
+    );
 }
 ```
 
