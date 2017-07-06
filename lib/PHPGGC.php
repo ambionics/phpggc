@@ -5,13 +5,15 @@
 
 class PHPGGC
 {
-    public static $DIR_GADGETCHAINS = 'gadgetchains';
+    const DIR_GADGETCHAINS = '/gadgetchains';
+    const DIR_LIB = '/lib';
 
     protected $has_wrapper = False;
     protected $gadgets;
 
     public function __construct()
     {
+        $this->base = realpath(dirname(dirname(__FILE__)));
         spl_autoload_register(array($this, 'autoload'));
         $this->gadgets = $this->get_gadget_chains();
     }
@@ -81,7 +83,8 @@ class PHPGGC
      */
     protected function include_gadget_chains()
     {
-        $files = glob(self::$DIR_GADGETCHAINS . '/*/*/*/chain.php');
+        $base = $this->base . self::DIR_GADGETCHAINS;
+        $files = glob($base . '/*/*/*/chain.php');
         array_map(function ($file)
         {
             include_once $file;
@@ -149,7 +152,8 @@ class PHPGGC
     {
         if(strpos($class, 'PHPGGC\\') === 0)
         {
-            include_once 'lib/' . str_replace('\\', '/', $class) . '.php';
+            $file = str_replace('\\', '/', $class) . '.php';
+            include_once $this->base . self::DIR_LIB . '/' . $file;
         }
     }
 
