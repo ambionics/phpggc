@@ -66,10 +66,10 @@ $ ./phpggc swiftmailer/fw1 /var/www/html/shell.php /tmp/data
 O:13:"Swift_Message":8:{...}
 ```
 
-Arguments allow to modify the way the payload is output. For instance, -u will URL encode it, and -b will convert it to base64.
-Payloads often contain NULL bytes and cannot be copy/pasted as-is. Use -s for a soft URL encode, which keeps the payload readable.
+Arguments allow to modify the way the payload is output. For instance, `-u` will URL encode it, and `-b` will convert it to base64.
+Payloads often contain NULL bytes and cannot be copy/pasted as-is. Use `-s` for a soft URL encode, which keeps the payload readable.
 
-The -w option allows you to define a PHP file containing a `wrapper($chain)` function.
+The `-w` option allows you to define a PHP file containing a `wrapper($chain)` function.
 This will be called after the chain is built, but before the `serialize()`, in order to adjust the payload's shape.
 For instance, if the vulnerable code looks like this:
 
