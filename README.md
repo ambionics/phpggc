@@ -6,7 +6,27 @@ Currently, the tool supports: Doctrine, Guzzle, Laravel, Monolog, Slim, SwiftMai
 
 ## Usage
 
-Run `./phpggc -l` to obtain a list of gadget chains.
+Run `./phpggc -l` to obtain a list of gadget chains:
+
+```
+$ ./phpggc -l
+
+Gadget Chains
+-------------
+
+NAME               VERSION           TYPE          VECTOR        I    
+Doctrine/FW1       ?                 file_write    __toString    *    
+Guzzle/FW1         6.0.0 <= 6.3.0    file_write    __destruct         
+Laravel/RCE1       5.4.27            rce           __destruct         
+Monolog/RCE1       1.18 <= 1.23      rce           __destruct         
+Monolog/RCE2       1.5 <= 1.17       rce           __destruct         
+Phalcon/RCE1       <= 1.2.2          rce           __wakeup      *    
+Slim/RCE1          3.8.1             rce           __toString         
+SwiftMailer/FW1    5.1.0 <= 5.4.8    file_write    __toString         
+SwiftMailer/FW2    6.0.0 <= 6.0.1    file_write    __toString         
+Symfony/RCE1       3.3               rce           __destruct    *
+
+```
 
 Every gadget chain has:
 
@@ -14,7 +34,21 @@ Every gadget chain has:
 - Version: Version of the framework/library for which gadgets are for
 - Type: Type of exploitation: RCE, File Write, File Read, Include...
 - Vector: the vector to trigger the chain after the unserialize (`__destruct()`, `__toString()`, `offsetGet()`, ...)
-- Information: Other informations about the chain
+- Informations: Other informations about the chain
+
+Use `-i` to get detailed information about a chain:
+
+```
+$ ./phpggc -i symfony/rce1
+Name           : Symfony/RCE1
+Version        : 3.3
+Type           : rce
+Vector         : __destruct
+Informations   : 
+Exec through proc_open()
+
+./phpggc Symfony/RCE1 <code>
+```
 
 Once you have selected a chain, run `./phpggc <gadget-chain> [parameters]` to obtain the payload.
 For instance, to obtain a payload for Monolog, you'd do:
