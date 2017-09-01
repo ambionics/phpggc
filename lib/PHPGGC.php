@@ -9,13 +9,13 @@ class PHPGGC
     const DIR_LIB = '/lib';
 
     protected $has_wrapper = False;
-    protected $gadgets;
+    protected $chains;
 
     public function __construct()
     {
         $this->base = realpath(dirname(dirname(__FILE__)));
         spl_autoload_register(array($this, 'autoload'));
-        $this->gadgets = $this->get_gadget_chains();
+        $this->chains = $this->get_gadget_chains();
     }
 
     /**
@@ -38,10 +38,17 @@ class PHPGGC
         $class = array_shift($parameters);
         $gc = $this->get_gadget_chain($class);
 
-        $parameters = $this->get_type_parameters($gc, $parameters);
-        $generated = $this->serialize($gc, $parameters);
-
-        print($generated . "\n");
+        if(@$this->arguments['informations'])
+        {
+            $this->o($gc, 2);
+            $this->o($this->_get_command_line_gc($gc));
+        }
+        else
+        {
+            $parameters = $this->get_type_parameters($gc, $parameters);
+            $generated = $this->serialize($gc, $parameters);
+            print($generated . "\n");
+        }
     }
 
     /**
@@ -51,12 +58,12 @@ class PHPGGC
     {
         $full = strtolower('GadgetChain/' . $class);
 
-        if(!in_array($full, array_keys($this->gadgets)))
+        if(!in_array($full, array_keys($this->chains)))
         {
             throw new PHPGGC\Exception('Unknown gadget chain: ' . $class);
         }
 
-        return $this->gadgets[$full];
+        return $this->chains[$full];
     }
 
     /**
@@ -148,6 +155,10 @@ class PHPGGC
         return $payload;
     }
 
+    /**
+     * Autoloads PHPGGC base classes only, in order to avoid conflict between
+     * different gadget chains.
+     */
     public function autoload($class)
     {
         if(strpos($class, 'PHPGGC\\') === 0)
@@ -162,15 +173,17 @@ class PHPGGC
     #
 
     /**
-     * Messages are displayed on stderr so that the payload can be saved into
-     * a file if needed.
+     * Displays a message.
      */
     function output($message, $r=1)
     {
         $n = str_repeat("\n", $r);
-        fwrite(STDERR, $message . $n);
+        print($message . $n);
     }
 
+    /**
+     * Wrapper for output().
+     */
     protected function o($message, $r=1)
     {
         $this->output($message, $r);
@@ -189,12 +202,43 @@ class PHPGGC
             $serialized = urlencode($serialized);
         if(@$softencode)
         {
-            $keys = str_split("\x00\n\r\t+");
+            $keys = str_split("%\x00\n\r\t+");
             $values = array_map('urlencode', $keys);
             $serialized = str_replace($keys, $values, $serialized);
         }
 
         return $serialized;
+    }
+
+    /**
+     * Generates an ASCII array.
+     */
+    protected function array($titles, $data)
+    {
+        $titles = array_map('strtoupper', $titles);
+        $data = array_merge([$titles], $data);
+        $pad = array_fill(0, count($titles), 0);
+        
+        foreach($data as $row)
+        {
+            foreach($row as $i => $cell)
+            {
+                $pad[$i] = max($pad[$i], strlen($cell));
+            }
+        }
+
+        $array = '';
+
+        foreach($data as $row)
+        {
+            foreach($row as $i => $cell)
+            {
+                $array .= str_pad($cell, $pad[$i]) . '    ';
+            }
+            $array .= "\n";
+        }
+
+        return $array;
     }
 
     protected function list_gc()
@@ -203,10 +247,27 @@ class PHPGGC
         $this->o("Gadget Chains");
         $this->o("-------------", 2);
 
-        foreach($this->gadgets as $gadget)
+        $titles = [
+            'Name',
+            'Version',
+            'Type',
+            'Vector',
+            'I'
+        ];
+
+        $data = [];
+        foreach($this->chains as $chain)
         {
-            $this->o($gadget, 2);
+            $data[] = [
+                $chain->get_name(),
+                $chain->version,
+                $chain->type,
+                $chain->vector,
+                ($chain->informations ? '*' : '')
+            ];
         }
+
+        $this->o($this->array($titles, $data));
 
         exit(0);
     }
@@ -219,14 +280,15 @@ class PHPGGC
 
         $this->o("Usage");
         $this->o("  " . $this->_get_command_line(
-            '[-h|-l|-w|-h|-s|-u|-b]',
+            '[-h|-l|-w|-h|-s|-u|-b|-i]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);
 
         $this->o("Optional parameters");
-        $this->o("  -h Displays advanced help");
+        $this->o("  -h Displays help");
         $this->o("  -l Lists available gadget chains");
+        $this->o("  -i Displays informations about a gadget chain");
         $this->o("  -w <wrapper>");
         $this->o("     Specifies a file containing a function: wrapper(\$payload)");
         $this->o("     This function will be called before the generated gadget is serialized.");
@@ -258,6 +320,7 @@ class PHPGGC
         unset($argv[0]);
 
         $valid_arguments = [
+            'informations' => false,
             'help' => false,
             'list' => false,
             'wrapper' => true,
@@ -287,7 +350,10 @@ class PHPGGC
                         if($has_parameter)
                         {
                             if($count < $i)
-                                throw new \PHPGGC\Exception('Parameter ' . $arg . ' expects a value');
+                            {
+                                $e = 'Parameter ' . $arg . ' expects a value';
+                                throw new \PHPGGC\Exception($e);
+                            }
 
                             $arguments[$argument] = $argv[$i+1];
                             
@@ -313,7 +379,7 @@ class PHPGGC
             }
         }
 
-        # Handle optional arguments in case they need to be now.
+        # Handle optional arguments in case they need to be handled now.
         # Otherwise, just save them.
 
         foreach($arguments as $argument => $value)
@@ -351,15 +417,20 @@ class PHPGGC
         if($values === false)
         {
             $this->o($gc, 2);
-            $arguments = array_map(function ($a) {
-                return '<' . $a . '>';
-            }, $arguments);
-            $message = 'Invalid arguments for type "' . $gc->type . '" ' . "\n" .
-                       $this->_get_command_line($gc->get_name(), ...$arguments);
+            $message = 'Invalid arguments for type "' . $gc->type . '" ' . "\n"
+                     . $this->_get_command_line_gc($gc);
             throw new PHPGGC\Exception($message);
         }
 
         return $values;
+    }
+
+    protected function _get_command_line_gc($gc)
+    {
+        $arguments = array_map(function ($a) {
+                return '<' . $a . '>';
+        }, $gc->parameters);
+        return $this->_get_command_line($gc->get_name(), ...$arguments);
     }
 
     private function _get_command_line(...$arguments)
