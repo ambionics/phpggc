@@ -20,6 +20,7 @@ namespace GuzzleHttp\Psr7
 	        }
 	    }
 
+	    /*
 	    public function __destruct()
 	    {
 	        if (isset($this->_fn_close)) {
@@ -31,5 +32,40 @@ namespace GuzzleHttp\Psr7
 	    {
 	        return call_user_func($this->_fn_close);
 	    }
+	    */
+	}
+}
+
+namespace GuzzleHttp
+{
+	class HandlerStack
+	{
+	    private $handler;
+	    private $stack = [['assert']];
+	    private $cached = false;
+
+	    function __construct($handler)
+	    {
+	    	$this->handler = $handler;
+	    }
+
+	    /*
+	    public function resolve()
+	    {
+	        if (!$this->cached) {
+	            if (!($prev = $this->handler)) {
+	                throw new \LogicException('No handler has been specified');
+	            }
+
+	            foreach (array_reverse($this->stack) as $fn) {
+	                $prev = $fn[0]($prev);
+	            }
+
+	            $this->cached = $prev;
+	        }
+
+	        return $this->cached;
+	    }
+	    */
 	}
 }
