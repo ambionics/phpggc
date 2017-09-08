@@ -213,7 +213,7 @@ class PHPGGC
     /**
      * Generates an ASCII array.
      */
-    protected function array($titles, $data)
+    protected function table($titles, $data)
     {
         $titles = array_map('strtoupper', $titles);
         $data = array_merge([$titles], $data);
@@ -267,7 +267,7 @@ class PHPGGC
             ];
         }
 
-        $this->o($this->array($titles, $data));
+        $this->o($this->table($titles, $data));
 
         exit(0);
     }

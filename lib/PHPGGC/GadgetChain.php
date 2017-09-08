@@ -32,7 +32,11 @@ abstract class GadgetChain
         $strings = [];
 
         if($this->informations)
-            $infos['Informations'] = "\n" . $this->informations;
+        {
+            $informations = trim($this->informations);
+            $informations = preg_replace("#\n\s+#", "\n", $informations);
+            $infos['Informations'] = "\n" . $informations;
+        }
 
         foreach($infos as $k => $v)
         {
@@ -71,7 +75,7 @@ abstract class GadgetChain
      * For instance, if a class is meant to be named A\B\C but has been named
      * A_B_C in the gadget for convenience, it can be str_replace()d here.
      */
-    public function post_process(string $payload)
+    public function post_process($payload)
     {
         return $payload;
     }

@@ -16,10 +16,12 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
     public $version = '?';
     public $vector = '__toString';
     public $author = 'cf';
-    public $informations = 
-        'We do not have full control of the path. If you enter /var/www/toto/shell.php as the remote_path, ' . "\n" .
-        'it will be converted to /var/www/toto/e3/5b737464436c61737324434c4153534d455441444154415d5b315d.php.' . "\n" .
-        'Only the extension and base path are kept.';
+    public $informations = '
+        We do not have full control of the path. If you enter
+        /var/www/toto/shell.php as the remote_path, it will be converted to
+        /var/www/toto/e3/5b737464436c61737324434c4153534d455441444154415d5b315d.php.
+        Only the extension and base path are kept.
+    ';
 
     public function pre_process(array $parameters)
     {
