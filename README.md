@@ -4,6 +4,10 @@
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.
 Currently, the tool supports: Doctrine, Guzzle, Laravel, Monolog, Phalcon, Slim, SwiftMailer, Symfony, Yii and ZendFramework.
 
+## Requirements
+
+PHP >= 5.6 is required to run PHPGGC.
+
 ## Usage
 
 Run `./phpggc -l` to obtain a list of gadget chains:
