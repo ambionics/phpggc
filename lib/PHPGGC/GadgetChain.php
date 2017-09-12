@@ -19,6 +19,7 @@ abstract class GadgetChain
     const TYPE_FILE_READ = 'file_read';
     const TYPE_FILE_WRITE = 'file_write';
     const TYPE_FILE_DELETE = 'file_delete';
+    const TYPE_SQL_INJECTION = 'sql_injection';
 
     public function __toString()
     {
