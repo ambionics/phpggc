@@ -6,6 +6,8 @@
 class PHPGGC
 {
     const DIR_GADGETCHAINS = '/gadgetchains';
+    const DIR_TEMPLATES = '/templates';
+    const DIR_BASE_GADGETCHAINS = '/lib/PHPGGC/GadgetChain';
     const DIR_LIB = '/lib';
 
     protected $has_wrapper = False;
@@ -126,6 +128,12 @@ class PHPGGC
         return array_combine($classes, $objects);
     }
 
+    /**
+     * Includes a PHP file containing a wrapper($data) function.
+     * This method will be called after the gadget chain has been generated,
+     * and before serialize() is called, in order to modify the payload if
+     * need be.
+     */
     public function set_wrapper($file)
     {
         include $file;
@@ -166,6 +174,94 @@ class PHPGGC
             $file = str_replace('\\', '/', $class) . '.php';
             include_once $this->base . self::DIR_LIB . '/' . $file;
         }
+    }
+
+    /**
+     *
+     */
+    function new_gc($name, $type)
+    {
+        $namespace = '\\PHPGGC\\GadgetChain';
+        
+        # Check type
+
+        $type = strtoupper($type);
+        $reflection = new ReflectionClass($namespace);
+        $constant = 'TYPE_' . $type;
+        $value = $reflection->getConstant($constant);
+
+        if($value === false)
+        {
+            $this->o('Invalid type: ' . $type);
+            exit(0);
+        }
+
+        # Match base class from type
+
+        $base = $this->base . self::DIR_BASE_GADGETCHAINS;
+        $files = glob($base . '/*.php');
+
+        foreach($files as $file)
+        {
+            $classname = substr(basename($file), 0, -4);
+            $classname = $namespace . '\\' . $classname;
+            $reflection = new ReflectionClass($classname);
+
+            if($reflection->getProperty('type')->getValue() === $value)
+            {
+                $baseclass = $reflection;
+                break;
+            }
+        }
+        
+        if(!isset($baseclass))
+        {
+            $this->o('No base class for type: ' . $type);
+            exit(0);
+        }
+
+        # Create directory structure
+
+        $base = $this->base . self::DIR_GADGETCHAINS;
+        $base = $base . '/' . $name . '/' . $type . '/';
+
+        for($i=1;file_exists($base . $i);$i++);
+
+        $base = $base . $i;
+        mkdir($base, 0777, true);
+
+        $replacements = [
+            '{NAME}' => $name,
+            '{CLASS_NAME}' => $type . $i,
+            '{BASE_CLASS_NAME}' => $baseclass->getName()
+        ];
+
+        $this->create_from_template($base, 'chain.php', $replacements);
+        $this->create_from_template($base, 'gadgets.php');
+
+        # Display success message
+
+        $full_name = $replacements['{NAME}'] . '\\'
+                   . $replacements['{CLASS_NAME}'];
+        $base = substr($base, strlen($this->base) + 1);
+
+        $this->o('Created ' . $full_name . ' under: ' . $base);
+
+        exit(0);
+    }
+
+    /**
+     * Creates a file in directory $path from template $name.
+     */
+    function create_from_template($path, $name, $replacements=null)
+    {
+        $template = $this->base . self::DIR_TEMPLATES . '/' . $name;
+        $template = file_get_contents($template);
+
+        if($replacements)
+            $template = strtr($template, $replacements);
+
+        file_put_contents($path . '/' . $name, $template);
     }
 
     #
@@ -261,7 +357,7 @@ class PHPGGC
             $data[] = [
                 $chain->get_name(),
                 $chain->version,
-                $chain->type,
+                $chain::$type,
                 $chain->vector,
                 ($chain->informations ? '*' : '')
             ];
@@ -278,26 +374,30 @@ class PHPGGC
         $this->o("PHPGGC: PHP Generic Gadget Chains");
         $this->o("---------------------------------", 2);
 
-        $this->o("Usage");
+        $this->o("USAGE");
         $this->o("  " . $this->_get_command_line(
             '[-h|-l|-w|-h|-s|-u|-b|-i]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);
 
-        $this->o("Optional parameters");
+        $this->o("INFORMATION");
         $this->o("  -h Displays help");
         $this->o("  -l Lists available gadget chains");
         $this->o("  -i Displays informations about a gadget chain");
+        $this->o("");
+        $this->o("MODIFICATION");
         $this->o("  -w <wrapper>");
         $this->o("     Specifies a file containing a function: wrapper(\$payload)");
         $this->o("     This function will be called before the generated gadget is serialized.");
+        $this->o("");
+        $this->o("ENCODING");
         $this->o("  -s Soft URLencode");
         $this->o("  -u URLencodes the payload");
         $this->o("  -b Converts the output into base64");
         $this->o("");
 
-        $this->o("Examples");
+        $this->o("EXAMPLES");
         $this->o("  " . $this->_get_command_line(
             'Laravel/RCE1',
             '\'phpinfo().die();\''
@@ -320,6 +420,7 @@ class PHPGGC
         unset($argv[0]);
 
         $valid_arguments = [
+            'new' => true,
             'informations' => false,
             'help' => false,
             'list' => false,
@@ -379,6 +480,8 @@ class PHPGGC
             }
         }
 
+        $argv = array_values($argv);
+
         # Handle optional arguments in case they need to be handled now.
         # Otherwise, just save them.
 
@@ -386,6 +489,9 @@ class PHPGGC
         {
             switch($argument)
             {
+                case 'new':
+                    $this->new_gc($value, $argv[0]);
+                    break;
                 case 'help':
                     $this->help();
                     break;
@@ -417,7 +523,7 @@ class PHPGGC
         if($values === false)
         {
             $this->o($gc, 2);
-            $message = 'Invalid arguments for type "' . $gc->type . '" ' . "\n"
+            $message = 'Invalid arguments for type "' . $gc::$type . '" ' . "\n"
                      . $this->_get_command_line_gc($gc);
             throw new PHPGGC\Exception($message);
         }

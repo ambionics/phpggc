@@ -5,7 +5,7 @@ namespace PHPGGC;
 abstract class GadgetChain
 {
     public $name;
-    public $type;
+    public static $type;
     public $version = '?';
     # Vector to start the chain: __destruct, __toString, offsetGet, etc.
     public $vector = '';
@@ -15,18 +15,18 @@ abstract class GadgetChain
 
     # Types
     const TYPE_RCE = 'rce';
-    const TYPE_FILE_INCLUDE = 'file_include';
-    const TYPE_FILE_READ = 'file_read';
-    const TYPE_FILE_WRITE = 'file_write';
-    const TYPE_FILE_DELETE = 'file_delete';
-    const TYPE_SQL_INJECTION = 'sql_injection';
+    const TYPE_FI = 'file_include';
+    const TYPE_FR = 'file_read';
+    const TYPE_FW = 'file_write';
+    const TYPE_FD = 'file_delete';
+    const TYPE_SQLI = 'sql_injection';
 
     public function __toString()
     {
         $infos = [
             'Name' => $this->get_name(),
             'Version' => $this->version,
-            'Type' => $this->type,
+            'Type' => self::$type,
             'Vector' => $this->vector
         ];
 
