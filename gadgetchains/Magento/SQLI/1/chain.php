@@ -2,6 +2,7 @@
 
 namespace GadgetChain\Magento;
 
+# Reference: https://maxchadwick.xyz/blog/using-cve-2016-4010-gadget-chain-in-magento-1
 class SQLI1 extends \PHPGGC\GadgetChain\SqlInjection
 {
     public $version = '? <= 1.9.3.4';

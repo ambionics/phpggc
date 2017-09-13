@@ -2,7 +2,7 @@
 
 *PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically*.
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.
-Currently, the tool supports: Doctrine, Guzzle, Laravel, Monolog, Phalcon, Slim, SwiftMailer, Symfony, Yii and ZendFramework.
+Currently, the tool supports: Doctrine, Guzzle, Laravel, Magento, Monolog, Phalcon, Slim, SwiftMailer, Symfony, Yii and ZendFramework.
 
 ## Usage
 
@@ -14,20 +14,21 @@ $ ./phpggc -l
 Gadget Chains
 -------------
 
-NAME                  VERSION           TYPE          VECTOR        I    
-Doctrine/FW1          ?                 file_write    __toString    *    
-Guzzle/FW1            6.0.0 <= 6.3.0    file_write    __destruct         
-Guzzle/RCE1           6.0.0 <= 6.3.0    rce           __destruct         
-Laravel/RCE1          5.4.27            rce           __destruct         
-Monolog/RCE1          1.18 <= 1.23      rce           __destruct         
-Monolog/RCE2          1.5 <= 1.17       rce           __destruct         
-Phalcon/RCE1          <= 1.2.2          rce           __wakeup      *    
-Slim/RCE1             3.8.1             rce           __toString         
-SwiftMailer/FW1       5.1.0 <= 5.4.8    file_write    __toString         
-SwiftMailer/FW2       6.0.0 <= 6.0.1    file_write    __toString         
-Symfony/RCE1          3.3               rce           __destruct    *    
-Yii/RCE1              1.1.19            rce           __destruct         
-ZendFramework/RCE1    ? <= 1.12.20      rce           __destruct    *    
+NAME                  VERSION           TYPE             VECTOR        I    
+Doctrine/FW1          ?                 file_write       __toString    *    
+Guzzle/FW1            6.0.0 <= 6.3.0    file_write       __destruct         
+Guzzle/RCE1           6.0.0 <= 6.3.0    rce              __destruct         
+Laravel/RCE1          5.4.27            rce              __destruct         
+Magento/SQLI1         ? <= 1.9.3.4      sql_injection    __destruct         
+Monolog/RCE1          1.18 <= 1.23      rce              __destruct         
+Monolog/RCE2          1.5 <= 1.17       rce              __destruct         
+Phalcon/RCE1          <= 1.2.2          rce              __wakeup      *    
+Slim/RCE1             3.8.1             rce              __toString         
+SwiftMailer/FW1       5.1.0 <= 5.4.8    file_write       __toString         
+SwiftMailer/FW2       6.0.0 <= 6.0.1    file_write       __toString         
+Symfony/RCE1          3.3               rce              __destruct    *    
+Yii/RCE1              1.1.19            rce              __destruct         
+ZendFramework/RCE1    ? <= 1.12.20      rce              __destruct    * 
 
 ```
 
