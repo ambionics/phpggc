@@ -9,9 +9,9 @@ class SQLI1 extends \PHPGGC\GadgetChain\SqlInjection
     public $vector = '__destruct';
     public $author = 'mpchadwick';
 
-    public function generate(array $params)
+    public function generate(array $parameters)
     {
-        $sql = $params['sql'];
+        $sql = $parameters['sql'];
 
         return new \Credis_Client(
             new \Mage_Sales_Model_Order_Payment_Transaction(

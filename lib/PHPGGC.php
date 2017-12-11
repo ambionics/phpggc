@@ -177,7 +177,8 @@ class PHPGGC
     }
 
     /**
-     *
+     * Creates the file structure for a new gadgetchain targeting $name and of
+     * type $type.
      */
     function new_gc($name, $type)
     {
@@ -490,7 +491,14 @@ class PHPGGC
             switch($argument)
             {
                 case 'new':
-                    $this->new_gc($value, $argv[0]);
+                    if(count($argv) < 1)
+                    {
+                        $line = $this->_get_command_line('<Framework> <type>');
+                        $this->o($line);
+                    }
+                    else
+                        $this->new_gc($value, $argv[0]);
+                    
                     break;
                 case 'help':
                     $this->help();
