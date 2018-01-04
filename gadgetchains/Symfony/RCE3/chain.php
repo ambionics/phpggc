@@ -4,7 +4,7 @@ namespace GadgetChain\Symfony;
 
 class RCE3 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '2.5 > 2.8.3';
+    public $version = '2.5 <= 2.8.32';
     public $vector = '__destruct';
     public $author = 'crlf';
     public $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
