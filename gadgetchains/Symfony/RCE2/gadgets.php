@@ -34,8 +34,8 @@ namespace Symfony\Component\Finder\Expression{
 	}
 }
 
-namespace Symfony\Component\Process\Pipes{
-	class WindowsPipes{
+namespace Symfony\Component\Process{
+	class ProcessPipes{
 	    private $files = array();
 		public function __construct($e){
 			$this->files = array($e);
