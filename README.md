@@ -31,10 +31,8 @@ Slim/RCE1             3.8.1             rce              __toString
 SwiftMailer/FW1       5.1.0 <= 5.4.8    file_write       __toString         
 SwiftMailer/FW2       6.0.0 <= 6.0.1    file_write       __toString         
 Symfony/RCE1          3.3               rce              __destruct    *    
-Symfony/RCE2          2.3.42 < 2.5      rce              __destruct    *    
-Symfony/RCE3          2.5 <= 2.8.32     rce              __destruct    *    
 Yii/RCE1              1.1.19            rce              __destruct         
-ZendFramework/RCE1    ? <= 1.12.20      rce              __destruct    *
+ZendFramework/RCE1    ? <= 1.12.20      rce              __destruct    * 
 
 ```
 
