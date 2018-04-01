@@ -4,7 +4,7 @@ namespace GadgetChain\Guzzle;
 
 class FW1 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = '6.0.0 <= 6.3.0';
+    public $version = '6.0.0 <= 6.3.2';
     public $vector = '__destruct';
     public $author = 'cf';
 
