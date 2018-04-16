@@ -7,6 +7,10 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     public $version = '1.1.19';
     public $vector = '__destruct';
     public $author = 'cf';
+    public $informations = '
+        As the payload uses file_get_contents("data://..."), allow_url_fopen
+        must be ON.
+    ';
 
     public function generate(array $parameters)
     {
