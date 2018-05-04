@@ -26,9 +26,9 @@ namespace Monolog\Handler
 
         function __construct($methods, $command)
         {
-            $this->handler = &$this;
             $this->processors = $methods;
             $this->buffer = [$command];
+            $this->handler = clone $this;
         }
     }
 }
