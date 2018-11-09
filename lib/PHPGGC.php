@@ -31,6 +31,11 @@ class PHPGGC
 
         $parameters = $this->parse_cmdline($argv);
 
+        if($parameters === null)
+        {
+            return;
+        }
+
         if(count($parameters) < 1)
         {
             $this->help();
@@ -40,17 +45,9 @@ class PHPGGC
         $class = array_shift($parameters);
         $gc = $this->get_gadget_chain($class);
 
-        if(@$this->arguments['informations'])
-        {
-            $this->o($gc, 2);
-            $this->o($this->_get_command_line_gc($gc));
-        }
-        else
-        {
-            $parameters = $this->get_type_parameters($gc, $parameters);
-            $generated = $this->serialize($gc, $parameters);
-            print($generated . "\n");
-        }
+        $parameters = $this->get_type_parameters($gc, $parameters);
+        $generated = $this->serialize($gc, $parameters);
+        print($generated . "\n");
     }
 
     /**
@@ -94,8 +91,7 @@ class PHPGGC
     {
         $base = $this->base . self::DIR_GADGETCHAINS;
         $files = glob($base . '/*/*/*/chain.php');
-        array_map(function ($file)
-        {
+        array_map(function ($file) {
             include_once $file;
         }, $files);
     }
@@ -109,20 +105,17 @@ class PHPGGC
         $this->include_gadget_chains();
 
         $classes = get_declared_classes();
-        $classes = array_filter($classes, function($class)
-        {
+        $classes = array_filter($classes, function($class) {
             return is_subclass_of($class, '\\PHPGGC\\GadgetChain') &&
                    strpos($class, 'GadgetChain\\') === 0;
         });
-        $objects = array_map(function($class)
-        {
+        $objects = array_map(function($class) {
             return new $class();
         }, $classes);
 
         # Convert backslashes in classes names to forward slashes,
         # so that the command line is easier to use
-        $classes = array_map(function($class)
-        {
+        $classes = array_map(function($class) {
             return strtolower(str_replace('\\', '/', $class));
         }, $classes);
         return array_combine($classes, $objects);
@@ -177,7 +170,7 @@ class PHPGGC
     }
 
     /**
-     * Creates the file structure for a new gadgetchain targeting $name and of
+     * Creates the file structure for a new gadget chain targeting $name and of
      * type $type.
      */
     function new_gc($name, $type)
@@ -194,7 +187,7 @@ class PHPGGC
         if($value === false)
         {
             $this->o('Invalid type: ' . $type);
-            exit(0);
+            return;
         }
 
         # Match base class from type
@@ -218,7 +211,7 @@ class PHPGGC
         if(!isset($baseclass))
         {
             $this->o('No base class for type: ' . $type);
-            exit(0);
+            return;
         }
 
         # Create directory structure
@@ -247,8 +240,6 @@ class PHPGGC
         $base = substr($base, strlen($this->base) + 1);
 
         $this->o('Created ' . $full_name . ' under: ' . $base);
-
-        exit(0);
     }
 
     /**
@@ -287,21 +278,50 @@ class PHPGGC
     }
 
     /**
+     * Applies the fast-destruct technique, so that the object is destructed
+     * right after the unserialize() call, as opposed to at the end of the
+     * script.
+     *
+     * This is very useful because sometimes the script throws an exception
+     * after unserializing the object, and therefore __destruct() will never be
+     * called.
+     *
+     * The object is put in a 2 items array. Both items have the same key.
+     * Since the object has been put first, it is removed when the second item
+     * is processed (same key). It will therefore be destructed, and as a result
+     * __destruct() will be called right after the unserialize() call, instead
+     * of at the end of the script.
+     */
+    protected function apply_fast_destruct($serialized)
+    {
+        $key = 7;
+        return sprintf('a:2:{i:%s;%s;i:%s;i:0}', $key, $serialized, $key);
+    }
+
+    /**
      * Applies command line filters on the serialized payload.
      */
     protected function apply_filters($serialized)
     {
-        extract($this->arguments, EXTR_SKIP);
-
-        if(@$base64)
-            $serialized = base64_encode($serialized);
-        if(@$urlencode)
-            $serialized = urlencode($serialized);
-        if(@$softencode)
+        foreach($this->options as $v)
         {
-            $keys = str_split("%\x00\n\r\t+");
-            $values = array_map('urlencode', $keys);
-            $serialized = str_replace($keys, $values, $serialized);
+            switch($v)
+            {
+                case 'fast-destruct':
+                    $serialized = $this->apply_fast_destruct($serialized);
+                    break;
+                case 'base64':
+                    $serialized = base64_encode($serialized);
+                    break;
+                case 'url':
+                    $serialized = urlencode($serialized);
+                    break;
+                case 'soft':
+                    $keys = str_split("%\x00\n\r\t+");
+                    $values = array_map('urlencode', $keys);
+                    $serialized = str_replace($keys, $values, $serialized);
+                    break;
+            }
         }
 
         return $serialized;
@@ -377,25 +397,31 @@ class PHPGGC
 
         $this->o("USAGE");
         $this->o("  " . $this->_get_command_line(
-            '[-h|-l|-w|-h|-s|-u|-b|-i]',
+            '[-h|-l|-w|-h|-d|-s|-u|-b|-i]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);
 
         $this->o("INFORMATION");
-        $this->o("  -h Displays help");
-        $this->o("  -l Lists available gadget chains");
-        $this->o("  -i Displays informations about a gadget chain");
+        $this->o("  -h, --help Displays help");
+        $this->o("  -l, --list Lists available gadget chains");
+        $this->o("  -i, --info Displays informations about a gadget chain");
         $this->o("");
         $this->o("MODIFICATION");
-        $this->o("  -w <wrapper>");
+        $this->o("  -w, --wrapper <wrapper>");
         $this->o("     Specifies a file containing a function: wrapper(\$payload)");
         $this->o("     This function will be called before the generated gadget is serialized.");
         $this->o("");
+        $this->o("ENHANCEMENTS");
+        $this->o("  -f, --fast-destruct");
+        $this->o("     Applies the fast-destruct technique, so that the object");
+        $this->o("     is destructed right after the unserialize() call, as opposed to at the");
+        $this->o("     end of the script");
+        $this->o("");
         $this->o("ENCODING");
-        $this->o("  -s Soft URLencode");
-        $this->o("  -u URLencodes the payload");
-        $this->o("  -b Converts the output into base64");
+        $this->o("  -s, --soft   Soft URLencode");
+        $this->o("  -u, --url    URLencodes the payload");
+        $this->o("  -b, --base64 Converts the output into base64");
         $this->o("");
 
         $this->o("EXAMPLES");
@@ -406,11 +432,72 @@ class PHPGGC
         $this->o("  " . $this->_get_command_line(
             'SwiftMailer/FW1',
             '/var/www/html/shell.php',
-            '/tmp/local_file_to_write'
+            '/path/to/local/shell.php'
         ));
         $this->o("");
 
         exit(0);
+    }
+
+    function _parse_cmdline_arg($i, &$argv, &$parameters, &$options)
+    {
+        $count = count($argv);
+
+        $valid_arguments = [
+            'new' => true,
+            'informations' => true,
+            'help' => false,
+            'list' => false,
+            'wrapper' => true,
+            'fast-destruct' => false,
+            'soft' => false,
+            'base64' => false,
+            'url' => false,
+        ];
+
+        $arg = $argv[$i];
+        $arg = substr($arg, 1);
+        $valid = false;
+
+        foreach($valid_arguments as $argument => $has_parameter)
+        {
+            # Check for short and long arguments (-a, --argument)
+            if(
+                $argument{0} == $arg ||
+                $arg{0} == '-' && substr($arg, 1) == $argument
+            )
+            {
+                $valid = true;
+
+                if($has_parameter)
+                {
+                    if($count < $i + 1)
+                    {
+                        $e = 'Parameter "' . $argument . '" expects a value';
+                        throw new \PHPGGC\Exception($e);
+                    }
+
+                    $parameters[$argument] = $argv[$i+1];
+                    
+                    # Delete argument's value
+                    unset($argv[$i+1]);
+                }
+                else
+                {
+                    $options[] = $argument;
+                }
+
+                # Delete argument
+                unset($argv[$i]);
+
+                break;
+            }
+        }
+        
+        if(!$valid)
+        {
+            throw new PHPGGC\Exception('Unknown parameter: ' . $arg);
+        }
     }
 
     /**
@@ -420,76 +507,49 @@ class PHPGGC
     {
         unset($argv[0]);
 
-        $valid_arguments = [
-            'new' => true,
-            'informations' => false,
-            'help' => false,
-            'list' => false,
-            'wrapper' => true,
-            'softencode' => false,
-            'base64' => false,
-            'urlencode' => false,
-        ];
-
-        $arguments = [
-        ];
-
-        $count = count($argv);
+        # Parameters expect a value, options don't
+        $parameters = [];
+        $options = [];
 
         foreach($argv as $i => $arg)
         {
-            if($arg{0} == '-')
+            if($arg == '--')
             {
-                $arg = substr($arg, 1);
-                $valid = false;
-
-                foreach($valid_arguments as $argument => $has_parameter)
-                {
-                    if($argument{0} == $arg)
-                    {
-                        $valid = true;
-
-                        if($has_parameter)
-                        {
-                            if($count < $i)
-                            {
-                                $e = 'Parameter ' . $arg . ' expects a value';
-                                throw new \PHPGGC\Exception($e);
-                            }
-
-                            $arguments[$argument] = $argv[$i+1];
-                            
-                            # Delete argument's value
-                            unset($argv[$i+1]);
-                        }
-                        else
-                        {
-                            $arguments[$argument] = true;
-                        }
-
-                        break;
-                    }
-                }
-                
-                if(!$valid)
-                {
-                    throw new PHPGGC\Exception('Unknown parameter: ' . $arg);
-                }
-
-                # Delete argument
                 unset($argv[$i]);
+                break;
+            }
+            if(strlen($arg) >= 2 && $arg{0} == '-')
+            {
+                $this->_parse_cmdline_arg($i, $argv, $parameters, $options);
             }
         }
 
         $argv = array_values($argv);
 
-        # Handle optional arguments in case they need to be handled now.
-        # Otherwise, just save them.
+        # Handle options and parameters in case they need to be handled now.
 
-        foreach($arguments as $argument => $value)
+        foreach($options as $option)
         {
-            switch($argument)
+            switch($option)
             {
+                case 'list':
+                    $this->list_gc();
+                    return;
+                case 'help':
+                    $this->help();
+                    return;
+            }
+        }
+
+        foreach($parameters as $key => $value)
+        {
+            switch($key)
+            {
+                case 'informations':
+                    $gc = $this->get_gadget_chain($value);
+                    $this->o($gc, 2);
+                    $this->o($this->_get_command_line_gc($gc));
+                    return;
                 case 'new':
                     if(count($argv) < 1)
                     {
@@ -498,21 +558,17 @@ class PHPGGC
                     }
                     else
                         $this->new_gc($value, $argv[0]);
-                    
-                    break;
-                case 'help':
-                    $this->help();
-                    break;
-                case 'list':
-                    $this->list_gc();
-                    break;
+                    return;
                 case 'wrapper':
                     $this->set_wrapper($value);
                     break;
             }
         }
 
-        $this->arguments = $arguments;
+        # Otherwise, store them and return the rest of the command line
+
+        $this->parameters = $parameters;
+        $this->options = $options;
 
         # Return remaining arguments
         return array_values($argv);
