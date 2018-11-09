@@ -35,10 +35,11 @@ SwiftMailer/FW1       5.1.0 <= 5.4.8    file_write       __toString
 SwiftMailer/FW2       6.0.0 <= 6.0.1    file_write       __toString          
 SwiftMailer/FW3       5.0.1             file_write       __toString          
 Symfony/FW1           2.5.2             file_write       DebugImport    *    
+Symfony/FW2           3.4               file_write       __destruct          
 Symfony/RCE1          3.3               rce              __destruct     *    
 Symfony/RCE2          2.3.42 < 2.6      rce              __destruct     *    
 Symfony/RCE3          2.6 <= 2.8.32     rce              __destruct     *    
-Yii/RCE1              1.1.19            rce              __destruct          
+Yii/RCE1              1.1.19            rce              __wakeup       *    
 ZendFramework/RCE1    ? <= 1.12.20      rce              __destruct     *  
 
 ```
