@@ -278,7 +278,7 @@ class PHPGGC
     }
 
     /**
-     * Applies the fast-destruct technique, so that the object is destructed
+     * Applies the fast-destruct technique, so that the object is destroyed
      * right after the unserialize() call, as opposed to at the end of the
      * script.
      *
@@ -286,9 +286,9 @@ class PHPGGC
      * after unserializing the object, and therefore __destruct() will never be
      * called.
      *
-     * The object is put in a 2 items array. Both items have the same key.
+     * The object is put in a 2-item array. Both items have the same key.
      * Since the object has been put first, it is removed when the second item
-     * is processed (same key). It will therefore be destructed, and as a result
+     * is processed (same key). It will therefore be destroyed, and as a result
      * __destruct() will be called right after the unserialize() call, instead
      * of at the end of the script.
      */
@@ -415,7 +415,7 @@ class PHPGGC
         $this->o("ENHANCEMENTS");
         $this->o("  -f, --fast-destruct");
         $this->o("     Applies the fast-destruct technique, so that the object");
-        $this->o("     is destructed right after the unserialize() call, as opposed to at the");
+        $this->o("     is destroyed right after the unserialize() call, as opposed to at the");
         $this->o("     end of the script");
         $this->o("");
         $this->o("ENCODING");
