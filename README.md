@@ -117,13 +117,13 @@ a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 ## Encoders
 
 Arguments allow to modify the way the payload is output. For instance, `-u` will URL encode it, and `-b` will convert it to base64.
-Payloads often contain NULL bytes and cannot be copy/pasted as-is. Use `-s` for a soft URL encode, which keeps the payload readable.
+**Payloads often contain NULL bytes and cannot be copy/pasted as-is**. Use `-s` for a soft URL encode, which keeps the payload readable.
 
-The encoders can be chained, and as such the order is important. For instance, `./phpggc -b -u -u slim/rce1 system id` will base64 the payload, then URLencode it twice.
+The encoders can be chained, and as such **the order is important**. For instance, `./phpggc -b -u -u slim/rce1 system id` will base64 the payload, then URLencode it twice.
 
 ## Advanced: Fast destruct
 
-PHPGGC implements a `--fast-destruct` flag, that will unsure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. *I'd recommend using it for every `__destruct` vector, as it improves reliability*. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called.
+PHPGGC implements a `--fast-destruct` flag, that will unsure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. **I'd recommend using it for every `__destruct` vector**, as it improves reliability. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called.
 
 # Contributing
 
