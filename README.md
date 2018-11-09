@@ -123,7 +123,12 @@ The encoders can be chained, and as such **the order is important**. For instanc
 
 ## Advanced: Fast destruct
 
-PHPGGC implements a `--fast-destruct` flag, that will unsure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. **I'd recommend using it for every `__destruct` vector**, as it improves reliability. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called.
+PHPGGC implements a `--fast-destruct` (`-f`) flag, that will make sure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. **I'd recommend using it for every `__destruct` vector**, as it improves reliability. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called. As it is processed at the same time as encoders, it needs to be set first.
+
+```
+$ ./phpggc -f -s slim/rce1 system id
+a:2:{i:7;O:18:"Slim\Http\Response":2:{s:10:"...
+```
 
 # Contributing
 
