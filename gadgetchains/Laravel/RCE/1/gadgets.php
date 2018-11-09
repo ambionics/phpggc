@@ -20,8 +20,11 @@ namespace Faker
 {
     class Generator
     {
-        protected $formatters = [
-            'dispatch' => 'assert'
-        ];
+        protected $formatters;
+
+        function __construct($function)
+        {
+            $this->formatters = ['dispatch' => $function];
+        }
     }
 }

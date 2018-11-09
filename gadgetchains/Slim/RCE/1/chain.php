@@ -10,8 +10,9 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-        $code = $parameters['code'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
-        return new \Slim\Http\Response($code);
+        return new \Slim\Http\Response($function, $parameter);
     }
 }

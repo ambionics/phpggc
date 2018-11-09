@@ -41,12 +41,13 @@ namespace GuzzleHttp
 	class HandlerStack
 	{
 	    private $handler;
-	    private $stack = [['assert']];
+	    private $stack;
 	    private $cached = false;
 
-	    function __construct($handler)
+	    function __construct($function, $parameter)
 	    {
-	    	$this->handler = $handler;
+	    	$this->stack = [[$function]];
+	    	$this->handler = $parameter;
 	    }
 
 	    /*

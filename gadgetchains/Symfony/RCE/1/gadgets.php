@@ -30,9 +30,9 @@ namespace Symfony\Component\Cache\Adapter
 
         private $mergeByLifetime = 'proc_open';
 
-        function __construct($code)
+        function __construct($command)
         {
-            $this->deferred = $code;
+            $this->deferred = $command;
             $this->namespace = [];
         }
     }

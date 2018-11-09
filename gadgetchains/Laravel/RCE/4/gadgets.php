@@ -22,9 +22,9 @@ namespace Illuminate\Validation
     {
         public $extensions;
 
-        function __construct()
+        function __construct($function)
         {
-            $this->extensions = ['' => 'assert'];
+            $this->extensions = ['' => $function];
         }
     }
 }

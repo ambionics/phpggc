@@ -8,6 +8,9 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE
     public $vector = '__destruct';
     public $author = 'crlf';
     public $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
+    public $parameters = [
+        'code'
+    ];
 
     public function generate(array $parameters)
     {

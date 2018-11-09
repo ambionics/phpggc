@@ -27,15 +27,16 @@ class CFileCache
 {
     public $keyPrefix = '';
     public $hashKey = false;
-    public $serializer = [1 => 'assert'];
+    public $serializer;
 
     public $cachePath = 'data:text/';
     public $directoryLevel = 0;
     public $embedExpiry = true;
     public $cacheFileSuffix;
 
-    function __construct($cacheFileSuffix)
+    function __construct($function, $cacheFileSuffix)
     {
+        $this->serializer = [1 => $function];
         $this->cacheFileSuffix = ';base64,' . $cacheFileSuffix;
     }
 }

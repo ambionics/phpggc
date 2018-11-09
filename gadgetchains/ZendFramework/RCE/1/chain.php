@@ -13,6 +13,9 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
         - Uses preg_replace e modifier which has no effect in PHP >= 7.0.0
         - Payload gets executed twice
     ';
+    public $parameters = [
+        'code'
+    ];
 
     public function generate(array $parameters)
     {

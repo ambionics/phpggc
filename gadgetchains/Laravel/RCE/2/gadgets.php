@@ -7,10 +7,10 @@ namespace Illuminate\Broadcasting
         protected $events;
         protected $event;
 
-        function __construct($events, $cmd)
+        function __construct($events, $parameter)
         {
             $this->events = $events;
-            $this->event = $cmd;
+            $this->event = $parameter;
         }
     }
 }
@@ -22,10 +22,10 @@ namespace Illuminate\Events
     {
         protected $listeners;
 
-        function __construct($cmd)
+        function __construct($function, $parameter)
         {
             $this->listeners = [
-                $cmd => ['assert']
+                $parameter => [$function]
             ];
         }
     }

@@ -43,11 +43,11 @@ namespace Slim\Http
         protected $headers;
         protected $body = '';
 
-        function __construct($code)
+        function __construct($function, $parameter)
         {
-            $z = new App(new Container(['has' => 'assert']));
+            $z = new App(new Container(['has' => $function]));
             $y = new App($z);
-            $this->headers = new App(new Container(['all' => [$y, $code]]));
+            $this->headers = new App(new Container(['all' => [$y, $parameter]]));
         }
     }
 
