@@ -26,7 +26,7 @@ class Mage_Sales_Model_Order_Payment_Transaction
         $this->_paymentObject = new Mage_Sales_Model_Order_Payment;
         $this->_data = [
             'order_id' => 1,
-            'store_id' => new Zend_Db_Expr("1); " . $sql . ';--')
+            'store_id' => new Zend_Db_Expr('1); ' . $sql . ';--')
         ];
         $this->_resourceName = 'log/log';
         $this->_idFieldName = 'id';
