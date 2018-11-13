@@ -12,6 +12,7 @@ class PHPGGC
 
     protected $has_wrapper = False;
     protected $chains;
+    protected $output = null;
 
     public function __construct()
     {
@@ -47,7 +48,17 @@ class PHPGGC
 
         $parameters = $this->get_type_parameters($gc, $parameters);
         $generated = $this->serialize($gc, $parameters);
-        print($generated . "\n");
+        $this->output_payload($generated);
+    }
+
+    public function output_payload($payload)
+    {
+        if(!isset($this->parameters['output']))
+        {
+            print($payload . "\n");
+            return;
+        }
+        file_put_contents($this->parameters['output'], $payload);
     }
 
     /**
@@ -138,9 +149,9 @@ class PHPGGC
      * For instance, if a specific unserialize call requires an array, one could
      * build a wrapper function of the likes:
      *
-     * function wrapper($description)
+     * function wrapper($payload)
      * {
-     *     return array('id' => '123', 'data' => $description['payload']);
+     *     return array('id' => '123', 'data' => $payload);
      * }
      *
      * The returned serialized payload would be an array which contains the
@@ -148,12 +159,18 @@ class PHPGGC
      */
     public function wrap($payload)
     {
-        if(isset($this->_has_wrapper))
+        if(!isset($this->parameters['wrapper']))
+            return $payload;
+
+        include $this->parameters['wrapper'];
+
+        if(!function_exists('wrapper'))
         {
-            $payload = call_user_func('wrapper', $payload);
+            $message = 'Wrapper file does not define wrapper($payload)';
+            throw new \PHPGGC\Exception($message);
         }
 
-        return $payload;
+        return call_user_func('wrapper', $payload);
     }
 
     /**
@@ -407,6 +424,10 @@ class PHPGGC
         $this->o("  -l, --list Lists available gadget chains");
         $this->o("  -i, --info Displays informations about a gadget chain");
         $this->o("");
+        $this->o("OUTPUT");
+        $this->o("  -o, --output <file>");
+        $this->o("     Outputs the payload to a file instead of standard output");
+        $this->o("");
         $this->o("MODIFICATION");
         $this->o("  -w, --wrapper <wrapper>");
         $this->o("     Specifies a file containing a function: wrapper(\$payload)");
@@ -427,7 +448,8 @@ class PHPGGC
         $this->o("EXAMPLES");
         $this->o("  " . $this->_get_command_line(
             'Laravel/RCE1',
-            '\'phpinfo().die();\''
+            'system',
+            'id'
         ));
         $this->o("  " . $this->_get_command_line(
             'SwiftMailer/FW1',
@@ -448,6 +470,7 @@ class PHPGGC
             'informations' => true,
             'help' => false,
             'list' => false,
+            'output' => true,
             'wrapper' => true,
             'fast-destruct' => false,
             'soft' => false,
@@ -559,16 +582,13 @@ class PHPGGC
                     else
                         $this->new_gc($value, $argv[0]);
                     return;
-                case 'wrapper':
-                    $this->set_wrapper($value);
-                    break;
             }
         }
 
         # Otherwise, store them and return the rest of the command line
 
-        $this->parameters = $parameters;
         $this->options = $options;
+        $this->parameters = $parameters;
 
         # Return remaining arguments
         return array_values($argv);
