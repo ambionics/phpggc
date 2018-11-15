@@ -469,7 +469,7 @@ class PHPGGC
 
         $this->o("USAGE");
         $this->o("  " . $this->_get_command_line(
-            '[-h|-l|-i|-o|-w]',
+            '[-h|-l|-i|...]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);

