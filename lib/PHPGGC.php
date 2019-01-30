@@ -75,10 +75,11 @@ class PHPGGC
 
         if(
             isset($this->parameters['phar']) &&
-            $this->chains[$full]->vector != '__destruct'
+            $this->chains[$full]->vector != '__destruct' &&
+            $this->chains[$full]->vector != '__wakeup'
         )
         {
-            $e = 'Phar archives require a __destruct vector';
+            $e = 'Phar requires either a __destruct or a __wakeup vector';
             throw new PHPGGC\Exception($e);
         }
 
