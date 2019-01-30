@@ -529,7 +529,7 @@ class PHPGGC
         $this->o("CREATION");
         $this->o("  -n, --new <framework> <type>");
         $this->o("    Creates the file structure for a new gadgetchain for given framework");
-        $this->o("    Example: ./phpggc -n Drupal RCE1");
+        $this->o("    Example: ./phpggc -n Drupal RCE");
         $this->o("");
 
         $this->o("EXAMPLES");
