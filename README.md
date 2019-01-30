@@ -180,3 +180,6 @@ Codewise, the directory structure is fairly straightforward: gadgets in _gadgets
 You can define pre- and post- processing methods, if parameters need to be modified.
 Hopefully, the already implemented gadgets should be enough for you to build yours.
 Otherwise, I'd be glad to answer your questions.
+
+The `--new <framework> <type>` command-line option can be used to create the directory and file structure for a new gadget chain.
+For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
