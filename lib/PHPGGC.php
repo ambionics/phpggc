@@ -526,6 +526,11 @@ class PHPGGC
         $this->o("  Encoders can be chained, for instance -b -u -u base64s the payload,");
         $this->o("  then URLencodes it twice");
         $this->o("");
+        $this->o("CREATION");
+        $this->o("  -n, --new <framework> <type>");
+        $this->o("    Creates the file structure for a new gadgetchain for given framework");
+        $this->o("    Example: ./phpggc -n Drupal RCE1");
+        $this->o("");
 
         $this->o("EXAMPLES");
         $this->o("  " . $this->_get_command_line(
@@ -551,7 +556,7 @@ class PHPGGC
         # their first letter
 
         $valid_arguments = [
-            'new' => true,
+            'new' => false,
             'informations' => true,
             'help' => false,
             'list' => false,
@@ -605,7 +610,7 @@ class PHPGGC
                 # Does it expect a parameter ?
                 if($has_parameter)
                 {
-                    if($count < $i + 1)
+                    if($count <= $i + 1)
                     {
                         $e = 'Parameter "' . $argument . '" expects a value';
                         throw new \PHPGGC\Exception($e);
@@ -668,6 +673,15 @@ class PHPGGC
                 case 'help':
                     $this->help();
                     return;
+                case 'new':
+                    if(count($arguments) < 1)
+                    {
+                        $line = $this->_get_command_line('<Framework> <type>');
+                        $this->o($line);
+                    }
+                    else
+                        $this->new_gc($value, $arguments[0]);
+                    return;
             }
         }
 
@@ -679,15 +693,6 @@ class PHPGGC
                     $gc = $this->get_gadget_chain($value);
                     $this->o($gc, 2);
                     $this->o($this->_get_command_line_gc($gc));
-                    return;
-                case 'new':
-                    if(count($arguments) < 1)
-                    {
-                        $line = $this->_get_command_line('<Framework> <type>');
-                        $this->o($line);
-                    }
-                    else
-                        $this->new_gc($value, $arguments[0]);
                     return;
                 case 'phar':
                     if(!in_array($value, ['phar', 'tar', 'zip']))

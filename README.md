@@ -44,7 +44,6 @@ Symfony/RCE3          2.6 <= 2.8.32        rce              __destruct     *
 Yii/RCE1              1.1.20               rce              __wakeup       *    
 ZendFramework/RCE1    ? <= 1.12.20         rce              __destruct     *    
 ZendFramework/RCE2    1.12.6 <= 1.12.20    rce              __toString     * 
-
 ```
 
 Every gadget chain has:
