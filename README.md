@@ -36,6 +36,7 @@ Slim/RCE1             3.8.1                rce              __toString
 SwiftMailer/FW1       5.1.0 <= 5.4.8       file_write       __toString          
 SwiftMailer/FW2       6.0.0 <= 6.0.1       file_write       __toString          
 SwiftMailer/FW3       5.0.1                file_write       __toString          
+SwiftMailer/FW4       ? >= 4.0.0           file_write       __destruct      
 Symfony/FW1           2.5.2                file_write       DebugImport    *    
 Symfony/FW2           3.4                  file_write       __destruct          
 Symfony/RCE1          3.3                  rce              __destruct     *    
