@@ -26,7 +26,7 @@ abstract class GadgetChain
         $infos = [
             'Name' => $this->get_name(),
             'Version' => $this->version,
-            'Type' => self::$type,
+            'Type' => $this::$type,
             'Vector' => $this->vector
         ];
 
