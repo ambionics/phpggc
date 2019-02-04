@@ -4,7 +4,7 @@ namespace GadgetChain\SwiftMailer;
 
 class FW4 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = 'Version >= 4.0.0';
+    public $version = '4.0.0 <= ?';
     public $vector = '__destruct';
     public $author = 'ronenshh';
 

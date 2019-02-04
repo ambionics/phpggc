@@ -2,18 +2,10 @@
 
 class Zend_Form_Element
 {
-    /**
-     * Element Constants
-     */
-    const DECORATOR = 'DECORATOR';
-    const FILTER    = 'FILTER';
-    const VALIDATE  = 'VALIDATE';
-
     protected $_name;
     protected $_decorators = array();
     protected $_view;
     public $id;
-
     
     public $helper = 'formText';
     protected $_allowEmpty = true;
@@ -59,8 +51,6 @@ class Zend_Form_Decorator_Form extends Zend_Form_Decorator_Abstract
 
 abstract class Zend_Form_Decorator_Abstract
 {
-    const APPEND  = 'APPEND';
-    const PREPEND = 'PREPEND';
     protected $_placement = 'APPEND';
     protected $_element;
     protected $_options = array();
