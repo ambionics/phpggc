@@ -675,13 +675,13 @@ class PHPGGC
                     $this->help();
                     return;
                 case 'new':
-                    if(count($arguments) < 1)
+                    if(count($arguments) < 2)
                     {
                         $line = $this->_get_command_line('<Framework> <type>');
                         $this->o($line);
                     }
                     else
-                        $this->new_gc($value, $arguments[0]);
+                        $this->new_gc($arguments[0], $arguments[1]);
                     return;
             }
         }
