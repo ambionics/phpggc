@@ -48,17 +48,40 @@ class PHPGGC
 
         $parameters = $this->get_type_parameters($gc, $parameters);
         $generated = $this->serialize($gc, $parameters);
-        $this->output_payload($generated);
+
+        if(in_array('test-payload', $this->options))
+            $this->test_payload($gc, $generated);
+        else
+            $this->output_payload($generated);
     }
 
+    /**
+     * Runs generated payload using the ./template/test_payload.php script.
+     * We have to use system() here, because the classes used during the
+     * deserialization process are already defined by PHPGGC, and there is no
+     * mechanism allowing to delete classes in PHP. Therefore, a new PHP process
+     * has to be created.
+     */
+    public function test_payload($gc, $payload)
+    {
+        $this->o('Trying to deserialize payload...');
+        $vector = isset($this->parameters['phar']) ? 'phar' : $gc->vector;
+        system(
+            $this->base . '/lib/test_payload.php ' .
+            escapeshellarg($vector) . ' ' .
+            escapeshellarg(base64_encode($payload))
+        );
+    }
+
+    /**
+     * Displays the payload or stores it in a file.
+     */
     public function output_payload($payload)
     {
         if(!isset($this->parameters['output']))
-        {
             print($payload . "\n");
-            return;
-        }
-        file_put_contents($this->parameters['output'], $payload);
+        else
+            file_put_contents($this->parameters['output'], $payload);
     }
 
     /**
@@ -70,7 +93,7 @@ class PHPGGC
 
         if(!in_array($full, array_keys($this->chains)))
         {
-            throw new PHPGGC\Exception('Unknown gadget chain: ' . $class);
+            $this->e('Unknown gadget chain: ' . $class);
         }
 
         if(
@@ -79,8 +102,7 @@ class PHPGGC
             $this->chains[$full]->vector != '__wakeup'
         )
         {
-            $e = 'Phar requires either a __destruct or a __wakeup vector';
-            throw new PHPGGC\Exception($e);
+            $this->e('Phar requires either a __destruct or a __wakeup vector');
         }
 
         return $this->chains[$full];
@@ -295,9 +317,9 @@ class PHPGGC
         $format = $this->parameters['phar'];
         
         $prefix = '';
+        $filename = 'test.txt';
         if(isset($this->parameters['phar-prefix']))
             $prefix = file_get_contents($this->parameters['phar-prefix']);
-        $filename = 'test.txt';
         if(isset($this->parameters['phar-filename']))
             $filename = $this->parameters['phar-filename'];
 
@@ -309,12 +331,14 @@ class PHPGGC
         return $phar->get_data();
     }
 
+    /**
+     * Converts given payload into a PHAR file.
+     */
     function pharify($serialized)
     {
         if(ini_get('phar.readonly') == '1')
         {
-            $e = 'Cannot create phar: phar.readonly is set to 1';
-            throw new PHPGGC\Exception($e);
+            $this->e('Cannot create phar: phar.readonly is set to 1');
         }
 
         $serialized = $this->phar_generate($serialized);
@@ -328,6 +352,9 @@ class PHPGGC
         return $serialized;
     }
 
+    /**
+     * Generates a polyglot file that is a JPEG and a PHAR.
+     */
     function generate_polyglot($phar, $jpeg)
     {
         $phar = substr($phar, 6);
@@ -409,6 +436,11 @@ class PHPGGC
         $this->output($message, $r);
     }
 
+    protected function e($message)
+    {
+        throw new PHPGGC\Exception($message);
+    }
+
     /**
      * Generates an ASCII array.
      */
@@ -440,6 +472,9 @@ class PHPGGC
         return $array;
     }
 
+    /**
+     * Displays a list of gadget chains.
+     */
     protected function list_gc()
     {
         $this->o("");
@@ -471,6 +506,9 @@ class PHPGGC
         exit(0);
     }
 
+    /**
+     * Displays the help.
+     */
     protected function help()
     {
         $this->o("");
@@ -487,7 +525,8 @@ class PHPGGC
         $this->o("INFORMATION");
         $this->o("  -h, --help Displays help");
         $this->o("  -l, --list Lists available gadget chains");
-        $this->o("  -i, --info Displays informations about a gadget chain");
+        $this->o("  -i, --informations");
+        $this->o("     Displays informations about a gadget chain");
         $this->o("");
         $this->o("OUTPUT");
         $this->o("  -o, --output <file>");
@@ -531,6 +570,10 @@ class PHPGGC
         $this->o("  -n, --new <framework> <type>");
         $this->o("    Creates the file structure for a new gadgetchain for given framework");
         $this->o("    Example: ./phpggc -n Drupal RCE");
+        $this->o("  --test-payload");
+        $this->o("    Instead of displaying or storing the payload, includes vendor/autoload.php and unserializes the payload.");
+        $this->o("    The test script can only deserialize __destruct, __wakeup, __toString and PHAR payloads.");
+        $this->o("    Warning: This will run your payload on YOUR system !");
         $this->o("");
 
         $this->o("EXAMPLES");
@@ -549,6 +592,10 @@ class PHPGGC
         exit(0);
     }
 
+    /**
+     * Parses argument $i of $argv, and stores it in parameters or options if
+     * it matches.
+     */
     function _parse_cmdline_arg(&$i, &$argv, &$parameters, &$options)
     {
         $count = count($argv);
@@ -557,8 +604,11 @@ class PHPGGC
         # their first letter
 
         $valid_arguments = [
+            # Creation
             'new' => false,
-            'informations' => true,
+            'test-payload' => false,
+            # Misc
+            'informations' => false,
             'help' => false,
             'list' => false,
             'output' => true,
@@ -585,6 +635,7 @@ class PHPGGC
         }
 
         $abbreviations = [
+            'test-payload' => false,
             'phar-jpeg' => 'pj',
             'phar-prefix' => 'pp',
             'phar-filename' => 'pf',
@@ -602,8 +653,8 @@ class PHPGGC
         {
             # Check for short and long arguments (-a, --argument)
             if(
-                $arg == $abbreviations[$argument] ||
-                $arg == '-' . $argument
+                $arg === $abbreviations[$argument] ||
+                $arg === '-' . $argument
             )
             {
                 $valid = true;
@@ -631,7 +682,7 @@ class PHPGGC
         
         if(!$valid)
         {
-            throw new PHPGGC\Exception('Unknown parameter: -' . $arg);
+            $this->e('Unknown parameter: -' . $arg);
         }
     }
 
@@ -677,11 +728,22 @@ class PHPGGC
                 case 'new':
                     if(count($arguments) < 2)
                     {
-                        $line = $this->_get_command_line('<Framework> <type>');
-                        $this->o($line);
+                        $this->o($this->_get_command_line(
+                            '--new <Framework> <type>'
+                        ));
+                        return;
                     }
-                    else
-                        $this->new_gc($arguments[0], $arguments[1]);
+                    $this->new_gc($arguments[0], $arguments[1]);
+                    return;
+                case 'informations':
+                    if(count($arguments) < 1)
+                    {
+                        $this->o($this->_get_command_line('-i <gadget_chain>'));
+                        return;
+                    }
+                    $gc = $this->get_gadget_chain($arguments[0]);
+                    $this->o($gc, 2);
+                    $this->o($this->_get_command_line_gc($gc));
                     return;
             }
         }
@@ -690,16 +752,10 @@ class PHPGGC
         {
             switch($key)
             {
-                case 'informations':
-                    $gc = $this->get_gadget_chain($value);
-                    $this->o($gc, 2);
-                    $this->o($this->_get_command_line_gc($gc));
-                    return;
                 case 'phar':
                     if(!in_array($value, ['phar', 'tar', 'zip']))
                     {
-                        $e = '"' . $value . '" is not a valid PHAR format';
-                        throw new PHPGGC\Exception($e);
+                        $this->e('"' . $value . '" is not a valid PHAR format');
                     }
                     break;
                 case 'phar-jpeg':
@@ -709,16 +765,16 @@ class PHPGGC
                     }
                     else if($parameters['phar'] != 'tar')
                     {
-                        $e = '"--phar-jpeg" implies "--phar tar"';
-                        throw new PHPGGC\Exception($e);
+                        $this->e('"--phar-jpeg" implies "--phar tar"');
                     }
                     # fall through
                 case 'phar-prefix':
                 case 'wrapper':
                     if(!file_exists($value))
                     {
-                        $e = $key . ': File "' . $value . '" does not exist';
-                        throw new PHPGGC\Exception($e);
+                        $this->e(
+                            $key . ': File "' . $value . '" does not exist'
+                        );
                     }
                     break;
             }
@@ -746,9 +802,10 @@ class PHPGGC
         if($values === false)
         {
             $this->o($gc, 2);
-            $message = 'Invalid arguments for type "' . $gc::$type . '" ' . "\n"
-                     . $this->_get_command_line_gc($gc);
-            throw new PHPGGC\Exception($message);
+            $this->e(
+                'Invalid arguments for type "' . $gc::$type . '" ' . "\n" .
+                $this->_get_command_line_gc($gc)
+            );
         }
 
         return $values;
