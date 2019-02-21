@@ -409,6 +409,9 @@ class PHPGGC
                     $values = array_map('urlencode', $keys);
                     $serialized = str_replace($keys, $values, $serialized);
                     break;
+                case 'json':
+                    $serialized = json_encode($serialized);
+                    break;
             }
         }
 
@@ -563,6 +566,7 @@ class PHPGGC
         $this->o("  -s, --soft   Soft URLencode");
         $this->o("  -u, --url    URLencodes the payload");
         $this->o("  -b, --base64 Converts the output into base64");
+        $this->o("  -j, --json   Converts the output into json");
         $this->o("  Encoders can be chained, for instance -b -u -u base64s the payload,");
         $this->o("  then URLencodes it twice");
         $this->o("");
@@ -623,6 +627,7 @@ class PHPGGC
             'ascii-strings' => false,
             # Encoders
             'soft' => false,
+            'json' => false,
             'base64' => false,
             'url' => false,
         ];
