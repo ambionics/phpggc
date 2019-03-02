@@ -22,7 +22,21 @@ class Enhancements
     public static function fast_destruct($serialized)
     {
         $key = 7;
-        return sprintf('a:2:{i:%s;%si:%s;i:0;}', $key, $serialized, $key);
+
+        $wrapped = sprintf('a:2:{i:%s;%si:%s;i:0;}', $key, $serialized, $key);
+
+        // Serialized object was wrapped by an array.
+        // All existing references must be increased by 1.
+        // See: http://www.phpinternalsbook.com/classes_objects/serialization.html
+        $wrapped = preg_replace_callback(
+            '~(r|R):(\d+)~',
+            function ($matches) {
+                return sprintf('%s:%d', $matches[1], ++$matches[2]);
+            },
+            $wrapped
+        );
+
+        return $wrapped;
     }
 
     /**
