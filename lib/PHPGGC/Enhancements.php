@@ -4,7 +4,7 @@ namespace PHPGGC;
 
 class Enhancements
 {
-    const FAST_DESTRUCT_TEMP_KEY = 747346364;
+    const FAST_DESTRUCT_TEMP_KEY = 7896543210;
     const FAST_DESTRUCT_FINAL_KEY = 7;
 
     /**
@@ -40,13 +40,18 @@ class Enhancements
      */
     public static function fast_destruct_post($serialized)
     {
+        /*
+        This replaces the whole array structure, but it could not work in some
+        edge cases. The second technique is more permissive but should not cause
+        problems.
+        
         $find = (
-            '#^a:2:{' .
+            '#a:2:{' .
                 'i:' . self::FAST_DESTRUCT_TEMP_KEY . ';' .
                 '(.*?)' .
                 'i:' . (self::FAST_DESTRUCT_TEMP_KEY + 1) . ';' .
                 'i:' . self::FAST_DESTRUCT_TEMP_KEY . ';' .
-            '}$#s'
+            '}#s'
         );
         $replace = (
             'a:2:{' .
@@ -56,6 +61,14 @@ class Enhancements
                 'i:' . self::FAST_DESTRUCT_FINAL_KEY . ';' .
             '}'
         );
+        */
+        $find = (
+            '#i:(' .
+                self::FAST_DESTRUCT_TEMP_KEY . '|' .
+                (self::FAST_DESTRUCT_TEMP_KEY + 1) .
+            ');#'
+        );
+        $replace = 'i:' . self::FAST_DESTRUCT_FINAL_KEY . ';';
         return preg_replace($find, $replace, $serialized);
     }
 
