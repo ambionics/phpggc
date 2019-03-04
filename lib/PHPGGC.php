@@ -117,12 +117,12 @@ class PHPGGC
 
         $parameters = $gc->pre_process($parameters);
         $payload = $gc->generate($parameters);
-        $payload = $this->wrap($payload);
+        $payload = $this->pre_serialize($payload);
 
         $serialized = serialize($payload);
 
         $serialized = $gc->post_process($serialized);
-        $serialized = $this->apply_filters($serialized);
+        $serialized = $this->post_serialize($serialized);
 
         return $serialized;
     }
@@ -189,7 +189,7 @@ class PHPGGC
      * The returned serialized payload would be an array which contains the
      * payload under the key "data".
      */
-    public function wrap($payload)
+    public function pre_wrap($payload)
     {
         if(!isset($this->parameters['wrapper']))
             return $payload;
@@ -381,19 +381,38 @@ class PHPGGC
     }
 
     /**
-     * Applies command line filters on the serialized payload.
+     * Applies command line parameters and options to the object payload.
      */
-    protected function apply_filters($serialized)
+    protected function pre_serialize($payload)
+    {
+        if(in_array('fast-destruct', $this->options))
+            $payload = \PHPGGC\Enhancements::fast_destruct_pre($payload);
+        if(isset($this->parameters['wrapper']))
+        {
+            \PHPGGC\Enhancements::wrapper_inc($this->parameters['wrapper']);
+            $payload = \PHPGGC\Enhancements::wrapper_pre($payload);
+        }
+        return $payload;
+    }
+
+    /**
+     * Applies command line parameters and options to the serialized payload.
+     */
+    protected function post_serialize($serialized)
     {
         # Enhancements
         if(in_array('ascii-strings', $this->options))
             $serialized = \PHPGGC\Enhancements::ascii_strings($serialized);
         if(in_array('fast-destruct', $this->options))
-            $serialized = \PHPGGC\Enhancements::fast_destruct($serialized);
+            $serialized = \PHPGGC\Enhancements::fast_destruct_post($serialized);
+        if(isset($this->parameters['wrapper']))
+            $serialized = \PHPGGC\Enhancements::wrapper_post($serialized);
 
+        # Phar
         if(isset($this->parameters['phar']))
             $serialized = $this->pharify($serialized);
 
+        # Encoding
         foreach($this->options as $v)
         {
             switch($v)
@@ -535,11 +554,6 @@ class PHPGGC
         $this->o("  -o, --output <file>");
         $this->o("     Outputs the payload to a file instead of standard output");
         $this->o("");
-        $this->o("MODIFICATION");
-        $this->o("  -w, --wrapper <wrapper>");
-        $this->o("     Specifies a file containing a function: wrapper(\$payload)");
-        $this->o("     This function will be called before the generated gadget is serialized.");
-        $this->o("");
         $this->o("PHAR");
         $this->o("  -p, --phar <tar|zip|phar>");
         $this->o("     Creates a PHAR file of the given format");
@@ -561,6 +575,12 @@ class PHPGGC
         $this->o("     replaces every non-ASCII value to an hexadecimal representation:");
         $this->o("     s:5:\"A<null_byte>B<cr><lf>\"; -> S:5:\"A\\00B\\09\\0D\";");
         $this->o("     This is experimental and it might not work in some cases.");
+        $this->o("  -w, --wrapper <wrapper>");
+        $this->o("     Specifies a file containing either or both functions:");
+        $this->o("       - pre_serialize(\$payload)");
+        $this->o("       - post_serialize(\$serialized)");
+        $this->o("     The first function will be called right before the payload is serialized.");
+        $this->o("     The second function will be called right after the payload is serialized.");
         $this->o("");
         $this->o("ENCODING");
         $this->o("  -s, --soft   Soft URLencode");
