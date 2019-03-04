@@ -7,10 +7,9 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
     public $version = '7.0 < ?';
     public $vector = '__destruct';
     public $author = 'rreiss';
-    public $informations = 'Note that some files may not be removed (depends on the its permissions)';
-    public $parameters = [
-        'remote_file'
-    ];
+    public $informations = '
+        Note that some files may not be removed (depends on permissions)
+    ';
 
     public function generate(array $parameters)
     {
