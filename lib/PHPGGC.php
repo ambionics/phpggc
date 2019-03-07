@@ -3,22 +3,23 @@
 # Library of generic exploitation vectors for unserialize()
 #
 
+define('DIR_BASE', realpath(dirname(dirname(__FILE__))));
+define('DIR_TEMPLATES', DIR_BASE . '/templates');
+define('DIR_LIB', DIR_BASE . '/lib');
+define('DIR_GADGETCHAINS', DIR_BASE . '/gadgetchains');
+
+spl_autoload_register(array('PHPGGC', 'autoload'));
+
+
 class PHPGGC
 {
-    const DIR_GADGETCHAINS = '/gadgetchains';
-    const DIR_TEMPLATES = '/templates';
-    const DIR_BASE_GADGETCHAINS = '/lib/PHPGGC/GadgetChain';
-    const DIR_LIB = '/lib';
-
     protected $has_wrapper = False;
     protected $chains;
     protected $output = null;
 
     public function __construct()
     {
-        $this->base = realpath(dirname(dirname(__FILE__)));
-        spl_autoload_register(array($this, 'autoload'));
-        $this->chains = $this->get_gadget_chains();
+        $this->chains = $this->load_gadget_chains();
     }
 
     /**
@@ -67,7 +68,7 @@ class PHPGGC
         $this->o('Trying to deserialize payload...');
         $vector = isset($this->parameters['phar']) ? 'phar' : $gc->vector;
         system(
-            escapeshellarg($this->base . '/lib/test_payload.php') . ' ' .
+            escapeshellarg(DIR_LIB . '/test_payload.php') . ' ' .
             escapeshellarg($vector) . ' ' .
             escapeshellarg(base64_encode($payload))
         );
@@ -132,8 +133,7 @@ class PHPGGC
      */
     protected function include_gadget_chains()
     {
-        $base = $this->base . self::DIR_GADGETCHAINS;
-        $files = glob($base . '/*/*/*/chain.php');
+        $files = glob(DIR_GADGETCHAINS . '/*/*/*/chain.php');
         array_map(function ($file) {
             include_once $file;
         }, $files);
@@ -143,7 +143,7 @@ class PHPGGC
      * Loads every available gadget and returns an array of the form
      * class_name => object.
      */
-    public function get_gadget_chains()
+    public function load_gadget_chains()
     {
         $this->include_gadget_chains();
 
@@ -209,12 +209,12 @@ class PHPGGC
      * Autoloads PHPGGC base classes only, in order to avoid conflict between
      * different gadget chains.
      */
-    public function autoload($class)
+    public static function autoload($class)
     {
         if(strpos($class, 'PHPGGC\\') === 0)
         {
             $file = str_replace('\\', '/', $class) . '.php';
-            include_once $this->base . self::DIR_LIB . '/' . $file;
+            include_once DIR_LIB . '/' . $file;
         }
     }
 
@@ -241,8 +241,7 @@ class PHPGGC
 
         # Match base class from type
 
-        $base = $this->base . self::DIR_BASE_GADGETCHAINS;
-        $files = glob($base . '/*.php');
+        $files = glob(DIR_LIB . '/PHPGGC/GadgetChain/*.php');
 
         foreach($files as $file)
         {
@@ -265,8 +264,7 @@ class PHPGGC
 
         # Create directory structure
 
-        $base = $this->base . self::DIR_GADGETCHAINS;
-        $base = $base . '/' . $name . '/' . $type . '/';
+        $base = DIR_GADGETCHAINS . '/' . $name . '/' . $type . '/';
 
         for($i=1;file_exists($base . $i);$i++);
 
@@ -286,7 +284,7 @@ class PHPGGC
 
         $full_name = $replacements['{NAME}'] . '\\'
                    . $replacements['{CLASS_NAME}'];
-        $base = substr($base, strlen($this->base) + 1);
+        $base = substr($base, strlen(DIR_BASE) + 1);
 
         $this->o('Created ' . $full_name . ' under: ' . $base);
     }
@@ -296,7 +294,7 @@ class PHPGGC
      */
     function create_from_template($path, $name, $replacements=null)
     {
-        $template = $this->base . self::DIR_TEMPLATES . '/' . $name;
+        $template = DIR_TEMPLATES . '/' . $name;
         $template = file_get_contents($template);
 
         if($replacements)
