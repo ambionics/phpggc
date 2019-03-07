@@ -36,13 +36,13 @@ abstract class Format
     public function generate()
     {
 		$this->generate_dummy_metadata();
-        $this->generate_phar();
+        $this->generate_base_phar();
         $this->replace_metadata();
         $this->update_signature();
         return $this->data;
 	}
 
-	protected function generate_phar()
+	protected function generate_base_phar()
 	{
         $path = (
             sys_get_temp_dir() . DIRECTORY_SEPARATOR .

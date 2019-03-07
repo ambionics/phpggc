@@ -12,6 +12,22 @@ class Tar extends Format
 	const OFFSET_CHECKSUM = 148;
 	const NULL = "\x00";
 
+    public $parameters = [
+        'filename' => 'test.txt',
+        'prefix' => '',
+        'jpeg' => null
+    ];
+
+    public function generate_base_phar()
+    {
+        parent::generate_base_phar();
+        if($this->parameters['jpeg'])
+        {
+            $jpeg = file_get_contents($this->parameters['jpeg']);
+            $this->generate_polyglot($jpeg);
+        }
+    }
+
     /**
      * Finds the TAR header associated to file $path.
      */
@@ -101,5 +117,33 @@ class Tar extends Format
         );
         
         $this->data = $tar;
+    }
+
+    /**
+     * Generates a polyglot file that is a JPEG and a PHAR.
+     */
+    function generate_polyglot($jpeg)
+    {
+        $phar = substr($this->data, 6);
+        $len = strlen($phar);
+        $contents = 
+            substr($jpeg, 0, 2) . "\xff\xfe" . chr(($len >> 8) & 0xff) .
+            chr($len & 0xff) . $phar . substr($jpeg, 2);
+        $contents =
+            substr($contents, 0, 148) .
+            "        " .
+            substr($contents, 156)
+        ;
+    
+        $chksum = 0;
+    
+        for ($i=0;$i<512;$i++)
+        {
+            $chksum += ord(substr($contents, $i, 1));
+        }
+    
+        $oct = sprintf("%07o", $chksum);
+        $contents = substr($contents, 0, 148) . $oct . substr($contents, 155);
+        $this->data = $contents;
     }
 }

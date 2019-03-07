@@ -96,7 +96,8 @@ class PHPGGC
      */
     public function get_gadget_chain($name)
     {
-        if(!in_array($name, array_keys($this->chains)))
+        $name = strtolower($name);
+        if(!array_key_exists($name, $this->chains))
         {
             $this->e('Unknown gadget chain: ' . $name);
         }
@@ -272,68 +273,28 @@ class PHPGGC
      */
     function phar_generate($serialized)
     {
-        $format = $this->parameters['phar'];
-        
-        $prefix = '';
-        $filename = 'test.txt';
-        if(isset($this->parameters['phar-prefix']))
-            $prefix = file_get_contents($this->parameters['phar-prefix']);
-        if(isset($this->parameters['phar-filename']))
-            $filename = $this->parameters['phar-filename'];
-
-        $class = 'PHPGGC\\Phar\\' . ucfirst($format);
-
-        $phar = new $class($serialized, compact('prefix', 'filename'));
-        return $phar->generate();
-    }
-
-    /**
-     * Converts given payload into a PHAR file.
-     */
-    function pharify($serialized)
-    {
         if(ini_get('phar.readonly') == '1')
         {
             $this->e('Cannot create phar: phar.readonly is set to 1');
         }
 
-        $serialized = $this->phar_generate($serialized);
+        $format = $this->parameters['phar'];
         
-        if(isset($this->parameters['phar-jpeg']))
-        {
-            $jpeg = file_get_contents($this->parameters['phar-jpeg']);
-            $serialized = $this->generate_polyglot($serialized, $jpeg);
-        }
-        
-        return $serialized;
-    }
+        $prefix = '';
+        $filename = 'test.txt';
+        $jpeg = null;
 
-    /**
-     * Generates a polyglot file that is a JPEG and a PHAR.
-     */
-    function generate_polyglot($phar, $jpeg)
-    {
-        $phar = substr($phar, 6);
-        $len = strlen($phar);
-        $contents = 
-            substr($jpeg, 0, 2) . "\xff\xfe" . chr(($len >> 8) & 0xff) .
-            chr($len & 0xff) . $phar . substr($jpeg, 2);
-        $contents =
-            substr($contents, 0, 148) .
-            "        " .
-            substr($contents, 156)
-        ;
-    
-        $chksum = 0;
-    
-        for ($i=0;$i<512;$i++)
-        {
-            $chksum += ord(substr($contents, $i, 1));
-        }
-    
-        $oct = sprintf("%07o", $chksum);
-        $contents = substr($contents, 0, 148) . $oct . substr($contents, 155);
-        return $contents;
+        if(isset($this->parameters['phar-prefix']))
+            $prefix = file_get_contents($this->parameters['phar-prefix']);
+        if(isset($this->parameters['phar-filename']))
+            $filename = $this->parameters['phar-filename'];
+        if(isset($this->parameters['phar-jpeg']))
+            $jpeg = $this->parameters['phar-jpeg'];
+
+        $class = 'PHPGGC\\Phar\\' . ucfirst($format);
+
+        $phar = new $class($serialized, compact('prefix', 'filename', 'jpeg'));
+        return $phar->generate();
     }
 
     /**
@@ -381,7 +342,7 @@ class PHPGGC
 
         # Phar
         if(isset($this->parameters['phar']))
-            $serialized = $this->pharify($serialized);
+            $serialized = $this->phar_generate($serialized);
 
         # Encoding
         foreach($this->options as $v)
