@@ -3,21 +3,44 @@
 namespace PHPGGC\Phar;
 
 /**
- * Defines base methods meant to handle different Phar formats.
+ * Abstract class representing a phar file format.
  */
 abstract class Format
 {
-	protected $data;
-	protected $format = '';
+    protected $format = '';
+	public $data;
+    public $parameters = [
+        'filename' => 'test.txt',
+        'prefix' => ''
+    ];
 
+    /**
+     * Creates an instance of a PHAR file format.
+     * 
+     * @param string $metadata PHAR's metadata (serialized payload)
+     * @param array $parameters
+     */
 	public function __construct($metadata, $parameters)
 	{
 		$this->metadata = $metadata;
+        $this->parameters = $parameters + $this->parameters;
+    }
+
+    /**
+     * Generates the contents of the PHAR file.
+     *
+     * @returns string Content of generated PHAR file
+     */
+    public function generate()
+    {
 		$this->generate_dummy_metadata();
-        $this->generate_phar($parameters);
+        $this->generate_phar();
+        $this->replace_metadata();
+        $this->update_signature();
+        return $this->data;
 	}
 
-	public function generate_phar($parameters)
+	protected function generate_phar()
 	{
         $path = (
             sys_get_temp_dir() . DIRECTORY_SEPARATOR .
@@ -27,8 +50,11 @@ abstract class Format
 
 		$phar = new \Phar($path);
         $phar->startBuffering();
-        $phar->addFromString($parameters['filename'], 'test');
-        $phar->setStub($parameters['prefix'] . '<?php __HALT_COMPILER(); ?>');
+        $phar->addFromString($this->parameters['filename'], 'test');
+        $phar->setStub(
+            $this->parameters['prefix'] .
+            '<?php __HALT_COMPILER(); ?>'
+        );
         $phar->setMetadata($this->dummy_metadata);
         
         # Since we might generate a new signature, we need to make sure the
@@ -40,18 +66,13 @@ abstract class Format
         unlink($path);
 	}
 
-	public function generate_dummy_metadata()
+	protected function generate_dummy_metadata()
 	{
 		# We want our fake metadata to have the same size as our serialized
         # payload, so that we can make an in-place replacement in archives
         $dummy_size = strlen($this->metadata) - strlen('s::"";');
         $dummy_size = $dummy_size - strlen($dummy_size);
         $this->dummy_metadata = str_repeat('A', $dummy_size);
-	}
-
-	public function get_data()
-	{
-		return $this->data;
 	}
 
 	/**
@@ -83,7 +104,7 @@ abstract class Format
     /**
      * Replaces every occurence of the fake metadata by the real one.
      */
-    public function replace_metadata()
+    protected function replace_metadata()
     {
     	$this->data = str_replace(
             serialize($this->dummy_metadata), $this->metadata, $this->data

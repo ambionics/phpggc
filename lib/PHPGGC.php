@@ -67,7 +67,7 @@ class PHPGGC
         $this->o('Trying to deserialize payload...');
         $vector = isset($this->parameters['phar']) ? 'phar' : $gc->vector;
         system(
-            $this->base . '/lib/test_payload.php ' .
+            escapeshellarg($this->base . '/lib/test_payload.php') . ' ' .
             escapeshellarg($vector) . ' ' .
             escapeshellarg(base64_encode($payload))
         );
@@ -128,7 +128,7 @@ class PHPGGC
     }
 
     /**
-     * Includes every file that might contain a gadget.
+     * Includes every file that might contain a gadget chain.
      */
     protected function include_gadget_chains()
     {
@@ -326,9 +326,7 @@ class PHPGGC
         $class = 'PHPGGC\\Phar\\' . ucfirst($format);
 
         $phar = new $class($serialized, compact('prefix', 'filename'));
-        $phar->replace_metadata();
-        $phar->update_signature();
-        return $phar->get_data();
+        return $phar->generate();
     }
 
     /**
