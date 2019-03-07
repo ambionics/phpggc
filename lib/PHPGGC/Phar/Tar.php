@@ -32,7 +32,7 @@ class Tar extends Format
      * the original data and the new one have the same size, as the header
      * will not change.
      */
-    public function replace_file($path, $data)
+    protected function replace_file($path, $data)
     {
     	$header_position = $this->find_header($path);
         $this->data = $this->in_place_replace(
@@ -59,7 +59,7 @@ class Tar extends Format
      * The signature of the TAR file is computed with the whole file content
      * except, obviously, the signature file.
      */
-    public function update_signature()
+    protected function update_signature()
     {
     	$data = substr(
     		$this->data, 0, $this->find_header('.phar/signature.bin')
@@ -73,7 +73,7 @@ class Tar extends Format
      * Replaces the contents of a file in the TAR archive.
      * This is not used anymore but I cannot bring myself to remove it.
      */
-    public function replace_file_different_size($path, $data)
+    protected function replace_file_different_size($path, $data)
     {
     	$tar = $this->data;
         $position = $this->find_header($path);

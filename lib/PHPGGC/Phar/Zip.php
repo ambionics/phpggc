@@ -7,7 +7,7 @@ class Zip extends Format
 {
 	protected $format = '.zip';
 
-	public function update_signature()
+	protected function update_signature()
 	{
 		// nothing yet :(
 	}

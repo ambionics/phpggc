@@ -7,7 +7,7 @@ class Phar extends Format
 {
     protected $format = '.phar';
 
-    public function update_signature()
+    protected function update_signature()
     {
         $data = substr($this->data, 0, -28);
         $signature = $this->compute_signature($data);

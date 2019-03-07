@@ -79,7 +79,7 @@ abstract class Format
 	 * Updates the PHAR signature of the file.
 	 * It is format-dependant and therefore abstract.
 	 */
-	abstract function update_signature();
+	abstract protected function update_signature();
 
 	/**
 	 * Makes an in-place replacement at $offset in $data
