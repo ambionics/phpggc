@@ -5,12 +5,12 @@ namespace PHPGGC\GadgetChain;
 abstract class FileWrite extends \PHPGGC\GadgetChain
 {
     public static $type = self::TYPE_FW;
-    public $parameters = [
+    public static $parameters = [
         'remote_path',
         'local_path'
     ];
 
-    public function pre_process(array $parameters)
+    public function process_parameters(array $parameters)
     {
         $local_path = 'file://' . $parameters['local_path'];
 

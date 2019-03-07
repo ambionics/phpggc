@@ -4,10 +4,10 @@ namespace GadgetChain\ZendFramework;
 
 class RCE2 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '1.11.12 <= 1.12.20';
-    public $vector = '__toString';
-    public $author = 'cf';
-    public $informations = '
+    public static $version = '1.11.12 <= 1.12.20';
+    public static $vector = '__toString';
+    public static $author = 'cf';
+    public static $informations = '
     	Uses zf1/zend-form, which requires zf1/zend-cache.
     ';
 

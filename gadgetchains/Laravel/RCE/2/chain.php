@@ -4,9 +4,9 @@ namespace GadgetChain\Laravel;
 
 class RCE2 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '5.5.39';
-    public $vector = '__destruct';
-    public $author = 'BlackFan';
+    public static $version = '5.5.39';
+    public static $vector = '__destruct';
+    public static $author = 'BlackFan';
 
     public function generate(array $parameters)
     {

@@ -4,10 +4,10 @@ namespace GadgetChain\Drupal7;
 
 class FD1 extends \PHPGGC\GadgetChain\FileDelete
 {
-    public $version = '7.0 < ?';
-    public $vector = '__destruct';
-    public $author = 'rreiss';
-    public $informations = '
+    public static $version = '7.0 < ?';
+    public static $vector = '__destruct';
+    public static $author = 'rreiss';
+    public static $informations = '
         Note that some files may not be removed (depends on permissions)
     ';
 

@@ -4,9 +4,9 @@ namespace GadgetChain\{NAME};
 
 class {CLASS_NAME} extends \{BASE_CLASS_NAME}
 {
-    public $version = '';
-    public $vector = '';
-    public $author = '';
+    public static $version = '';
+    public static $vector = '';
+    public static $author = '';
 
     public function generate(array $parameters)
     {

@@ -4,10 +4,10 @@ namespace GadgetChain\ZendFramework;
 
 class FD1 extends \PHPGGC\GadgetChain\FileDelete
 {
-    public $version = '? <= 1.12.20';
-    public $vector = '__destruct';
-    public $author = 'mpchadwick';
-    public $parameters = [
+    public static $version = '? <= 1.12.20';
+    public static $vector = '__destruct';
+    public static $author = 'mpchadwick';
+    public static $parameters = [
         'remote_file'
     ];
 

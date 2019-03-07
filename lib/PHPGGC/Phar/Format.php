@@ -20,7 +20,7 @@ abstract class Format
      * @param string $metadata PHAR's metadata (serialized payload)
      * @param array $parameters
      */
-	public function __construct($metadata, $parameters)
+	public function __construct($metadata, $parameters=[])
 	{
 		$this->metadata = $metadata;
         $this->parameters = $parameters + $this->parameters;

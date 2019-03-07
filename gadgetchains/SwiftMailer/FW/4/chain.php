@@ -4,13 +4,13 @@ namespace GadgetChain\SwiftMailer;
 
 class FW4 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = '4.0.0 <= ?';
-    public $vector = '__destruct';
-    public $author = 'ronenshh';
+    public static $version = '4.0.0 <= ?';
+    public static $vector = '__destruct';
+    public static $author = 'ronenshh';
 
-    public function pre_process(array $parameters)
+    public function process_parameters(array $parameters)
     {
-        $parameters = parent::pre_process($parameters);
+        $parameters = parent::process_parameters($parameters);
 
         # The library appends "QUIT" at the end of the content, so we need to comment it
         $parameters['data'] .= '//';

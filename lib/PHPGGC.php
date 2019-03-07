@@ -8,14 +8,22 @@ define('DIR_TEMPLATES', DIR_BASE . '/templates');
 define('DIR_LIB', DIR_BASE . '/lib');
 define('DIR_GADGETCHAINS', DIR_BASE . '/gadgetchains');
 
-spl_autoload_register(array('PHPGGC', 'autoload'));
+
+use \PHPGGC\Enhancements;
 
 
+PHPGGC::autoload_register();
+PHPGGC::include_gadget_chains();
+
+
+
+/**
+ * This class is meant to handle CLI parameters and return a serialized payload
+ * under different forms. 
+ */
 class PHPGGC
 {
-    protected $has_wrapper = False;
     protected $chains;
-    protected $output = null;
 
     public function __construct()
     {
@@ -34,9 +42,7 @@ class PHPGGC
         $parameters = $this->parse_cmdline($argv);
 
         if($parameters === null)
-        {
             return;
-        }
 
         if(count($parameters) < 1)
         {
@@ -86,7 +92,7 @@ class PHPGGC
     }
 
     /**
-     * Gets an instance of the given GadgetChain class.
+     * Returns an instance of the given gadget chain.
      */
     public function get_gadget_chain($class)
     {
@@ -106,7 +112,8 @@ class PHPGGC
             $this->e('Phar requires either a __destruct or a __wakeup vector');
         }
 
-        return $this->chains[$full];
+        $class = $this->chains[$full];
+        return new $class();
     }
 
     /**
@@ -114,16 +121,11 @@ class PHPGGC
      */
     public function serialize($gc, $parameters)
     {
-        $gc->load_gadgets();
-
-        $parameters = $gc->pre_process($parameters);
-        $payload = $gc->generate($parameters);
-        $payload = $this->pre_serialize($payload);
-
-        $serialized = serialize($payload);
-
-        $serialized = $gc->post_process($serialized);
-        $serialized = $this->post_serialize($serialized);
+        $parameters = $this->process_parameters($gc, $parameters);
+        $object = $gc->generate($parameters);
+        $object = $this->process_object($gc, $object);
+        $serialized = serialize($object);
+        $serialized = $this->process_serialized($gc, $serialized);
 
         return $serialized;
     }
@@ -131,7 +133,7 @@ class PHPGGC
     /**
      * Includes every file that might contain a gadget chain.
      */
-    protected function include_gadget_chains()
+    public static function include_gadget_chains()
     {
         $files = glob(DIR_GADGETCHAINS . '/*/*/*/chain.php');
         array_map(function ($file) {
@@ -141,7 +143,7 @@ class PHPGGC
 
     /**
      * Loads every available gadget and returns an array of the form
-     * class_name => object.
+     * class_name => class.
      */
     public function load_gadget_chains()
     {
@@ -152,57 +154,21 @@ class PHPGGC
             return is_subclass_of($class, '\\PHPGGC\\GadgetChain') &&
                    strpos($class, 'GadgetChain\\') === 0;
         });
-        $objects = array_map(function($class) {
-            return new $class();
-        }, $classes);
 
         # Convert backslashes in classes names to forward slashes,
         # so that the command line is easier to use
-        $classes = array_map(function($class) {
+        $names = array_map(function($class) {
             return strtolower(str_replace('\\', '/', $class));
         }, $classes);
-        return array_combine($classes, $objects);
+        return array_combine($names, $classes);
     }
 
     /**
-     * Includes a PHP file containing a wrapper($data) function.
-     * This method will be called after the gadget chain has been generated,
-     * and before serialize() is called, in order to modify the payload if
-     * need be.
+     * Registers PHPGGC's autoload function.
      */
-    public function set_wrapper($file)
+    public static function autoload_register()
     {
-        include $file;
-        $this->_has_wrapper = true;
-    }
-
-    /**
-     * Wraps the payload into something else if the user required it.
-     * For instance, if a specific unserialize call requires an array, one could
-     * build a wrapper function of the likes:
-     *
-     * function wrapper($payload)
-     * {
-     *     return array('id' => '123', 'data' => $payload);
-     * }
-     *
-     * The returned serialized payload would be an array which contains the
-     * payload under the key "data".
-     */
-    public function pre_wrap($payload)
-    {
-        if(!isset($this->parameters['wrapper']))
-            return $payload;
-
-        include $this->parameters['wrapper'];
-
-        if(!function_exists('wrapper'))
-        {
-            $message = 'Wrapper file does not define wrapper($payload)';
-            throw new \PHPGGC\Exception($message);
-        }
-
-        return call_user_func('wrapper', $payload);
+        spl_autoload_register(array(static::class, 'autoload'));
     }
 
     /**
@@ -211,11 +177,9 @@ class PHPGGC
      */
     public static function autoload($class)
     {
-        if(strpos($class, 'PHPGGC\\') === 0)
-        {
-            $file = str_replace('\\', '/', $class) . '.php';
-            include_once DIR_LIB . '/' . $file;
-        }
+        $file = DIR_LIB . '/' . str_replace('\\', '/', $class) . '.php';
+        if(file_exists($file))
+            require_once $file;
     }
 
     /**
@@ -377,32 +341,46 @@ class PHPGGC
     }
 
     /**
+     * Applies command line parameters and options to the parameters.
+     */
+    protected function process_parameters($gc, $parameters)
+    {
+        if(isset($this->parameters['wrapper']))
+            Enhancements::wrapper_include($this->parameters['wrapper']);
+
+        $parameters = Enhancements::wrapper_process_parameters($parameters);
+        $parameters = $gc->process_parameters($parameters);
+        return $parameters;
+    }
+
+    /**
      * Applies command line parameters and options to the object payload.
      */
-    protected function pre_serialize($payload)
+    protected function process_object($gc, $object)
     {
+        $object = $gc->process_object($object);
         if(in_array('fast-destruct', $this->options))
-            $payload = \PHPGGC\Enhancements::fast_destruct_pre($payload);
-        if(isset($this->parameters['wrapper']))
-        {
-            \PHPGGC\Enhancements::wrapper_inc($this->parameters['wrapper']);
-            $payload = \PHPGGC\Enhancements::wrapper_pre($payload);
-        }
-        return $payload;
+            $object = Enhancements::fast_destruct_process_object($object);
+        $object = Enhancements::wrapper_process_object($object);
+        return $object;
     }
 
     /**
      * Applies command line parameters and options to the serialized payload.
      */
-    protected function post_serialize($serialized)
+    protected function process_serialized($gc, $serialized)
     {
+        $serialized = $gc->process_serialized($serialized);
+
         # Enhancements
         if(in_array('ascii-strings', $this->options))
-            $serialized = \PHPGGC\Enhancements::ascii_strings($serialized);
+            $serialized = Enhancements::ascii_strings($serialized);
         if(in_array('fast-destruct', $this->options))
-            $serialized = \PHPGGC\Enhancements::fast_destruct_post($serialized);
+            $serialized = Enhancements::fast_destruct_process_serialized(
+                $serialized
+            );
         if(isset($this->parameters['wrapper']))
-            $serialized = \PHPGGC\Enhancements::wrapper_post($serialized);
+            $serialized = Enhancements::wrapper_process_serialized($serialized);
 
         # Phar
         if(isset($this->parameters['phar']))
@@ -511,11 +489,11 @@ class PHPGGC
         foreach($this->chains as $chain)
         {
             $data[] = [
-                $chain->get_name(),
-                $chain->version,
+                $chain::get_name(),
+                $chain::$version,
                 $chain::$type,
-                $chain->vector,
-                ($chain->informations ? '*' : '')
+                $chain::$vector,
+                ($chain::$informations ? '*' : '')
             ];
         }
 
@@ -573,8 +551,8 @@ class PHPGGC
         $this->o("     This is experimental and it might not work in some cases.");
         $this->o("  -w, --wrapper <wrapper>");
         $this->o("     Specifies a file containing either or both functions:");
-        $this->o("       - pre_serialize(\$payload)");
-        $this->o("       - post_serialize(\$serialized)");
+        $this->o("       - process_object(\$object)");
+        $this->o("       - process_serialized(\$serialized)");
         $this->o("     The first function will be called right before the payload is serialized.");
         $this->o("     The second function will be called right after the payload is serialized.");
         $this->o("");
@@ -816,7 +794,7 @@ class PHPGGC
      */
     protected function get_type_parameters($gc, $parameters)
     {
-        $arguments = $gc->parameters;
+        $arguments = $gc::$parameters;
 
         $values = @array_combine($arguments, $parameters);
 
@@ -836,7 +814,7 @@ class PHPGGC
     {
         $arguments = array_map(function ($a) {
                 return '<' . $a . '>';
-        }, $gc->parameters);
+        }, $gc::$parameters);
         return $this->_get_command_line($gc->get_name(), ...$arguments);
     }
 

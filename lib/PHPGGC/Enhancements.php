@@ -28,17 +28,17 @@ class Enhancements
      * Pre-process step simply puts the object in an identifiable 2-elements
      * array.
      */
-    public static function fast_destruct_pre($payload)
+    public static function fast_destruct_process_object($object)
     {
         $key = self::FAST_DESTRUCT_TEMP_KEY;
-        return [$key => $payload, $key + 1 => $key];
+        return [$key => $object, $key + 1 => $key];
     }
 
     /**
      * Post process step of the fast-destruct technique: replaces the original
      * array with an array with the two same keys.
      */
-    public static function fast_destruct_post($serialized)
+    public static function fast_destruct_process_serialized($serialized)
     {
         /*
         This replaces the whole array structure, but it could not work in some
@@ -74,40 +74,48 @@ class Enhancements
 
     /**
      * Wrapper
-     * Includes a file and calls its pre_process() and post_process() methods.
+     * Includes a file and calls its process_parameters() and process_serialized() methods.
      * This allows users to define custom actions so that the payload can be
      * formatted as they want it.
      */
 
-    public static function wrapper_inc($filename)
+    public static function wrapper_include($filename)
     {
         include $filename;
 
         if(
-            !function_exists('pre_serialize') &&
-            !function_exists('post_serialize')
+            !function_exists('process_object') &&
+            !function_exists('process_serialized')
         )
         {
             $message = (
-                'Wrapper file does not define pre_serialize($payload) or ' .
-                'post_serialize($serialized)'
+                'Wrapper file does not define process_object($object) or ' .
+                'process_serialized($serialized)'
             );
             throw new \PHPGGC\Exception($message);
         }
     }
 
-    public static function wrapper_pre($payload)
+    protected static function _call_if_exists($function, $data)
     {
-        if(function_exists('pre_serialize'))
-            return call_user_func('pre_serialize', $payload);
-        return $payload;
+        if(function_exists($function))
+            return call_user_func($function, $data);
+        return $data;
     }
 
-    public static function wrapper_post($serialized)
+    public static function wrapper_process_parameters($parameters)
     {
-        if(function_exists('post_serialize'))
-            return call_user_func('post_serialize', $serialized);
-        return $serialized;
+        return static::_call_if_exists('process_parameters', $parameters);
+    }
+
+    public static function wrapper_process_object($payload)
+    {
+        return static::_call_if_exists('process_object', $payload);
+    }
+
+    public static function wrapper_process_serialized($serialized)
+    {
+        return static::_call_if_exists('process_serialized', $serialized);
     }
 
     /**

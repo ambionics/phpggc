@@ -13,19 +13,19 @@ use \Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 class FW1 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = '?';
-    public $vector = '__toString';
-    public $author = 'cf';
-    public $informations = '
+    public static $version = '?';
+    public static $vector = '__toString';
+    public static $author = 'cf';
+    public static $informations = '
         We do not have full control of the path. If you enter
         /var/www/toto/shell.php as the remote_path, it will be converted to
         /var/www/toto/e3/5b737464436c61737324434c4153534d455441444154415d5b315d.php.
         Only the extension and base path are kept.
     ';
 
-    public function pre_process(array $parameters)
+    public function process_parameters(array $parameters)
     {
-        $parameters = parent::pre_process($parameters);
+        $parameters = parent::process_parameters($parameters);
         # Sadly we cannot control the full path
         # We only have control over the base directory, and the extension
         $path = $parameters['remote_path'];

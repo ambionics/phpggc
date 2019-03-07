@@ -4,13 +4,13 @@ namespace GadgetChain\SwiftMailer;
 
 class FW3 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = '5.0.1';
-    public $vector = '__toString';
-    public $author = 'cf';
+    public static $version = '5.0.1';
+    public static $vector = '__toString';
+    public static $author = 'cf';
 
-    public function pre_process(array $parameters)
+    public function process_parameters(array $parameters)
     {
-        $parameters = parent::pre_process($parameters);
+        $parameters = parent::process_parameters($parameters);
 
         # \n must be preceeded by \r as per Swift_Signers_DomainKeySigner,
         # line 460

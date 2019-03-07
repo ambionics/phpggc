@@ -89,8 +89,11 @@ O:13:"Swift_Message":8:{...}
 
 ## Wrapper
 
-The `-w` option allows you to define a PHP file containing a `wrapper($chain)` function.
-This will be called after the chain is built, but before the `serialize()`, in order to adjust the payload's shape.
+The `-w` option allows you to define a PHP file containing the following functions:
+
+- `process_object($object)`: Called right **before** `serialize()`, allows you to change the object
+- `process_serialized($serialized)`: Called right **after** `serialize()`, allows you to change the serialized string
+
 For instance, if the vulnerable code looks like this:
 
 ```php
@@ -99,15 +102,15 @@ $data = unserialize($_GET['data']);
 print $data['message'];
 ```
 
-You could use a __toString() chain, wrapping it like so:
+You could use a `__toString()` chain, wrapping it like so:
 
 ```php
 <?php
 # /tmp/my_wrapper.php
-function wrapper($chain)
+function process_object($object)
 {
     return array(
-        'message' => $chain
+        'message' => $object
     );
 }
 ```

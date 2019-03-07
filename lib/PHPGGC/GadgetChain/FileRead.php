@@ -5,7 +5,7 @@ namespace PHPGGC\GadgetChain;
 abstract class FileRead extends \PHPGGC\GadgetChain
 {
     public static $type = self::TYPE_FR;
-    public $parameters = [
+    public static $parameters = [
         'remote_file'
     ];
 }

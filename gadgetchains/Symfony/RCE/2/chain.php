@@ -4,11 +4,11 @@ namespace GadgetChain\Symfony;
 
 class RCE2 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '2.3.42 < 2.6';
-    public $vector = '__destruct';
-    public $author = 'crlf';
-    public $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
-    public $parameters = [
+    public static $version = '2.3.42 < 2.6';
+    public static $vector = '__destruct';
+    public static $author = 'crlf';
+    public static $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
+    public static $parameters = [
         'code'
     ];
 

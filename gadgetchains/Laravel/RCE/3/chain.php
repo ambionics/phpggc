@@ -4,10 +4,10 @@ namespace GadgetChain\Laravel;
 
 class RCE3 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '5.5.39';
-    public $vector = '__destruct';
-    public $author = 'BlackFan';
-    public $informations = 'This chain triggers an ErrorException after code execution.';
+    public static $version = '5.5.39';
+    public static $vector = '__destruct';
+    public static $author = 'BlackFan';
+    public static $informations = 'This chain triggers an ErrorException after code execution.';
 
     public function generate(array $parameters)
     {

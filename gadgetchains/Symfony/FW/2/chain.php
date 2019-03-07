@@ -4,9 +4,9 @@ namespace GadgetChain\Symfony;
 
 class FW2 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public $version = '3.4';
-    public $vector = '__destruct';
-    public $author = 'RicterZ';
+    public static $version = '3.4';
+    public static $vector = '__destruct';
+    public static $author = 'RicterZ';
 
     public function generate(array $parameters)
     {

@@ -4,10 +4,10 @@ namespace GadgetChain\Yii;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '1.1.20';
-    public $vector = '__wakeup';
-    public $author = 'cf';
-    public $informations = '
+    public static $version = '1.1.20';
+    public static $vector = '__wakeup';
+    public static $author = 'cf';
+    public static $informations = '
         As the payload uses file_get_contents("data://..."), allow_url_fopen
         must be ON.
     ';

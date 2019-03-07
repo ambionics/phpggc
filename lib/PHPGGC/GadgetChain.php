@@ -6,12 +6,12 @@ abstract class GadgetChain
 {
     public $name;
     public static $type;
-    public $version = '?';
+    public static $version = '?';
     # Vector to start the chain: __destruct, __toString, offsetGet, etc.
-    public $vector = '';
-    public $author = '';
-    public $parameters = [];
-    public $informations;
+    public static $vector = '';
+    public static $author = '';
+    public static $parameters = [];
+    public static $informations;
 
     # Types
     const TYPE_RCE = 'rce';
@@ -21,20 +21,62 @@ abstract class GadgetChain
     const TYPE_FD = 'file_delete';
     const TYPE_SQLI = 'sql_injection';
 
+    function __construct()
+    {
+        $this->load_gadgets();
+    }
+
+    protected function load_gadgets()
+    {
+        $directory = dirname((new \ReflectionClass($this))->getFileName());
+        require_once $directory . '/gadgets.php';
+    }
+
+    /**
+     * Generates the gadget chain object.
+     */
+    abstract public function generate(array $parameters);
+
+    /**
+     * Modifies given parameters if required.
+     */
+    public function process_parameters(array $parameters)
+    {
+        return $parameters;
+    }
+
+    /**
+     * Modifies given object if required.
+     */
+    public function process_object(array $object)
+    {
+        return $object;
+    }
+
+    /**
+     * Changes some values in the unserialize payload.
+     * For instance, if a class is meant to be named A\B\C but has been named
+     * A_B_C in the gadget for convenience, it can be str_replace()d here.
+     */
+    public function process_serialized($serialized)
+    {
+        return $serialized;
+    }
+
     public function __toString()
     {
         $infos = [
-            'Name' => $this->get_name(),
-            'Version' => $this->version,
-            'Type' => $this::$type,
-            'Vector' => $this->vector
+            'Name' => static::get_name(),
+            'Version' => static::$version,
+            'Type' => static::$type,
+            'Vector' => static::$vector
         ];
 
         $strings = [];
 
-        if($this->informations)
+        if(static::$informations)
         {
-            $informations = trim($this->informations);
+            $informations = trim(static::$informations);
             $informations = preg_replace("#\n\s+#", "\n", $informations);
             $infos['Informations'] = "\n" . $informations;
         }
@@ -47,37 +89,11 @@ abstract class GadgetChain
         return implode("\n", $strings);
     }
 
-    public function get_name()
+    public static function get_name()
     {
-        $class = get_class($this);
+        $class = static::class;
         $class = substr($class, strpos($class, '\\') + 1);
         $class = str_replace('\\', '/', $class);
         return $class;
-    }
-
-    public function load_gadgets()
-    {
-        $file = dirname((new \ReflectionClass($this))->getFileName());
-        require $file . '/gadgets.php';
-    }
-
-    /**
-     * Modifies given parameters if required.
-     */
-    public function pre_process(array $parameters)
-    {
-        return $parameters;
-    }
-
-    abstract public function generate(array $parameters);
-
-    /**
-     * Changes some values in the unserialize payload.
-     * For instance, if a class is meant to be named A\B\C but has been named
-     * A_B_C in the gadget for convenience, it can be str_replace()d here.
-     */
-    public function post_process($payload)
-    {
-        return $payload;
     }
 }

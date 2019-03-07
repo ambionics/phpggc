@@ -4,10 +4,10 @@ namespace GadgetChain\Guzzle;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
-    public $version = '6.0.0 <= 6.3.2';
-    public $vector = '__destruct';
-    public $author = 'proclnas';
-    public $informations = '
+    public static $version = '6.0.0 <= 6.3.2';
+    public static $vector = '__destruct';
+    public static $author = 'proclnas';
+    public static $informations = '
         This chain requires GuzzleHttp\Psr7 < 1.5.0, because FnStream cannot be
         deserialized afterwards.
         See https://github.com/ambionics/phpggc/issues/34
