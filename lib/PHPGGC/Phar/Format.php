@@ -4,6 +4,8 @@ namespace PHPGGC\Phar;
 
 /**
  * Abstract class representing a phar file format.
+ * Usage:
+ * 
  */
 abstract class Format
 {

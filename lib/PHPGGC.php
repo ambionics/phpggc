@@ -94,25 +94,24 @@ class PHPGGC
     /**
      * Returns an instance of the given gadget chain.
      */
-    public function get_gadget_chain($class)
+    public function get_gadget_chain($name)
     {
-        $full = strtolower('GadgetChain/' . $class);
-
-        if(!in_array($full, array_keys($this->chains)))
+        if(!in_array($name, array_keys($this->chains)))
         {
-            $this->e('Unknown gadget chain: ' . $class);
+            $this->e('Unknown gadget chain: ' . $name);
         }
+
+        $class = $this->chains[$name];
 
         if(
             isset($this->parameters['phar']) &&
-            $this->chains[$full]->vector != '__destruct' &&
-            $this->chains[$full]->vector != '__wakeup'
+            $class::$vector != '__destruct' &&
+            $class::$vector != '__wakeup'
         )
         {
             $this->e('Phar requires either a __destruct or a __wakeup vector');
         }
 
-        $class = $this->chains[$full];
         return new $class();
     }
 
@@ -126,7 +125,6 @@ class PHPGGC
         $object = $this->process_object($gc, $object);
         $serialized = serialize($object);
         $serialized = $this->process_serialized($gc, $serialized);
-
         return $serialized;
     }
 
@@ -147,8 +145,6 @@ class PHPGGC
      */
     public function load_gadget_chains()
     {
-        $this->include_gadget_chains();
-
         $classes = get_declared_classes();
         $classes = array_filter($classes, function($class) {
             return is_subclass_of($class, '\\PHPGGC\\GadgetChain') &&
@@ -158,7 +154,7 @@ class PHPGGC
         # Convert backslashes in classes names to forward slashes,
         # so that the command line is easier to use
         $names = array_map(function($class) {
-            return strtolower(str_replace('\\', '/', $class));
+            return strtolower($class::get_name());
         }, $classes);
         return array_combine($names, $classes);
     }
@@ -341,7 +337,8 @@ class PHPGGC
     }
 
     /**
-     * Applies command line parameters and options to the parameters.
+     * Applies command line parameters and options to the gadget chain
+     * parameters.
      */
     protected function process_parameters($gc, $parameters)
     {
@@ -354,7 +351,7 @@ class PHPGGC
     }
 
     /**
-     * Applies command line parameters and options to the object payload.
+     * Applies command line parameters and options to the gadget chain object.
      */
     protected function process_object($gc, $object)
     {
