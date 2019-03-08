@@ -74,23 +74,25 @@ class Enhancements
 
     /**
      * Wrapper
-     * Includes a file and calls its process_parameters() and process_serialized() methods.
+     * Includes a file and calls its process_parameters and process_serialized
+     * methods.
      * This allows users to define custom actions so that the payload can be
      * formatted as they want it.
      */
 
     public static function wrapper_include($filename)
     {
-        include $filename;
+        require_once $filename;
 
         if(
+            !function_exists('process_parameters') &&
             !function_exists('process_object') &&
             !function_exists('process_serialized')
         )
         {
             $message = (
-                'Wrapper file does not define process_object($object) or ' .
-                'process_serialized($serialized)'
+                'Wrapper file does not define process_parameters(), ' .
+                'process_object() or process_serialized()'
             );
             throw new \PHPGGC\Exception($message);
         }

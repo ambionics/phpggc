@@ -89,10 +89,11 @@ O:13:"Swift_Message":8:{...}
 
 ## Wrapper
 
-The `-w` option allows you to define a PHP file containing the following functions:
+The `--wrapper` (`-w`) option allows you to define a PHP file containing the following functions:
 
-- `process_object($object)`: Called right **before** `serialize()`, allows you to change the object
-- `process_serialized($serialized)`: Called right **after** `serialize()`, allows you to change the serialized string
+- `process_parameters($parameters)`: Called right **before** `generate()`, allows to change parameters
+- `process_object($object)`: Called right **before** `serialize()`, allows to change the object
+- `process_serialized($serialized)`: Called right **after** `serialize()`, allows to change the serialized string
 
 For instance, if the vulnerable code looks like this:
 
@@ -210,7 +211,8 @@ $phar = new \PHPGGC\Phar\Tar($serialized);
 file_put_contents('output.phar.tar', $phar->generate());
 ```
 
-This allows you to tweak the parameters or write exploits more easily. This is pretty experimental at the moment, so please, report bugs.
+This allows you to tweak the parameters or write exploits more easily.
+*Note: This is pretty experimental at the moment, so please, report bugs*.
 
 
 # Contributing

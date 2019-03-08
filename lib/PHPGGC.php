@@ -337,8 +337,7 @@ class PHPGGC
             $serialized = Enhancements::fast_destruct_process_serialized(
                 $serialized
             );
-        if(isset($this->parameters['wrapper']))
-            $serialized = Enhancements::wrapper_process_serialized($serialized);
+        $serialized = Enhancements::wrapper_process_serialized($serialized);
 
         # Phar
         if(isset($this->parameters['phar']))
