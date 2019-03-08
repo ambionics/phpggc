@@ -658,7 +658,7 @@ class PHPGGC
             # Abort argument parsing
             if($arg == '--')
             {
-                $arguments += array_slice($argv, $i+1);
+                $arguments += array_slice($argv, $i);
                 break;
             }
             # This is a parameter or an option
