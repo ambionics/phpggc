@@ -1,13 +1,8 @@
 <?php
 
-namespace Psr\Http\Message
-{
-	interface StreamInterface{}
-}
-
 namespace GuzzleHttp\Psr7
 {
-	class FnStream implements \Psr\Http\Message\StreamInterface
+	class FnStream
 	{
 		public $_fn_close = 'phpinfo';
 
