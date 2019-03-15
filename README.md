@@ -231,3 +231,8 @@ Otherwise, I'd be glad to answer your questions.
 
 The `--new <framework> <type>` command-line option can be used to create the directory and file structure for a new gadget chain.
 For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
+
+
+# License
+
+[Apache License 2.0](LICENSE)

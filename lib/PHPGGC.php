@@ -72,7 +72,7 @@ class PHPGGC
     public function test_payload($gc, $payload)
     {
         $this->o('Trying to deserialize payload...');
-        $vector = isset($this->parameters['phar']) ? 'phar' : $gc->vector;
+        $vector = isset($this->parameters['phar']) ? 'phar' : $gc::$vector;
         system(
             escapeshellarg(DIR_LIB . '/test_payload.php') . ' ' .
             escapeshellarg($vector) . ' ' .
