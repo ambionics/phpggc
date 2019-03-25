@@ -30,6 +30,7 @@ Laravel/RCE2          5.5.39                rce              __destruct
 Laravel/RCE3          5.5.39                rce              __destruct     *    
 Laravel/RCE4          5.5.39                rce              __destruct          
 Magento/SQLI1         ? <= 1.9.3.4          sql_injection    __destruct          
+Magento/FW1           ? <= 1.9.4.0          file_write       __destruct     *
 Monolog/RCE1          1.18 <= 1.23          rce              __destruct          
 Monolog/RCE2          1.5 <= 1.17           rce              __destruct          
 Phalcon/RCE1          <= 1.2.2              rce              __wakeup       *    
