@@ -4,7 +4,7 @@ namespace GadgetChain\CodeIgniter4;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
-    public static $version = '? <= 4.0.0-beta.1';
+    public static $version = '4.0.0-beta.1 <= ?';
     public static $vector = '__destruct';
     public static $author = 'eboda';
 
