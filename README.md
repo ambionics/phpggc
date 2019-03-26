@@ -21,6 +21,7 @@ Gadget Chains
 -------------
 
 NAME                  VERSION               TYPE             VECTOR         I    
+CodeIgniter4/RCE1     4.0.0-beta.1 <= ?     rce              __destruct
 Doctrine/FW1          ?                     file_write       __toString     *    
 Drupal7/RCE1          7.0.8 < ?             rce              __destruct     *    
 Guzzle/FW1            6.0.0 <= 6.3.2        file_write       __destruct          
