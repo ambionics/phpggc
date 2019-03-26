@@ -12,7 +12,7 @@ abstract class FileWrite extends \PHPGGC\GadgetChain
 
     public function process_parameters(array $parameters)
     {
-        $local_path = 'file://' . $parameters['local_path'];
+        $local_path = $parameters['local_path'];
 
         if(!file_exists($local_path))
             throw new \PHPGGC\Exception('Unable to read local file: ' . $parameters['local_path']);
