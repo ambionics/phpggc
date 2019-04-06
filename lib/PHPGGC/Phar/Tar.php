@@ -132,7 +132,7 @@ class Tar extends Format
         $contents =
             substr($contents, 0, 148) .
             "        " .
-            substr($contents, 156)
+            substr($contents, 156, 344) . "aaaa" . substr($contents, 504)
         ;
     
         $chksum = 0;
@@ -141,8 +141,10 @@ class Tar extends Format
         {
             $chksum += ord(substr($contents, $i, 1));
         }
-    
-        $oct = sprintf("%07o", $chksum);
+
+        // make a checksum that PHP detects as valid, but libmagic doesn't
+        // this ensures that the file will be detected as JPEG and not as tar
+        $oct = sprintf("%06o", $chksum) . "x";
         $contents = substr($contents, 0, 148) . $oct . substr($contents, 155);
         $this->data = $contents;
     }
