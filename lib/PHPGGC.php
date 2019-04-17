@@ -508,10 +508,9 @@ class PHPGGC
         $this->o("     This is experimental and it might not work in some cases.");
         $this->o("  -w, --wrapper <wrapper>");
         $this->o("     Specifies a file containing either or both functions:");
-        $this->o("       - process_object(\$object)");
-        $this->o("       - process_serialized(\$serialized)");
-        $this->o("     The first function will be called right before the payload is serialized.");
-        $this->o("     The second function will be called right after the payload is serialized.");
+        $this->o("       - process_parameters(\$parameters): called right before object is created");
+        $this->o("       - process_object(\$object): called right before the payload is serialized");
+        $this->o("       - process_serialized(\$serialized): called right after the payload is serialized");
         $this->o("");
         $this->o("ENCODING");
         $this->o("  -s, --soft   Soft URLencode");
