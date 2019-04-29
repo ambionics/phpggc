@@ -134,7 +134,6 @@ class PHPGGC
      */
     public static function include_gadget_chains()
     {
-        $files = glob(DIR_GADGETCHAINS . '/*/*/*/chain.php');
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(DIR_GADGETCHAINS),
             RecursiveIteratorIterator::LEAVES_ONLY
