@@ -162,7 +162,11 @@ class PHPGGC
         $names = array_map(function($class) {
             return strtolower($class::get_name());
         }, $classes);
-        return array_combine($names, $classes);
+
+        $gcs = array_combine($names, $classes);
+        ksort($gcs);
+
+        return $gcs;
     }
 
     /**
