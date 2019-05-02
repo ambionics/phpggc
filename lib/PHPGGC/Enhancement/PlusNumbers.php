@@ -10,21 +10,19 @@ namespace PHPGGC\Enhancement;
  */
 class PlusNumbers extends Enhancement
 {
+    private $types;
+
+    public function __construct($types)
+    {
+        $this->types = $types;
+    }
+
     public function process_serialized($serialized)
     {
+        $types = preg_quote($this->types, '#');
         $serialized = preg_replace(
-            '#\b([CO]):+?(\d+):(".*?"):+?(\d+):{#',
-            '$1:+$2:$3:+$4:{',
-            $serialized
-        );
-        $serialized = preg_replace(
-            '#\bi:(\d+);#',
-            'i:+$1;',
-            $serialized
-        );
-        $serialized = preg_replace(
-            '#\b([Ss]):(\d+):"#',
-            '$1:+$2:"',
+            '#\b([' . $types . ']):(\d+)([:;])#',
+            '$1:+$2$3',
             $serialized
         );
         return $serialized;

@@ -129,8 +129,10 @@ class PHPGGC
             $enhancements[] = new Enhancement\FastDestruct();
         if(in_array('ascii-strings', $this->options))
             $enhancements[] = new Enhancement\ASCIIStrings();
-        if(in_array('plus-numbers', $this->options))
-            $enhancements[] = new Enhancement\PlusNumbers();
+        if(isset($this->parameters['plus-numbers']))
+            $enhancements[] = new Enhancement\PlusNumbers(
+                $this->parameters['plus-numbers']
+            );
         $this->enhancements = new Enhancement\Enhancements($enhancements);
     }
 
@@ -520,9 +522,10 @@ class PHPGGC
         $this->o('     replaces every non-ASCII value to an hexadecimal representation:');
         $this->o('     s:5:"A<null_byte>B<cr><lf>"; -> S:5:"A\\00B\\09\\0D";');
         $this->o('     This is experimental and it might not work in some cases.');
-        $this->o('  -n, --plus-numbers');
-        $this->o('     Adds a + symbol in front of every number symbol of the serialized string.');
-        $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":+1:{s:+1:"x";i:+3;}');
+        $this->o('  -n, --plus-numbers <types>');
+        $this->o('     Adds a + symbol in front of every number symbol of the given type.');
+        $this->o('     For instance, -n iO:');
+        $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":1:{s:1:"x";i:+3;}');
         $this->o('  -w, --wrapper <wrapper>');
         $this->o('     Specifies a file containing either or both functions:');
         $this->o('       - process_parameters($parameters): called right before object is created');
@@ -592,7 +595,7 @@ class PHPGGC
             # Enhancements
             'fast-destruct' => false,
             'ascii-strings' => false,
-            'plus-numbers' => false,
+            'plus-numbers' => true,
             # Encoders
             'soft' => false,
             'json' => false,
