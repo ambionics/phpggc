@@ -9,12 +9,11 @@ define('DIR_LIB', DIR_BASE . '/lib');
 define('DIR_GADGETCHAINS', DIR_BASE . '/gadgetchains');
 
 
-use \PHPGGC\Enhancements;
+use \PHPGGC\Enhancement;
 
 
 PHPGGC::autoload_register();
 PHPGGC::include_gadget_chains();
-
 
 
 /**
@@ -53,6 +52,7 @@ class PHPGGC
         $class = array_shift($parameters);
         $gc = $this->get_gadget_chain($class);
 
+        $this->setup_enhancements();
         $parameters = $this->get_type_parameters($gc, $parameters);
         $generated = $this->serialize($gc, $parameters);
 
@@ -114,6 +114,24 @@ class PHPGGC
         }
 
         return new $class();
+    }
+    
+    /**
+     * Create enhancement instances from given options
+     */
+    public function setup_enhancements()
+    {
+        $enhancements = [];
+
+        if(isset($this->parameters['wrapper']))
+            $enhancements[] = new Enhancement\Wrapper($this->parameters['wrapper']);
+        if(in_array('fast-destruct', $this->options))
+            $enhancements[] = new Enhancement\FastDestruct();
+        if(in_array('ascii-strings', $this->options))
+            $enhancements[] = new Enhancement\ASCIIStrings();
+        if(in_array('plus-numbers', $this->options))
+            $enhancements[] = new Enhancement\PlusNumbers();
+        $this->enhancements = new Enhancement\Enhancements($enhancements);
     }
 
     /**
@@ -312,10 +330,7 @@ class PHPGGC
      */
     protected function process_parameters($gc, $parameters)
     {
-        if(isset($this->parameters['wrapper']))
-            Enhancements::wrapper_include($this->parameters['wrapper']);
-
-        $parameters = Enhancements::wrapper_process_parameters($parameters);
+        $parameters = $this->enhancements->process_parameters($parameters);
         $parameters = $gc->process_parameters($parameters);
         return $parameters;
     }
@@ -326,9 +341,7 @@ class PHPGGC
     protected function process_object($gc, $object)
     {
         $object = $gc->process_object($object);
-        if(in_array('fast-destruct', $this->options))
-            $object = Enhancements::fast_destruct_process_object($object);
-        $object = Enhancements::wrapper_process_object($object);
+        $object = $this->enhancements->process_object($object);
         return $object;
     }
 
@@ -338,15 +351,7 @@ class PHPGGC
     protected function process_serialized($gc, $serialized)
     {
         $serialized = $gc->process_serialized($serialized);
-
-        # Enhancements
-        if(in_array('ascii-strings', $this->options))
-            $serialized = Enhancements::ascii_strings($serialized);
-        if(in_array('fast-destruct', $this->options))
-            $serialized = Enhancements::fast_destruct_process_serialized(
-                $serialized
-            );
-        $serialized = Enhancements::wrapper_process_serialized($serialized);
+        $serialized = $this->enhancements->process_serialized($serialized);
 
         # Phar
         if(isset($this->parameters['phar']))
@@ -473,84 +478,87 @@ class PHPGGC
      */
     protected function help()
     {
-        $this->o("");
-        $this->o("PHPGGC: PHP Generic Gadget Chains");
+        $this->o('');
+        $this->o('PHPGGC: PHP Generic Gadget Chains');
         $this->o("---------------------------------", 2);
 
-        $this->o("USAGE");
+        $this->o('USAGE');
         $this->o("  " . $this->_get_command_line(
             '[-h|-l|-i|...]',
             '<GadgetChain>',
             '[arguments]'
         ), 2);
 
-        $this->o("INFORMATION");
-        $this->o("  -h, --help Displays help");
-        $this->o("  -l, --list Lists available gadget chains");
-        $this->o("  -i, --informations");
-        $this->o("     Displays informations about a gadget chain");
-        $this->o("");
-        $this->o("OUTPUT");
-        $this->o("  -o, --output <file>");
-        $this->o("     Outputs the payload to a file instead of standard output");
-        $this->o("");
-        $this->o("PHAR");
-        $this->o("  -p, --phar <tar|zip|phar>");
-        $this->o("     Creates a PHAR file of the given format");
-        $this->o("  -pj, --phar-jpeg <file>");
-        $this->o("     Creates a polyglot JPEG/PHAR file from given image");
-        $this->o("  -pp, --phar-prefix <file>");
-        $this->o("     Sets the PHAR prefix as the contents of the given file.");
-        $this->o("     Generally used with -p phar to control the beginning of the generated file.");
-        $this->o("  -pf, --phar-filename <filename>");
-        $this->o("     Defines the name of the file contained in the generated PHAR (default: test.txt)");
-        $this->o("");
-        $this->o("ENHANCEMENTS");
-        $this->o("  -f, --fast-destruct");
-        $this->o("     Applies the fast-destruct technique, so that the object is destroyed");
-        $this->o("     right after the unserialize() call, as opposed to at the end of the");
-        $this->o("     script");
-        $this->o("  -a, --ascii-strings");
-        $this->o("     Uses the 'S' serialization format instead of the standard 's'. This");
-        $this->o("     replaces every non-ASCII value to an hexadecimal representation:");
-        $this->o("     s:5:\"A<null_byte>B<cr><lf>\"; -> S:5:\"A\\00B\\09\\0D\";");
-        $this->o("     This is experimental and it might not work in some cases.");
-        $this->o("  -w, --wrapper <wrapper>");
-        $this->o("     Specifies a file containing either or both functions:");
-        $this->o("       - process_parameters(\$parameters): called right before object is created");
-        $this->o("       - process_object(\$object): called right before the payload is serialized");
-        $this->o("       - process_serialized(\$serialized): called right after the payload is serialized");
-        $this->o("");
-        $this->o("ENCODING");
-        $this->o("  -s, --soft   Soft URLencode");
-        $this->o("  -u, --url    URLencodes the payload");
-        $this->o("  -b, --base64 Converts the output into base64");
-        $this->o("  -j, --json   Converts the output into json");
-        $this->o("  Encoders can be chained, for instance -b -u -u base64s the payload,");
-        $this->o("  then URLencodes it twice");
-        $this->o("");
-        $this->o("CREATION");
-        $this->o("  -n, --new <framework> <type>");
-        $this->o("    Creates the file structure for a new gadgetchain for given framework");
-        $this->o("    Example: ./phpggc -n Drupal RCE");
-        $this->o("  --test-payload");
-        $this->o("    Instead of displaying or storing the payload, includes vendor/autoload.php and unserializes the payload.");
-        $this->o("    The test script can only deserialize __destruct, __wakeup, __toString and PHAR payloads.");
-        $this->o("    Warning: This will run your payload on YOUR system !");
-        $this->o("");
+        $this->o('INFORMATION');
+        $this->o('  -h, --help Displays help');
+        $this->o('  -l, --list Lists available gadget chains');
+        $this->o('  -i, --informations');
+        $this->o('     Displays informations about a gadget chain');
+        $this->o('');
+        $this->o('OUTPUT');
+        $this->o('  -o, --output <file>');
+        $this->o('     Outputs the payload to a file instead of standard output');
+        $this->o('');
+        $this->o('PHAR');
+        $this->o('  -p, --phar <tar|zip|phar>');
+        $this->o('     Creates a PHAR file of the given format');
+        $this->o('  -pj, --phar-jpeg <file>');
+        $this->o('     Creates a polyglot JPEG/PHAR file from given image');
+        $this->o('  -pp, --phar-prefix <file>');
+        $this->o('     Sets the PHAR prefix as the contents of the given file.');
+        $this->o('     Generally used with -p phar to control the beginning of the generated file.');
+        $this->o('  -pf, --phar-filename <filename>');
+        $this->o('     Defines the name of the file contained in the generated PHAR (default: test.txt)');
+        $this->o('');
+        $this->o('ENHANCEMENTS');
+        $this->o('  -f, --fast-destruct');
+        $this->o('     Applies the fast-destruct technique, so that the object is destroyed');
+        $this->o('     right after the unserialize() call, as opposed to at the end of the');
+        $this->o('     script');
+        $this->o('  -a, --ascii-strings');
+        $this->o('     Uses the \'S\' serialization format instead of the standard \'s\'. This');
+        $this->o('     replaces every non-ASCII value to an hexadecimal representation:');
+        $this->o('     s:5:"A<null_byte>B<cr><lf>"; -> S:5:"A\\00B\\09\\0D";');
+        $this->o('     This is experimental and it might not work in some cases.');
+        $this->o('  -n, --plus-numbers');
+        $this->o('     Adds a + symbol in front of every number symbol of the serialized string.');
+        $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":+1:{s:+1:"x";i:+3;}');
+        $this->o('  -w, --wrapper <wrapper>');
+        $this->o('     Specifies a file containing either or both functions:');
+        $this->o('       - process_parameters($parameters): called right before object is created');
+        $this->o('       - process_object($object): called right before the payload is serialized');
+        $this->o('       - process_serialized($serialized): called right after the payload is serialized');
+        $this->o('');
+        $this->o('ENCODING');
+        $this->o('  -s, --soft   Soft URLencode');
+        $this->o('  -u, --url    URLencodes the payload');
+        $this->o('  -b, --base64 Converts the output into base64');
+        $this->o('  -j, --json   Converts the output into json');
+        $this->o('  Encoders can be chained, for instance -b -u -u base64s the payload,');
+        $this->o('  then URLencodes it twice');
+        $this->o('');
+        $this->o('CREATION');
+        $this->o('  -N, --new <framework> <type>');
+        $this->o('    Creates the file structure for a new gadgetchain for given framework');
+        $this->o('    Example: ./phpggc -n Drupal RCE');
+        $this->o('  --test-payload');
+        $this->o('    Instead of displaying or storing the payload, includes vendor/autoload.php and unserializes the payload.');
+        $this->o('    The test script can only deserialize __destruct, __wakeup, __toString and PHAR payloads.');
+        $this->o('    Warning: This will run your payload on YOUR system !');
+        $this->o('');
 
-        $this->o("EXAMPLES");
-        $this->o("  " . $this->_get_command_line(
+        $this->o('EXAMPLES');
+        $this->o('  ' . $this->_get_command_line(
             'Laravel/RCE1',
             'system',
             'id'
         ));
-        $this->o("  " . $this->_get_command_line(
+        $this->o('  ' . $this->_get_command_line(
             'SwiftMailer/FW1',
             '/var/www/html/shell.php',
             '/path/to/local/shell.php'
         ));
-        $this->o("");
+        $this->o('');
 
         exit(0);
     }
@@ -584,6 +592,7 @@ class PHPGGC
             # Enhancements
             'fast-destruct' => false,
             'ascii-strings' => false,
+            'plus-numbers' => false,
             # Encoders
             'soft' => false,
             'json' => false,
@@ -600,9 +609,11 @@ class PHPGGC
 
         $abbreviations = [
             'test-payload' => false,
+            'plus-numbers' => 'n',
             'phar-jpeg' => 'pj',
             'phar-prefix' => 'pp',
             'phar-filename' => 'pf',
+            'new' => 'N'
         ] + $abbreviations;
 
         # If we are in this function, the argument starts with a dash, so we
