@@ -180,6 +180,11 @@ Uses the `S` serialization format instead of the standard `s`. This replaces eve
 This can be useful when for some reason non-ascii characters are not allowed (NULL BYTE for instance). Since payloads generally contain them, this makes sure that the payload consists only of ASCII values.
 *Note: this is experimental and it might not work in some cases.*
 
+### Plus Numbers
+
+Sometimes, PHP scripts verify that the given serialized payload does not contain objects by using a regex such as `/O:[0-9]+:`. This is easily bypassed using `O:+123:...` instead of `O:123:`. One can use `--plus-numbers <types>`, or `-n <types>`, to automatically add these `+` signs in front of symbols.
+For instance, to obfuscate objects and strings, one can use: `--n Os`.
+
 
 # API
 
