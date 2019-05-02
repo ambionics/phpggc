@@ -3,10 +3,11 @@
 namespace PHPGGC\Enhancement;
 
 /**
- * Adds a + (plus) symbol before every integer symbol of the serialized object.
- * For instance,
- * O:3:"Abc":1:{s:1:"x";i:3;} becomes
- * O:+3:"Abc":+1:{s:+1:"x";i:+3;}
+ * Adds a + (plus) symbol before every integer symbol of given type.
+ * For instance, with 'Osi',
+ * O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":+1:{s:+1:"x";i:+3;}
+ * With 's':
+ * O:3:"Abc":1:{s:1:"x";i:3;} -> O:3:"Abc":1:{s:+1:"x";i:3;}
  */
 class PlusNumbers extends Enhancement
 {

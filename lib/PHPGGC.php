@@ -524,7 +524,7 @@ class PHPGGC
         $this->o('     This is experimental and it might not work in some cases.');
         $this->o('  -n, --plus-numbers <types>');
         $this->o('     Adds a + symbol in front of every number symbol of the given type.');
-        $this->o('     For instance, -n iO:');
+        $this->o('     For instance, -n iO adds a + in front of every int and object name size:');
         $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":1:{s:1:"x";i:+3;}');
         $this->o('  -w, --wrapper <wrapper>');
         $this->o('     Specifies a file containing either or both functions:');
