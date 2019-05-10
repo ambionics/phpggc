@@ -1,6 +1,6 @@
 <?php
 
-namespace GadgetChain\WordPress\WooCommerce;
+namespace GadgetChain\WordPress\P\WooCommerce;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
