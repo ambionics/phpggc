@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Some notes about how WordPress process stuff, hopeful saving you some sanity when trying Gadgets.
+	Some notes about how WordPress processes stuff, hopeful saving you some sanity when trying Gadgets.
 
 	In the Front-end, when WordPress is loaded (via wp-load.php), all $_GET and $_POST
 	are passed through add_magic_quotes() [1] which will then call addslashes() [2]. So if the payload is retrieved from
