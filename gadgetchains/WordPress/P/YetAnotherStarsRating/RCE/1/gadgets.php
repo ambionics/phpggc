@@ -1,22 +1,6 @@
 <?php
 
-// WordPress - https://github.com/WordPress/WordPress/blob/6fd8080e7ee7599b36d4528f72a8ced612130b8c/wp-includes/Requests/Utility/FilteredIterator.php
-class Requests_Utility_FilteredIterator extends ArrayIterator {
-	protected $callback;
-
-  	public function __construct($data, $callback) {
-		parent::__construct($data);
-		$this->callback = $callback;
-  	}
-
-  	/*
-  	public function current() {
-		$value = parent::current();
-		$value = call_user_func($this->callback, $value);
-		return $value;
-	}
-	*/
-}
+require_once(DIR_GADGETCHAINS . '/WordPress/wordpress_gadgets.php');
 
 // https://plugins.trac.wordpress.org/browser/yet-another-stars-rating/tags/1.8.6/lib/yasr-shortcode-functions.php#L169 
 /*
