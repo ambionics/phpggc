@@ -1,6 +1,6 @@
 <?php
 
-require_once(DIR_GADGETCHAINS . '/WordPress/wordpress_gadgets.php');
+require_once(DIR_GADGETCHAINS . '/WordPress/generic/gadgets.php');
 
 // https://plugins.trac.wordpress.org/browser/yet-another-stars-rating/tags/1.8.6/lib/yasr-shortcode-functions.php#L169 
 /*

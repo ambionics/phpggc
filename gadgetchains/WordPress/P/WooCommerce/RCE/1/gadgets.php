@@ -1,6 +1,6 @@
 <?php
 
-require_once(DIR_GADGETCHAINS . '/WordPress/wordpress_gadgets.php');
+require_once(DIR_GADGETCHAINS . '/WordPress/generic/gadgets.php');
 
 // WooCommerce - https://plugins.trac.wordpress.org/browser/woocommerce/trunk/includes/log-handlers/class-wc-log-handler-file.php
 class WC_Log_Handler_File {
