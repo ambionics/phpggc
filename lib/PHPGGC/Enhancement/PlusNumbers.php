@@ -8,6 +8,8 @@ namespace PHPGGC\Enhancement;
  * O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":+1:{s:+1:"x";i:+3;}
  * With 's':
  * O:3:"Abc":1:{s:1:"x";i:3;} -> O:3:"Abc":1:{s:+1:"x";i:3;}
+ *
+ * Note: Since PHP 7.2, only i and d (float) types can have a +.
  */
 class PlusNumbers extends Enhancement
 {

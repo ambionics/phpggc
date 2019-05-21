@@ -526,6 +526,7 @@ class PHPGGC
         $this->o('     Adds a + symbol in front of every number symbol of the given type.');
         $this->o('     For instance, -n iO adds a + in front of every int and object name size:');
         $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":1:{s:1:"x";i:+3;}');
+        $this->o('     Note: Since PHP 7.2, only i and d (float) types can have a +');
         $this->o('  -w, --wrapper <wrapper>');
         $this->o('     Specifies a file containing either or both functions:');
         $this->o('       - process_parameters($parameters): called right before object is created');
