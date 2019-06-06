@@ -85,10 +85,16 @@ class PHPGGC
      */
     public function output_payload($payload)
     {
-        if(!isset($this->parameters['output']))
-            print($payload . "\n");
+        if(!isset($this->parameters['output'])) 
+        {
+            print($payload);
+            if (!isset($this->parameters['phar']))
+                print("\n");
+        }
         else
+        {
             file_put_contents($this->parameters['output'], $payload);
+        }
     }
 
     /**
