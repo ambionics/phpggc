@@ -1,6 +1,6 @@
 <?php
 
-namespace GadgetChain\WordPress\YetAnotherStarsRating;
+namespace GadgetChain\WordPress\P\YetAnotherStarsRating;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {

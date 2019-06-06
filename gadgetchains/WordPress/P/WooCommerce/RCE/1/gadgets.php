@@ -1,5 +1,7 @@
 <?php
 
+require_once(DIR_GADGETCHAINS . '/WordPress/generic/gadgets.php');
+
 // WooCommerce - https://plugins.trac.wordpress.org/browser/woocommerce/trunk/includes/log-handlers/class-wc-log-handler-file.php
 class WC_Log_Handler_File {
 	protected $handles = array();
@@ -16,24 +18,6 @@ class WC_Log_Handler_File {
 				fclose( $handle ); // @codingStandardsIgnoreLine.
 			}
 		}
-	}
-	*/
-}
-
-// WordPress - https://github.com/WordPress/WordPress/blob/6fd8080e7ee7599b36d4528f72a8ced612130b8c/wp-includes/Requests/Utility/FilteredIterator.php
-class Requests_Utility_FilteredIterator extends ArrayIterator {
-	protected $callback;
-
-	public function __construct($data, $callback) {
-		parent::__construct($data);
-		$this->callback = $callback;
-	}
-
-	/*
-	public function current() {
-		$value = parent::current();
-		$value = call_user_func($this->callback, $value);
-		return $value;
 	}
 	*/
 }
