@@ -89,7 +89,7 @@ class PHPGGC
         {
             print($payload);
             if (!isset($this->parameters['phar']))
-                print('\n');
+                print("\n");
         }
         else
         {
