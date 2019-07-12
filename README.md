@@ -2,7 +2,7 @@
 
 *PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically*.
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them. It can be seen as the equivalent of [frohoff's ysoserial](https://github.com/frohoff/ysoserial), but for PHP.
-Currently, the tool supports: CodeIgniter4, Doctrine, Drupal7, Guzzle, Laravel, Magento, Monolog, Phalcon, Slim, SwiftMailer, Symfony, Yii and ZendFramework.
+Currently, the tool supports: CodeIgniter4, Doctrine, Drupal7, Guzzle, Laravel, Magento, Monolog, Phalcon, Podio, Slim, SwiftMailer, Symfony, Wordpress, Yii and ZendFramework.
 
 
 ## Requirements
@@ -20,6 +20,7 @@ $ ./phpggc -l
 Gadget Chains
 -------------
 
+NAME                                      VERSION               TYPE             VECTOR         I    
 CodeIgniter4/RCE1                         4.0.0-beta.1 <= ?     rce              __destruct          
 Doctrine/FW1                              ?                     file_write       __toString     *    
 Drupal7/FD1                               7.0 < ?               file_delete      __destruct     *    
@@ -36,7 +37,9 @@ Magento/SQLI1                             ? <= 1.9.4.0          sql_injection   
 Monolog/RCE1                              1.18 <= 1.23          rce              __destruct          
 Monolog/RCE2                              1.5 <= 1.17           rce              __destruct          
 Phalcon/RCE1                              <= 1.2.2              rce              __wakeup       *    
+Pydio/Guzzle/RCE1                         < 8.2.2               rce              __toString          
 Slim/RCE1                                 3.8.1                 rce              __toString          
+SwiftMailer/FD1                           -5.4.12+, -6.2.1+     file_delete      __destruct          
 SwiftMailer/FW1                           5.1.0 <= 5.4.8        file_write       __toString          
 SwiftMailer/FW2                           6.0.0 <= 6.0.1        file_write       __toString          
 SwiftMailer/FW3                           5.0.1                 file_write       __toString          
@@ -45,15 +48,15 @@ Symfony/FW1                               2.5.2                 file_write      
 Symfony/FW2                               3.4                   file_write       __destruct          
 Symfony/RCE1                              3.3                   rce              __destruct     *    
 Symfony/RCE2                              2.3.42 < 2.6          rce              __destruct     *    
-Symfony/RCE3                              2.6 <= 2.8.32         rce              __destruct     *           
-WordPress/Guzzle/RCE1                     4.0.0 <= 6.3.3+       rce              __toString     *            
+Symfony/RCE3                              2.6 <= 2.8.32         rce              __destruct     *    
+WordPress/Guzzle/RCE1                     4.0.0 <= 6.3.3+       rce              __toString     *    
 WordPress/P/WooCommerce/RCE1              3.4.0 <= 3.6.2+       rce              __destruct     *    
-WordPress/P/YetAnotherStarsRating/RCE1    ? <= 1.8.6            rce              __destruct     *             
+WordPress/P/YetAnotherStarsRating/RCE1    ? <= 1.8.6            rce              __destruct     *    
 Yii/RCE1                                  1.1.20                rce              __wakeup       *    
 ZendFramework/FD1                         ? <= 1.12.20          file_delete      __destruct          
 ZendFramework/RCE1                        ? <= 1.12.20          rce              __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20    rce              __toString     *    
-ZendFramework/RCE3                        2.0.1 <= ?            rce              __destruct            
+ZendFramework/RCE3                        2.0.1 <= ?            rce              __destruct         
 ```
 
 Every gadget chain has:
