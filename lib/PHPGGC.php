@@ -164,9 +164,10 @@ class PHPGGC
             new RecursiveDirectoryIterator(DIR_GADGETCHAINS),
             RecursiveIteratorIterator::LEAVES_ONLY
         );
+        $regex = '#' . preg_quote(DIRECTORY_SEPARATOR) . 'chain.php$#';
         foreach ($iterator as $filename)
         {
-            if(preg_match('#/chain.php#', $filename))
+            if(preg_match($regex, $filename))
                 include_once $filename;
         }
     }
