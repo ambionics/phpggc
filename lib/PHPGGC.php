@@ -166,7 +166,7 @@ class PHPGGC
         );
         foreach ($iterator as $filename)
         {
-            if(preg_match('#/chain.php#', $filename))
+            if(preg_match('#[/\\\\]chain.php$#', $filename))
                 include_once $filename;
         }
     }
