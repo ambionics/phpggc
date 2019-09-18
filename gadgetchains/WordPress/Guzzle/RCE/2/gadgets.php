@@ -17,6 +17,7 @@ namespace GuzzleHttp\Cookie
         }
 
         /*
+
         public function __toString()
         {
             $str = $this->data['Name'] . '=' . $this->data['Value'] . '; ';
@@ -31,6 +32,7 @@ namespace GuzzleHttp\Cookie
             }
             return rtrim($str, '; ');
         }
+        
         */
     }
 class FileCookieJar
@@ -41,26 +43,29 @@ class FileCookieJar
         {
             $this->filename = $cookieFile;
         }
-                /*
-            public function __destruct()
-            {
-            $this->save($this->filename);
-            }
-            public function save($filename)
-        {
-                $json = [];
-                foreach ($this as $cookie) {
-                    if (\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
-                        $json[] = $cookie->toArray();
-                }
-                }
-            $jsonStr = \GuzzleHttp\json_encode($json);
-                if (\false === \file_put_contents($filename, $jsonStr)) {
-                    throw new \RuntimeException("Unable to save file {$filename}");
-            }
-            }
-                */
 
+        /*
+        
+        public function __destruct()
+        {
+            $this->save($this->filename);
+        }
+
+        public function save($filename)
+        {
+            $json = [];
+            foreach ($this as $cookie) {
+                if (\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
+                    $json[] = $cookie->toArray();
+                }
+            }
+            $jsonStr = \GuzzleHttp\json_encode($json);
+            if (\false === \file_put_contents($filename, $jsonStr)) {
+                throw new \RuntimeException("Unable to save file {$filename}");
+            }
+        }
+
+        */
     }
 
 }
