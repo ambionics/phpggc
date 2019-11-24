@@ -32,6 +32,8 @@ Laravel/RCE1                              5.4.27                rce             
 Laravel/RCE2                              5.5.39                rce              __destruct          
 Laravel/RCE3                              5.5.39                rce              __destruct     *    
 Laravel/RCE4                              5.5.39                rce              __destruct          
+Laravel/RCE5                              5.8.30                rce              __destruct     *    
+Laravel/RCE6                              5.5.*                 rce              __destruct     *    
 Magento/FW1                               ? <= 1.9.4.0          file_write       __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0          sql_injection    __destruct          
 Monolog/RCE1                              1.18 <= 1.23          rce              __destruct          
@@ -49,14 +51,16 @@ Symfony/FW2                               3.4                   file_write      
 Symfony/RCE1                              3.3                   rce              __destruct     *    
 Symfony/RCE2                              2.3.42 < 2.6          rce              __destruct     *    
 Symfony/RCE3                              2.6 <= 2.8.32         rce              __destruct     *    
-WordPress/Guzzle/RCE1                     4.0.0 <= 6.3.3+       rce              __toString     *    
+ThinkPHP/RCE1                             5.1.x-5.2.x           rce              __destruct     *    
+WordPress/Guzzle/RCE1                     4.0.0 <= 6.4.1+       rce              __toString     *    
+WordPress/Guzzle/RCE2                     4.0.0 <= 6.4.1+       rce              __destruct     *    
 WordPress/P/WooCommerce/RCE1              3.4.0 <= 3.6.2+       rce              __destruct     *    
 WordPress/P/YetAnotherStarsRating/RCE1    ? <= 1.8.6            rce              __destruct     *    
 Yii/RCE1                                  1.1.20                rce              __wakeup       *    
 ZendFramework/FD1                         ? <= 1.12.20          file_delete      __destruct          
 ZendFramework/RCE1                        ? <= 1.12.20          rce              __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20    rce              __toString     *    
-ZendFramework/RCE3                        2.0.1 <= ?            rce              __destruct         
+ZendFramework/RCE3                        2.0.1 <= ?            rce              __destruct     
 ```
 
 Every gadget chain has:
