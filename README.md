@@ -28,6 +28,7 @@ Drupal7/RCE1                              7.0.8 < ?                      rce    
 Guzzle/FW1                                6.0.0 <= 6.3.3+                file_write       __destruct
 Guzzle/INFO1                              6.0.0 <= 6.3.2                 phpinfo()        __destruct     *
 Guzzle/RCE1                               6.0.0 <= 6.3.2                 rce              __destruct     *
+Laminas/FD1                               <= 2.11.2                      file_delete      __destruct
 Laravel/RCE1                              5.4.27                         rce              __destruct
 Laravel/RCE2                              5.5.39                         rce              __destruct
 Laravel/RCE3                              5.5.39                         rce              __destruct     *
