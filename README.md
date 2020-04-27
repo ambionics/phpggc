@@ -37,8 +37,9 @@ Laravel/RCE5                              5.8.30                         rce    
 Laravel/RCE6                              5.5.*                          rce              __destruct     *
 Magento/FW1                               ? <= 1.9.4.0                   file_write       __destruct     *
 Magento/SQLI1                             ? <= 1.9.4.0                   sql_injection    __destruct
-Monolog/RCE1                              1.18 <= 1.23                   rce              __destruct
+Monolog/RCE1                              1.18 <= 2.0.2                  rce              __destruct
 Monolog/RCE2                              1.5 <= 1.17                    rce              __destruct
+Monolog/RCE3                              < 1.11.0                       rce              __destruct
 Phalcon/RCE1                              <= 1.2.2                       rce              __wakeup       *
 Pydio/Guzzle/RCE1                         < 8.2.2                        rce              __toString
 Slim/RCE1                                 3.8.1                          rce              __toString
