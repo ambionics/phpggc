@@ -28,6 +28,7 @@ Drupal7/RCE1                              7.0.8 < ?                      rce    
 Guzzle/FW1                                6.0.0 <= 6.3.3+                file_write       __destruct
 Guzzle/INFO1                              6.0.0 <= 6.3.2                 phpinfo()        __destruct     *
 Guzzle/RCE1                               6.0.0 <= 6.3.2                 rce              __destruct     *
+Laminas/FD1                               <= 2.11.2                      file_delete      __destruct
 Laravel/RCE1                              5.4.27                         rce              __destruct
 Laravel/RCE2                              5.5.39                         rce              __destruct
 Laravel/RCE3                              5.5.39                         rce              __destruct     *
@@ -36,8 +37,9 @@ Laravel/RCE5                              5.8.30                         rce    
 Laravel/RCE6                              5.5.*                          rce              __destruct     *
 Magento/FW1                               ? <= 1.9.4.0                   file_write       __destruct     *
 Magento/SQLI1                             ? <= 1.9.4.0                   sql_injection    __destruct
-Monolog/RCE1                              1.18 <= 1.23                   rce              __destruct
+Monolog/RCE1                              1.18 <= 2.0.2                  rce              __destruct
 Monolog/RCE2                              1.5 <= 1.17                    rce              __destruct
+Monolog/RCE3                              < 1.11.0                       rce              __destruct
 Phalcon/RCE1                              <= 1.2.2                       rce              __wakeup       *
 Pydio/Guzzle/RCE1                         < 8.2.2                        rce              __toString
 Slim/RCE1                                 3.8.1                          rce              __toString
