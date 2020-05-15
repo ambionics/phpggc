@@ -68,6 +68,24 @@ ZendFramework/RCE3                        2.0.1 <= ?                     rce    
 
 ```
 
+Filter gadget chains:
+
+```
+$ ./phpggc -l laravel
+
+Gadget Chains
+-------------
+
+NAME                                      VERSION                        TYPE             VECTOR         I    
+Laravel/RCE1                              5.4.27                         rce              __destruct          
+Laravel/RCE2                              5.5.39                         rce              __destruct          
+Laravel/RCE3                              5.5.39                         rce              __destruct     *    
+Laravel/RCE4                              5.5.39                         rce              __destruct          
+Laravel/RCE5                              5.8.30                         rce              __destruct     *    
+Laravel/RCE6                              5.5.*                          rce              __destruct     *    
+
+```
+
 Every gadget chain has:
 
 - Name: Name of the framework/library
