@@ -6,11 +6,14 @@ namespace CodeIgniter\Cache\Handlers {
         public function __construct($func, $param) {
             $this->redis = new \CodeIgniter\Session\Handlers\MemcachedHandler(
                 new \CodeIgniter\Model(
-                    new \CodeIgniter\Database\BaseBuilder,
+                    new \CodeIgniter\Database\BaseBuilder(
+                        new \CodeIgniter\Database\MySQLi\Connection
+                    ),
                     new \CodeIgniter\Validation\Validation,
-                    $func
+                    $func,
+                    new \CodeIgniter\Database\MySQLi\Connection
                 ),
-                $param
+                array("x" => $param)
             );
         }
     }
@@ -36,17 +39,20 @@ namespace CodeIgniter {
         protected $validationRules;
         protected $validation;
 
-        public function __construct($builder, $validation, $func) {
+        public function __construct($builder, $validation, $func, $db) {
             $this->builder = $builder;
             $this->primaryKey = null;
 
             $this->beforeDelete = array();
             $this->beforeDelete[] = "validate";
 
+            $this->db = $db;
+
+            $this->cleanValidationRules = false;
             $this->validation = $validation;
             $this->validationRules = array(
-                "id" => array(
-                    "rules" => array($func)
+                "id.x" => array(
+                    "rules" => array($func, "dd") // function "dd" exits the script.
                 )
             );
         }
@@ -65,7 +71,15 @@ namespace CodeIgniter\Validation {
 
 namespace CodeIgniter\Database {
     class BaseBuilder { 
+        public function __construct($db) {
+            $this->QBFrom = array("()");
+            $this->db = $db;
+        }
     }
 }
 
+namespace CodeIgniter\Database\MySQLi {
+    class Connection {
+    }
+}
 
