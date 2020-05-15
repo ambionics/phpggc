@@ -451,7 +451,7 @@ class PHPGGC
     /**
      * Displays a list of gadget chains.
      */
-    protected function list_gc()
+    protected function list_gc($filter)
     {
         $this->o("");
         $this->o("Gadget Chains");
@@ -468,6 +468,8 @@ class PHPGGC
         $data = [];
         foreach($this->chains as $chain)
         {
+            if($filter && stripos($chain::get_name(), $filter) === false)
+                continue;
             $data[] = [
                 $chain::get_name(),
                 $chain::$version,
@@ -500,7 +502,7 @@ class PHPGGC
 
         $this->o('INFORMATION');
         $this->o('  -h, --help Displays help');
-        $this->o('  -l, --list Lists available gadget chains');
+        $this->o('  -l, --list [filter] Lists available gadget chains');
         $this->o('  -i, --informations');
         $this->o('     Displays informations about a gadget chain');
         $this->o('');
@@ -559,6 +561,12 @@ class PHPGGC
         $this->o('');
 
         $this->o('EXAMPLES');
+        $this->o('  ' . $this->_get_command_line(
+            '-l'
+        ));
+        $this->o('  ' . $this->_get_command_line(
+            '-l drupal'
+        ));
         $this->o('  ' . $this->_get_command_line(
             'Laravel/RCE1',
             'system',
@@ -706,7 +714,7 @@ class PHPGGC
             switch($option)
             {
                 case 'list':
-                    $this->list_gc();
+                    $this->list_gc(count($arguments) ? $arguments[0]: null);
                     return;
                 case 'help':
                     $this->help();
