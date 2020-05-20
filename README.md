@@ -56,7 +56,7 @@ Symfony/RCE2                              2.3.42 < 2.6                   rce    
 Symfony/RCE3                              2.6 <= 2.8.32                  rce              __destruct     *    
 Symfony/RCE4                              3.4.0-34, 4.2.0-11, 4.3.0-7    rce              __destruct     *    
 ThinkPHP/RCE1                             5.1.x-5.2.x                    rce              __destruct     *    
-WordPress/Dompdf/RCE1                     <= 0.8.5+                      rce              __destruct     *    
+WordPress/Dompdf/RCE1                     0.8.5+                         rce              __destruct     *    
 WordPress/Dompdf/RCE2                     0.7.0 <= 0.8.4                 rce              __destruct     *    
 WordPress/Guzzle/RCE1                     4.0.0 <= 6.4.1+                rce              __toString     *    
 WordPress/Guzzle/RCE2                     4.0.0 <= 6.4.1+                rce              __destruct     *    
