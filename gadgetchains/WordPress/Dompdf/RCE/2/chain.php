@@ -4,7 +4,7 @@ namespace GadgetChain\WordPress\Dompdf;
 
 class RCE2 extends \PHPGGC\GadgetChain\RCE
 {
-    public static $version = '0.7.0 < 0.8.4';
+    public static $version = '0.7.0 <= 0.8.4';
     public static $vector = '__destruct';
     public static $author = 'erwan_lr';
     public static $informations = '
