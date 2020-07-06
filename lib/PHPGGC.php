@@ -623,7 +623,7 @@ class PHPGGC
 
         foreach($valid_arguments as $k => $v)
         {
-            $abbreviations[$k] = $k{0};
+            $abbreviations[$k] = $k[0];
         }
 
         $abbreviations = [
@@ -700,7 +700,7 @@ class PHPGGC
                 break;
             }
             # This is a parameter or an option
-            if(strlen($arg) >= 2 && $arg{0} == '-')
+            if(strlen($arg) >= 2 && $arg[0] == '-')
                 $this->_parse_cmdline_arg($i, $argv, $parameters, $options);
             # This is a value
             else
