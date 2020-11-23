@@ -44,6 +44,7 @@ Monolog/RCE3                              1.1.0 <= 1.10.0                rce    
 Phalcon/RCE1                              <= 1.2.2                       rce              __wakeup       *    
 Pydio/Guzzle/RCE1                         < 8.2.2                        rce              __toString          
 Slim/RCE1                                 3.8.1                          rce              __toString          
+smarty/RCE1                               test                           rce              __destruct          
 SwiftMailer/FD1                           -5.4.12+, -6.2.1+              file_delete      __destruct          
 SwiftMailer/FW1                           5.1.0 <= 5.4.8                 file_write       __toString          
 SwiftMailer/FW2                           6.0.0 <= 6.0.1                 file_write       __toString          
@@ -69,7 +70,9 @@ Yii/RCE1                                  1.1.20                         rce    
 ZendFramework/FD1                         ? <= 1.12.20                   file_delete      __destruct          
 ZendFramework/RCE1                        ? <= 1.12.20                   rce              __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20             rce              __toString     *    
-ZendFramework/RCE3                        2.0.1 <= ?                     rce              __destruct       
+ZendFramework/RCE3                        2.0.1 <= ?                     rce              __destruct          
+ZendFramework/RCE4                        ? <= 1.12.20                   rce              __destruct     *    
+
 
 ```
 
