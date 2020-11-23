@@ -63,6 +63,7 @@ WordPress/Guzzle/RCE2                     4.0.0 <= 6.4.1+                rce    
 WordPress/P/EmailSubscribers/RCE1         4.0 <= 4.4.7+                  rce              __destruct     *    
 WordPress/P/EverestForms/RCE1             1.0 <= 1.6.7+                  rce              __destruct     *    
 WordPress/P/WooCommerce/RCE1              3.4.0 <= 4.1.0+                rce              __destruct     *    
+WordPress/P/WooCommerce/RCE2              <= 3.4.0                       rce              __destruct     *    
 WordPress/P/YetAnotherStarsRating/RCE1    ? <= 1.8.6                     rce              __destruct     *    
 Yii/RCE1                                  1.1.20                         rce              __wakeup       *    
 ZendFramework/FD1                         ? <= 1.12.20                   file_delete      __destruct          
