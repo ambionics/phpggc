@@ -2,7 +2,7 @@
 
 *PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically*.
 When encountering an unserialize on a website you don't have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them. It can be seen as the equivalent of [frohoff's ysoserial](https://github.com/frohoff/ysoserial), but for PHP.
-Currently, the tool supports: CodeIgniter4, Doctrine, Drupal7, Guzzle, Laravel, Magento, Monolog, Phalcon, Podio, Slim, SwiftMailer, Symfony, Wordpress, Yii and ZendFramework.
+Currently, the tool supports gadget chains such as: CodeIgniter4, Doctrine, Drupal7, Guzzle, Laravel, Magento, Monolog, Phalcon, Podio, Slim, SwiftMailer, Symfony, Wordpress, Yii and ZendFramework.
 
 
 ## Requirements
@@ -56,6 +56,7 @@ Symfony/RCE1                              3.3                            rce    
 Symfony/RCE2                              2.3.42 < 2.6                   rce              __destruct     *    
 Symfony/RCE3                              2.6 <= 2.8.32                  rce              __destruct     *    
 Symfony/RCE4                              3.4.0-34, 4.2.0-11, 4.3.0-7    rce              __destruct     *    
+TCPDF/FD1                                 <= 6.3.5                       file_delete      __destruct     *  
 ThinkPHP/RCE1                             5.1.x-5.2.x                    rce              __destruct     *    
 WordPress/Dompdf/RCE1                     <= 0.8.5+                      rce              __destruct     *    
 WordPress/Dompdf/RCE2                     0.7.0 <= 0.8.4                 rce              __destruct     *    
