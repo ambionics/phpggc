@@ -8,7 +8,9 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
     public static $vector = '__destruct';
     public static $author = 'timoles';
     public static $informations = '
-        TCPDF contains the varialbe "imagekeys" which excepts an array of strings. Upon __destruct an "unlink()" is called on all filepaths within the imagekeys array.';
+        TCPDF contains the variable "imagekeys" which expects an array of strings. Upon __destruct an "unlink()" is 
+        called on all filepaths within the imagekeys array.
+    ';
     public static $parameters = [
         'remote_file'
     ];
