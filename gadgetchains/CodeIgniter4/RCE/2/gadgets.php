@@ -39,6 +39,7 @@ namespace CodeIgniter {
         protected $beforeDelete;
         protected $validationRules;
         protected $validation;
+        protected $tempAllowCallbacks;
 
         public function __construct($builder, $validation, $func, $db) {
             $this->builder = $builder;
@@ -47,6 +48,7 @@ namespace CodeIgniter {
             $this->beforeDelete = array();
             $this->beforeDelete[] = "validate";
 
+            $this->tempAllowCallbacks = "notnull";
             $this->db = $db;
 
             $this->cleanValidationRules = false;
