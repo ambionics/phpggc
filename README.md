@@ -36,6 +36,7 @@ Laravel/RCE3                              5.5.39                         rce    
 Laravel/RCE4                              5.5.39                         rce              __destruct          
 Laravel/RCE5                              5.8.30                         rce              __destruct     *    
 Laravel/RCE6                              5.5.*                          rce              __destruct     *    
+Laravel/RCE7                              ? <= 8.16.1                    rce              __destruct     *
 Magento/FW1                               ? <= 1.9.4.0                   file_write       __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0                   sql_injection    __destruct          
 Monolog/RCE1                              1.18 <= 2.0.2                  rce              __destruct          
