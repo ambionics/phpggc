@@ -48,7 +48,7 @@ namespace CodeIgniter {
             $this->beforeDelete = array();
             $this->beforeDelete[] = "validate";
 
-            $this->tempAllowCallbacks = "notnull";
+            $this->tempAllowCallbacks = 1;
             $this->db = $db;
 
             $this->cleanValidationRules = false;
