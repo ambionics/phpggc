@@ -42,6 +42,7 @@ abstract class GadgetChain
 
     # Types
     const TYPE_RCE = 'rce';
+    const TYPE_CMD = 'cmd_injection';
     const TYPE_FI = 'file_include';
     const TYPE_FR = 'file_read';
     const TYPE_FW = 'file_write';
