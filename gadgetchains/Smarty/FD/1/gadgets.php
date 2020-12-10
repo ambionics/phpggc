@@ -59,12 +59,6 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase{
         $this->cached->setlock($lock_id);
     }
 
-    public function __destruct()
-    {
-        if ($this->smarty->cache_locking && isset($this->cached) && $this->cached->is_locked) {
-            $this->cached->handler->releaseLock($this->smarty, $this->cached);
-        }
-    }
 }
 
 class iaSmarty{
