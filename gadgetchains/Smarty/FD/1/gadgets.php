@@ -1,7 +1,8 @@
 <?php
 
 abstract class Smarty_CacheResource
-{}
+{
+}
 
 class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
 {
@@ -32,7 +33,6 @@ class Smarty_Template_Cached
 
 class Smarty_Internal_TemplateBase
 {
-
 }
 
 class Smarty extends Smarty_Internal_TemplateBase
