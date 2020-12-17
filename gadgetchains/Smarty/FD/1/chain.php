@@ -13,9 +13,6 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        $object = new \Smarty_Internal_Template();
-        $object->setlock($parameters['remote_file']);
-
-        return $object;
+        return new \Smarty_Internal_Template($parameters['remote_file']);
     }
 }

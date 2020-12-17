@@ -31,9 +31,12 @@ class Smarty_Template_Cached
 }
 
 class Smarty_Internal_TemplateBase
-{}
+{
 
-class Smarty extends Smarty_Internal_TemplateBase{
+}
+
+class Smarty extends Smarty_Internal_TemplateBase
+{
     public $cache_locking = true;
     public $cache_dir;
     public $use_sub_dirs;
@@ -45,24 +48,22 @@ class Smarty extends Smarty_Internal_TemplateBase{
     }
 }
 
-class Smarty_Internal_Template extends Smarty_Internal_TemplateBase{
+class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
+{
 
     public $cached;
     public $smarty;
 
-    public function __construct(){
+    public function __construct($lock_id){
         $this->smarty = new Smarty();
         $this->cached = new Smarty_Template_Cached();
+        $this->setlock($lock_id);
     }
 
     public function setlock($lock_id){
         $this->cached->setlock($lock_id);
     }
 
-}
-
-class iaSmarty{
-    public $resources = array("jquery" => "1");
 }
 
 ?>
