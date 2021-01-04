@@ -7,7 +7,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     public static $version = '5.1.x-5.2.x';
     public static $vector = '__destruct';
     public static $author = 'Smi1e';
-    public static $informations = '
+    public static $information = '
         This chain can only execute system().
         Because the second parameter is uncontrollable
     ';

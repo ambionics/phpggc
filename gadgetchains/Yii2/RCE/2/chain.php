@@ -7,7 +7,7 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE
     public static $version = '<2.0.38';
     public static $vector = '__destruct';
     public static $author = 'RedTeam Pentesting GmbH';
-    public static $informations = 'Executes given PHP code through eval().';
+    public static $information = 'Executes given PHP code through eval().';
     public static $parameters = [ 
         'code'
     ];

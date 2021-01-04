@@ -7,7 +7,7 @@ class RCE3 extends \PHPGGC\GadgetChain\RCE
     public static $version = '2.6 <= 2.8.32';
     public static $vector = '__destruct';
     public static $author = 'crlf';
-    public static $informations = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
+    public static $information = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
     public static $parameters = [
         'code'
     ];

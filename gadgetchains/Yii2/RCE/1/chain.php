@@ -9,7 +9,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     public static $version = '<2.0.38';
     public static $vector = '__destruct';
     public static $author = 'russtone';
-    public static $informations = 'Executes $function with $parameter using call_user_func.';
+    public static $information = 'Executes $function with $parameter using call_user_func.';
 
     public function generate(array $parameters)
     {

@@ -9,7 +9,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     public static $version = '? <= 1.12.20';
     public static $vector = '__destruct';
     public static $author = 'mpchadwick'; # GC Implementation
-    public static $informations = '
+    public static $information = '
         - Uses preg_replace e modifier which has no effect in PHP >= 7.0.0
         - Payload gets executed twice
     ';

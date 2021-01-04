@@ -7,7 +7,7 @@ class RCE7 extends \PHPGGC\GadgetChain\RCE
     public static $version = '? <= 8.16.1'; // will test for more version at a later date
     public static $vector = '__destruct';
     public static $author = 'whira';
-    public static $informations = 'This chain throws a RuntimeException immediately after code execution.';
+    public static $information = 'This chain throws a RuntimeException immediately after code execution.';
 
     public function generate(array $parameters)
     {

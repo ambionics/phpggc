@@ -475,7 +475,7 @@ class PHPGGC
                 $chain::$version,
                 $chain::$type,
                 $chain::$vector,
-                ($chain::$informations ? '*' : '')
+                ($chain::$information ? '*' : '')
             ];
         }
 
@@ -503,8 +503,8 @@ class PHPGGC
         $this->o('INFORMATION');
         $this->o('  -h, --help Displays help');
         $this->o('  -l, --list [filter] Lists available gadget chains');
-        $this->o('  -i, --informations');
-        $this->o('     Displays informations about a gadget chain');
+        $this->o('  -i, --information');
+        $this->o('     Displays information about a gadget chain');
         $this->o('');
         $this->o('OUTPUT');
         $this->o('  -o, --output <file>');

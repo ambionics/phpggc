@@ -8,7 +8,7 @@ class RCE4 extends \PHPGGC\GadgetChain\RCE
     public static $vector = '__destruct';
     public static $author = 'ydyachenko';
 
-    public static $informations = '
+    public static $information = '
         - Based on ZendFramework/RCE1
         - Works on PHP >= 7.0.0
     ';
