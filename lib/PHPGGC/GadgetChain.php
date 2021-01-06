@@ -51,7 +51,6 @@ abstract class GadgetChain
     const TYPE_SQLI = 'sql_injection';
     const TYPE_INFO = 'phpinfo()';
 
-
     function __construct()
     {
         $this->load_gadgets();

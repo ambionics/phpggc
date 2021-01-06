@@ -4,9 +4,9 @@ class Smarty_Template_Cached
     public $is_locked = true;
     public function __construct($url)
     {
-		$res = parse_url($url);
+        $res = parse_url($url);
         $this->handler = new SoapClient(null, array(
-			'uri' => $res['scheme']."://".$res['host']."/",
+            'uri' => $res['scheme']."://".$res['host']."/",
             'location' => $url)
         );
     }
