@@ -6,6 +6,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
     public static $version = '<= 5.2.22';
     public static $vector = '__destruct';
+    public static $foundby = 'EgiX';
     public static $author = 'mr_me';
     public static $information = '
         This chain was used against 34 different 0day endpoints targeting Horde v5.2.22. Other versions are probably affected
