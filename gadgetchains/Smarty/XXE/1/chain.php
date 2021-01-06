@@ -1,7 +1,5 @@
 <?php
-
 namespace GadgetChain\Smarty;
-
 class XXE1 extends \PHPGGC\GadgetChain\URI
 {
     public static $version = '?';
