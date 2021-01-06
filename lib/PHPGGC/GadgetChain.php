@@ -43,12 +43,14 @@ abstract class GadgetChain
     # Types
     const TYPE_RCE = 'rce';
     const TYPE_CMD = 'cmd';
+	const TYPE_XXE = 'xxe';
     const TYPE_FI = 'file_include';
     const TYPE_FR = 'file_read';
     const TYPE_FW = 'file_write';
     const TYPE_FD = 'file_delete';
     const TYPE_SQLI = 'sql_injection';
     const TYPE_INFO = 'phpinfo()';
+
 
     function __construct()
     {
