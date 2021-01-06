@@ -1,5 +1,4 @@
 <?php
-
 namespace PHPGGC\GadgetChain;
 
 abstract class URI extends \PHPGGC\GadgetChain
@@ -9,3 +8,4 @@ abstract class URI extends \PHPGGC\GadgetChain
         'xxe_uri'
     ];
 }
+?>

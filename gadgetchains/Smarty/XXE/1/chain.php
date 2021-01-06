@@ -18,3 +18,4 @@ class XXE1 extends \PHPGGC\GadgetChain\URI
         return new \Smarty_Internal_Template($parameters['xxe_uri']);
     }
 }
+?>
