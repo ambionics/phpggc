@@ -14,7 +14,7 @@
 
 /*
 * Issue was introduced in 4.6 via "HTTP API: Replace internals with Requests library"
-* WordPress - https://github.com/WordPress/WordPress/blob/6fd8080e7ee7599b36d4528f72a8ced612130b8c/wp-includes/Requests/Utility/FilteredIterator.php
+* See https://github.com/WordPress/WordPress/blob/6fd8080e7ee7599b36d4528f72a8ced612130b8c/wp-includes/Requests/Utility/FilteredIterator.php
 * 
 * On October 29th, 2020, WP 5.5.2 was relased, fixing the issue: https://www.wordfence.com/blog/2020/11/unpacking-the-wordpress-5-5-2-5-5-3-security-release/
 *
