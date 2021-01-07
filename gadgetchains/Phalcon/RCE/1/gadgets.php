@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Di{
+namespace Phalcon\Di {
   class Service {
   	protected $_shared;
   	protected $_definition;
@@ -70,4 +70,3 @@ namespace Phalcon\Logger\Adapter {
   }
 }
 
-?>

@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Guzzle;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '6.0.0 <= 6.3.2';
     public static $vector = '__destruct';

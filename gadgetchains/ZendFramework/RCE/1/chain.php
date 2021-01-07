@@ -4,7 +4,7 @@ namespace GadgetChain\ZendFramework;
 
 // Original author: Stefan Esser (2010)
 // https://www.owasp.org/images/9/9e/Utilizing-Code-Reuse-Or-Return-Oriented-Programming-In-PHP-Application-Exploits.pdf
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '? <= 1.12.20';
     public static $vector = '__destruct';
@@ -13,9 +13,6 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
         - Uses preg_replace e modifier which has no effect in PHP >= 7.0.0
         - Payload gets executed twice
     ';
-    public static $parameters = [
-        'code'
-    ];
 
     public function generate(array $parameters)
     {

@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Laravel;
 
-class RCE5 extends \PHPGGC\GadgetChain\RCE
+class RCE5 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '5.8.30';
     public static $vector = '__destruct';
@@ -11,9 +11,6 @@ class RCE5 extends \PHPGGC\GadgetChain\RCE
         Executes given PHP code through eval().
         Requires Mockery, which is in the require-dev package. 
     ';
-    public static $parameters = [
-    	'code'
-    ];
 
     public function generate(array $parameters)
     {

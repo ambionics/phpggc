@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\P\WooCommerce;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '3.4.0 <= 4.1.0+ & WP < 5.5.2';
     public static $vector = '__destruct';

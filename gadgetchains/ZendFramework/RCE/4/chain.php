@@ -2,7 +2,7 @@
 
 namespace GadgetChain\ZendFramework;
 
-class RCE4 extends \PHPGGC\GadgetChain\RCE
+class RCE4 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '? <= 1.12.20';
     public static $vector = '__destruct';
@@ -12,9 +12,6 @@ class RCE4 extends \PHPGGC\GadgetChain\RCE
         - Based on ZendFramework/RCE1
         - Works on PHP >= 7.0.0
     ';
-    public static $parameters = [
-        'code',
-    ];
 
     public function generate(array $parameters)
     {

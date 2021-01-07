@@ -41,13 +41,16 @@ abstract class GadgetChain
     public static $information;
 
     # Types
-    const TYPE_RCE = 'rce';
-    const TYPE_CMD = 'cmd';
-    const TYPE_FI = 'file_include';
-    const TYPE_FR = 'file_read';
-    const TYPE_FW = 'file_write';
-    const TYPE_FD = 'file_delete';
-    const TYPE_SQLI = 'sql_injection';
+    const TYPE_RCE = 'RCE';
+    const TYPE_RCE_FUNCTIONCALL = 'RCE (Function call)';
+    const TYPE_RCE_PHPCODE = 'RCE (PHP code)';
+    const TYPE_RCE_COMMAND = 'RCE (Command)';
+    const TYPE_CMD = 'CMD';
+    const TYPE_SSRF = 'SSRF';
+    const TYPE_FR = 'File read';
+    const TYPE_FW = 'File write';
+    const TYPE_FD = 'File delete';
+    const TYPE_SQLI = 'SQL injection';
     const TYPE_INFO = 'phpinfo()';
 
     function __construct()

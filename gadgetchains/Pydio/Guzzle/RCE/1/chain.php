@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Pydio\Guzzle;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
   public static $version = '< 8.2.2';
   public static $vector = '__toString';

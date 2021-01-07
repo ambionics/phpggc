@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Laravel;
 
-class RCE6 extends \PHPGGC\GadgetChain\RCE
+class RCE6 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '5.5.*';
     public static $vector = '__destruct';

@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Slim;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '3.8.1';
     public static $vector = '__toString';

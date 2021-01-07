@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Drupal7;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '7.0.8 < ?';
     public static $vector = '__destruct';

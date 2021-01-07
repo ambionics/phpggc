@@ -42,10 +42,7 @@ Magento/SQLI1                             ? <= 1.9.4.0                    sql_in
 Monolog/CMD1                              ? <= 2.1.1+                     cmd              __destruct     *    
 Monolog/RCE1                              1.18 <= 2.1.1+                  rce              __destruct          
 Monolog/RCE2                              1.5 <= 2.1.1+                   rce              __destruct          
-Monolog/RCE3                              1.1.0 <= 1.10.0                 rce              __destruct          
-P/Lab/FD1                                 ?                               file_delete      delete_file         
-P/Lab/FD2                                 ?                               file_delete      __destruct          
-P/Lab/RCE1                                ?                               rce              __wakeup            
+Monolog/RCE3                              1.1.0 <= 1.10.0                 rce              __destruct                    
 Phalcon/RCE1                              <= 1.2.2                        rce              __wakeup       *    
 Pydio/Guzzle/RCE1                         < 8.2.2                         rce              __toString          
 Slim/RCE1                                 3.8.1                           rce              __toString          

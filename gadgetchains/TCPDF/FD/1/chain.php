@@ -11,9 +11,6 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
         TCPDF contains the variable "imagekeys" which expects an array of strings. Upon __destruct an "unlink()" is 
         called on all filepaths within the imagekeys array.
     ';
-    public static $parameters = [
-        'remote_file'
-    ];
 
     public function generate(array $parameters)
     {

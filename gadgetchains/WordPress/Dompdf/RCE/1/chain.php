@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\Dompdf;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '0.8.5+ & WP < 5.5.2';
     public static $vector = '__destruct';

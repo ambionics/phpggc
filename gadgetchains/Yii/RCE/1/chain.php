@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Yii;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '1.1.20';
     public static $vector = '__wakeup';
