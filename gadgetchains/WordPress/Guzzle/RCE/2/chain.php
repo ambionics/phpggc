@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\Guzzle;
 
-class RCE2 extends \PHPGGC\GadgetChain\RCE
+class RCE2 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '4.0.0 <= 6.4.1+';
     public static $vector = '__destruct';

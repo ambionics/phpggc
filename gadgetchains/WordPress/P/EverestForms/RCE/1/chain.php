@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\P\EverestForms;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '1.0 <= 1.6.7+';
     public static $vector = '__destruct';

@@ -4,7 +4,7 @@ namespace GadgetChain\Yii2;
 
 
 // CVE-2020-15148
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '<2.0.38';
     public static $vector = '__destruct';

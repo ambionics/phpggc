@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Yii2;
 
-class RCE2 extends \PHPGGC\GadgetChain\RCE
+class RCE2 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '<2.0.38';
     public static $vector = '__destruct';

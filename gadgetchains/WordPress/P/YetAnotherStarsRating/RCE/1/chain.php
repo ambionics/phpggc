@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\P\YetAnotherStarsRating;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '? <= 1.8.6';
     public static $vector = '__destruct';

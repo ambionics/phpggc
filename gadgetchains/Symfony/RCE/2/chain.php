@@ -2,15 +2,12 @@
 
 namespace GadgetChain\Symfony;
 
-class RCE2 extends \PHPGGC\GadgetChain\RCE
+class RCE2 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '2.3.42 < 2.6';
     public static $vector = '__destruct';
     public static $author = 'crlf';
     public static $information = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
-    public static $parameters = [
-        'code'
-    ];
 
     public function generate(array $parameters)
     {

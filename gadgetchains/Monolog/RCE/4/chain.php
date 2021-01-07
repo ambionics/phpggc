@@ -2,9 +2,9 @@
 
 namespace GadgetChain\Monolog;
 
-class CMD1 extends \PHPGGC\GadgetChain\Command
+class RCE4 extends \PHPGGC\GadgetChain\RCE\Command
 {
-    public static $version = '? <= 2.1.1+';
+    public static $version = '? <= 2.4.4+';
     public static $vector = '__destruct';
     public static $author = 'whira';
     public static $information = '

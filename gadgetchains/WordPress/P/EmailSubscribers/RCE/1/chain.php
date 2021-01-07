@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress\P\EmailSubscribers;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '4.0 <= 4.4.7+';
     public static $vector = '__destruct';

@@ -557,7 +557,7 @@ class PHPGGC
         $this->o('  --test-payload');
         $this->o('    Instead of displaying or storing the payload, includes vendor/autoload.php and unserializes the payload.');
         $this->o('    The test script can only deserialize __destruct, __wakeup, __toString and PHAR payloads.');
-        $this->o('    Warning: This will run your payload on YOUR system !');
+        $this->o('    Warning: This will run the payload on YOUR system !');
         $this->o('');
 
         $this->o('EXAMPLES');

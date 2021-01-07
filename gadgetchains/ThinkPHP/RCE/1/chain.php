@@ -2,7 +2,7 @@
 
 namespace GadgetChain\ThinkPHP;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '5.1.x-5.2.x';
     public static $vector = '__destruct';
@@ -11,6 +11,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
         This chain can only execute system().
         Because the second parameter is uncontrollable
     ';
+
     public function generate(array $parameters)
     {
         $function = $parameters['function'];
