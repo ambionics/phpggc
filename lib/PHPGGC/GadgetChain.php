@@ -46,6 +46,7 @@ abstract class GadgetChain
     const TYPE_RCE_PHPCODE = 'RCE (PHP code)';
     const TYPE_RCE_COMMAND = 'RCE (Command)';
     const TYPE_CMD = 'cmd';
+    const TYPE_XXE = 'xxe';
     const TYPE_FI = 'file_include';
     const TYPE_FR = 'File read';
     const TYPE_FW = 'File write';
