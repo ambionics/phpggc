@@ -4,7 +4,7 @@ namespace GadgetChain\WordPress\P\WooCommerce;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
-    public static $version = '3.4.0 <= 4.1.0+';
+    public static $version = '3.4.0 <= 4.1.0+ & WP < 5.5.2';
     public static $vector = '__destruct';
     public static $author = 'erwan_lr';
     public static $information = '

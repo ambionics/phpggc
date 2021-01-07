@@ -13,7 +13,7 @@
 */
 
 // WordPress - https://github.com/WordPress/WordPress/blob/6fd8080e7ee7599b36d4528f72a8ced612130b8c/wp-includes/Requests/Utility/FilteredIterator.php
-// Note: this has been patched in Wordpress 5.2.2
+// Note: this has been patched in Wordpress 5.5.2
 // https://www.wordfence.com/blog/2020/11/unpacking-the-wordpress-5-5-2-5-5-3-security-release/
 class Requests_Utility_FilteredIterator extends ArrayIterator {
 	protected $callback;
