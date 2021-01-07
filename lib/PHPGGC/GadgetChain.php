@@ -38,10 +38,11 @@ abstract class GadgetChain
     public static $vector = '';
     public static $author = '';
     public static $parameters = [];
-    public static $informations;
+    public static $information;
 
     # Types
     const TYPE_RCE = 'rce';
+    const TYPE_CMD = 'cmd';
     const TYPE_FI = 'file_include';
     const TYPE_FR = 'file_read';
     const TYPE_FW = 'file_write';
@@ -126,11 +127,11 @@ abstract class GadgetChain
 
         $strings = [];
 
-        if(static::$informations)
+        if(static::$information)
         {
-            $informations = trim(static::$informations);
-            $informations = preg_replace("#\n\s+#", "\n", $informations);
-            $infos['Informations'] = "\n" . $informations;
+            $information = trim(static::$information);
+            $information = preg_replace("#\n\s+#", "\n", $information);
+            $infos['Informations'] = "\n" . $information;
         }
 
         foreach($infos as $k => $v)

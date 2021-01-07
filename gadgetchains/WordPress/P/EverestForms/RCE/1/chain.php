@@ -7,7 +7,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     public static $version = '1.0 <= 1.6.7+';
     public static $vector = '__destruct';
     public static $author = 'erwan_lr';
-    public static $informations = 'Tested up to WP 5.4.1 and EverestForms 1.6.7. Newest versions might also work.
+    public static $information = 'Tested up to WP 5.4.1 and EverestForms 1.6.7. Newest versions might also work.
     ';
 
     public function generate(array $parameters)

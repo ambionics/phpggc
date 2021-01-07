@@ -7,7 +7,7 @@ class RCE6 extends \PHPGGC\GadgetChain\RCE
     public static $version = '5.5.*';
     public static $vector = '__destruct';
     public static $author = 'Phith0n & holyvier';
-    public static $informations = '
+    public static $information = '
         Executes given PHP code through eval().
         Requires Mockery, which is in the require-dev package. 
     ';

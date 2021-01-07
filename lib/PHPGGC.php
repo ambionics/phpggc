@@ -475,7 +475,7 @@ class PHPGGC
                 $chain::$version,
                 $chain::$type,
                 $chain::$vector,
-                ($chain::$informations ? '*' : '')
+                ($chain::$information ? '*' : '')
             ];
         }
 
@@ -503,8 +503,8 @@ class PHPGGC
         $this->o('INFORMATION');
         $this->o('  -h, --help Displays help');
         $this->o('  -l, --list [filter] Lists available gadget chains');
-        $this->o('  -i, --informations');
-        $this->o('     Displays informations about a gadget chain');
+        $this->o('  -i, --information');
+        $this->o('     Displays information about a gadget chain');
         $this->o('');
         $this->o('OUTPUT');
         $this->o('  -o, --output <file>');
@@ -623,7 +623,7 @@ class PHPGGC
 
         foreach($valid_arguments as $k => $v)
         {
-            $abbreviations[$k] = $k{0};
+            $abbreviations[$k] = $k[0];
         }
 
         $abbreviations = [
@@ -700,7 +700,7 @@ class PHPGGC
                 break;
             }
             # This is a parameter or an option
-            if(strlen($arg) >= 2 && $arg{0} == '-')
+            if(strlen($arg) >= 2 && $arg[0] == '-')
                 $this->_parse_cmdline_arg($i, $argv, $parameters, $options);
             # This is a value
             else
