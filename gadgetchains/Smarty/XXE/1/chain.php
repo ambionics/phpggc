@@ -1,6 +1,6 @@
 <?php
 namespace GadgetChain\Smarty;
-class XXE1 extends \PHPGGC\GadgetChain\URI
+class SSRF1 extends \PHPGGC\GadgetChain\URI
 {
     public static $version = '?';
     public static $vector = '__destruct';

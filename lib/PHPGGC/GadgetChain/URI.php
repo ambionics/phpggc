@@ -1,11 +1,11 @@
 <?php
 namespace PHPGGC\GadgetChain;
 
-abstract class URI extends \PHPGGC\GadgetChain
+abstract class SSRF extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_XXE;
+    public static $type = self::TYPE_SSRF;
     public static $parameters = [
-        'xxe_uri'
+        'uri'
     ];
 }
 ?>

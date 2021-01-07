@@ -5,10 +5,10 @@ class Smarty_Template_Cached
     public function __construct($url)
     {
         $res = parse_url($url);
-        $this->handler = new SoapClient(null, array(
-            'uri' => $res['scheme']."://".$res['host']."/",
-            'location' => $url)
-        );
+        $this->handler = new SoapClient(null, [
+            'uri' => $res['scheme'] . '://' . $res['host'] . '/',
+            'location' => $url
+        ]);
     }
 }
 
@@ -21,7 +21,9 @@ class Smarty_Internal_Template
 {
     public $cached;
     public $smarty;
-    public function __construct($url){
+
+    public function __construct($url)
+    {
         $this->smarty = new Smarty();
         $this->cached = new Smarty_Template_Cached($url);
     }
