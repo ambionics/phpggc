@@ -20,6 +20,7 @@ $ ./phpggc -l
 Gadget Chains
 -------------
 
+NAME                                      VERSION                         TYPE             VECTOR         I
 CodeIgniter4/RCE1                         4.0.0-beta.1 <= 4.0.0-rc.4      rce              __destruct          
 CodeIgniter4/RCE2                         4.0.0-rc.4 <= 4.0.4+            rce              __destruct          
 Doctrine/FW1                              ?                               file_write       __toString     *    
@@ -79,6 +80,7 @@ ZendFramework/RCE1                        ? <= 1.12.20                    rce   
 ZendFramework/RCE2                        1.11.12 <= 1.12.20              rce              __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                      rce              __destruct          
 ZendFramework/RCE4                        ? <= 1.12.20                    rce              __destruct     * 
+
 ```
 
 Filter gadget chains:
