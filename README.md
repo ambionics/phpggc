@@ -45,6 +45,10 @@ Monolog/RCE2                              1.5 <= 2.1.1+                   RCE (F
 Monolog/RCE3                              1.1.0 <= 1.10.0                 RCE (Function call)    __destruct          
 Monolog/RCE4                              ? <= 2.4.4+                     RCE (Command)          __destruct     *    
 Phalcon/RCE1                              <= 1.2.2                        RCE                    __wakeup       *    
+PHPExcel/FD1                              1.8.2+                          File delete            __destruct          
+PHPExcel/FD2                              <= 1.8.1                        File delete            __destruct          
+PHPExcel/FD3                              1.8.2+                          File delete            __destruct          
+PHPExcel/FD4                              <= 1.8.1                        File delete            __destruct          
 Pydio/Guzzle/RCE1                         < 8.2.2                         RCE (Function call)    __toString          
 Slim/RCE1                                 3.8.1                           RCE (Function call)    __toString          
 Smarty/FD1                                ?                               File delete            __destruct          
@@ -71,6 +75,12 @@ WordPress/P/EverestForms/RCE1             1.0 <= 1.6.7+ & WP < 5.5.2      RCE (F
 WordPress/P/WooCommerce/RCE1              3.4.0 <= 4.1.0+ & WP < 5.5.2    RCE (Function call)    __destruct     *    
 WordPress/P/WooCommerce/RCE2              <= 3.4.0 & WP < 5.5.2           RCE (Function call)    __destruct     *    
 WordPress/P/YetAnotherStarsRating/RCE1    ? <= 1.8.6 & WP < 5.5.2         RCE (Function call)    __destruct     *    
+WordPress/PHPExcel/RCE1                   1.8.2+ & WP < 5.5.2             RCE (Function call)    __toString     *    
+WordPress/PHPExcel/RCE2                   <= 1.8.1 & WP < 5.5.2           RCE (Function call)    __toString     *    
+WordPress/PHPExcel/RCE3                   1.8.2+ & WP < 5.5.2             RCE (Function call)    __destruct     *    
+WordPress/PHPExcel/RCE4                   <= 1.8.1 & WP < 5.5.2           RCE (Function call)    __destruct     *    
+WordPress/PHPExcel/RCE5                   1.8.2+ & WP < 5.5.2             RCE (Function call)    __destruct     *    
+WordPress/PHPExcel/RCE6                   <= 1.8.1 & WP < 5.5.2           RCE (Function call)    __destruct     *    
 Yii/RCE1                                  1.1.20                          RCE (Function call)    __wakeup       *    
 Yii2/RCE1                                 <2.0.38                         RCE (Function call)    __destruct     *    
 Yii2/RCE2                                 <2.0.38                         RCE (PHP code)         __destruct     *    
