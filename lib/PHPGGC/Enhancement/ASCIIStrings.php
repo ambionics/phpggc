@@ -46,7 +46,7 @@ class ASCIIStrings extends Enhancement
             $clean_string = '';
             for($i=0; $i < strlen($string); $i++)
             {
-                $letter = $string{$i};
+                $letter = $string[$i];
                 $clean_string .= ctype_print($letter) && $letter != '\\' ?
                     $letter :
                     sprintf("\\%02x", ord($letter));
