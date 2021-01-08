@@ -8,6 +8,7 @@ Currently, the tool supports gadget chains such as: CodeIgniter4, Doctrine, Drup
 ## Requirements
 
 PHP >= 5.6 is required to run PHPGGC.
+PHP 8 is not yet supported.
 
 
 ## Usage
@@ -185,6 +186,7 @@ $ ./phpggc -w /tmp/my_wrapper.php slim/rce1 system id
 a:1:{s:7:"message";O:18:"Slim\Http\Response":2:{...}}
 ```
 
+
 ## PHAR(GGC)
 
 ### History
@@ -298,6 +300,12 @@ Otherwise, I'd be glad to answer your questions.
 
 The `--new <framework> <type>` command-line option can be used to create the directory and file structure for a new gadget chain.
 For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
+
+
+
+## Docker
+
+If you don't want to install PHP, you can use `docker build`.
 
 
 # License
