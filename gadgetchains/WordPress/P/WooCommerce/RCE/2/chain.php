@@ -4,7 +4,7 @@ namespace GadgetChain\WordPress\P\WooCommerce;
 
 class RCE2 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '<= 3.4.0';
+    public static $version = '<= 3.4.0 & WP < 5.5.2';
     public static $vector = '__destruct';
     public static $author = 'Vincent Ulitzsch(@vinulium) and Pascal Zenker (@parzel2), based on WooCommerce RCE by erwan_lr';
     public static $information = '
