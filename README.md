@@ -101,13 +101,14 @@ $ ./phpggc -l laravel
 Gadget Chains
 -------------
 
-NAME                                      VERSION                        TYPE             VECTOR         I    
-Laravel/RCE1                              5.4.27                         rce              __destruct          
-Laravel/RCE2                              5.5.39                         rce              __destruct          
-Laravel/RCE3                              5.5.39                         rce              __destruct     *    
-Laravel/RCE4                              5.5.39                         rce              __destruct          
-Laravel/RCE5                              5.8.30                         rce              __destruct     *    
-Laravel/RCE6                              5.5.*                          rce              __destruct     *    
+NAME            VERSION        TYPE                   VECTOR        I    
+Laravel/RCE1    5.4.27         RCE (Function call)    __destruct         
+Laravel/RCE2    5.5.39         RCE (Function call)    __destruct         
+Laravel/RCE3    5.5.39         RCE (Function call)    __destruct    *    
+Laravel/RCE4    5.5.39         RCE (Function call)    __destruct         
+Laravel/RCE5    5.8.30         RCE (PHP code)         __destruct    *    
+Laravel/RCE6    5.5.*          RCE (PHP code)         __destruct    *    
+Laravel/RCE7    ? <= 8.16.1    RCE (Function call)    __destruct    *
 
 ```
 
