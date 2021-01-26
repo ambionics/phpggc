@@ -37,8 +37,7 @@ namespace PhpCsFixer
         @unlink($path);
     }
 }
-
+*/
 
 
 ?>
-
