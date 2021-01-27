@@ -46,6 +46,8 @@ Monolog/RCE2                              1.5 <= 2.1.1+                   RCE (F
 Monolog/RCE3                              1.1.0 <= 1.10.0                 RCE (Function call)    __destruct          
 Monolog/RCE4                              ? <= 2.4.4+                     RCE (Command)          __destruct     *    
 Phalcon/RCE1                              <= 1.2.2                        RCE                    __wakeup       *    
+PHPCSFixer/FD1                            <= 2.17.3                       File delete            __destruct          
+PHPCSFixer/FD2                            <= 2.17.3                       File delete            __destruct          
 PHPExcel/FD1                              1.8.2+                          File delete            __destruct          
 PHPExcel/FD2                              <= 1.8.1                        File delete            __destruct          
 PHPExcel/FD3                              1.8.2+                          File delete            __destruct          
@@ -101,13 +103,14 @@ $ ./phpggc -l laravel
 Gadget Chains
 -------------
 
-NAME                                      VERSION                        TYPE             VECTOR         I    
-Laravel/RCE1                              5.4.27                         rce              __destruct          
-Laravel/RCE2                              5.5.39                         rce              __destruct          
-Laravel/RCE3                              5.5.39                         rce              __destruct     *    
-Laravel/RCE4                              5.5.39                         rce              __destruct          
-Laravel/RCE5                              5.8.30                         rce              __destruct     *    
-Laravel/RCE6                              5.5.*                          rce              __destruct     *    
+NAME            VERSION        TYPE                   VECTOR        I    
+Laravel/RCE1    5.4.27         RCE (Function call)    __destruct         
+Laravel/RCE2    5.5.39         RCE (Function call)    __destruct         
+Laravel/RCE3    5.5.39         RCE (Function call)    __destruct    *    
+Laravel/RCE4    5.5.39         RCE (Function call)    __destruct         
+Laravel/RCE5    5.8.30         RCE (PHP code)         __destruct    *    
+Laravel/RCE6    5.5.*          RCE (PHP code)         __destruct    *    
+Laravel/RCE7    ? <= 8.16.1    RCE (Function call)    __destruct    *
 
 ```
 
