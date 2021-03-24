@@ -1,11 +1,15 @@
 <?php
 
-namespace Symfony\Component\Cache\Adapter {
-    class ProxyAdapter {
+namespace Symfony\Component\Cache\Adapter
+{
+    class ProxyAdapter
+    {
         private $createCacheItem;
         private $namespace;
         private $pool;
-        public function __construct($createCacheItem, $pool) {
+
+        public function __construct($createCacheItem, $pool)
+        {
             $this->createCacheItem = $createCacheItem;
             $this->pool = $pool;
             $this->namespace = '';
@@ -13,16 +17,19 @@ namespace Symfony\Component\Cache\Adapter {
     }
 
 
-    class NullAdapter {
+    class NullAdapter
+    {
         private $createCacheItem;
 
-        public function __construct($createCacheItem) {
+        public function __construct($createCacheItem)
+        {
             $this->createCacheItem = $createCacheItem;
         }
     }
 }
 
-namespace Symfony\Component\Console\Helper {
+namespace Symfony\Component\Console\Helper
+{
     class Dumper
     {
         private $handler;
@@ -35,7 +42,8 @@ namespace Symfony\Component\Console\Helper {
 }
 
 
-namespace Symfony\Component\Cache\Traits {
+namespace Symfony\Component\Cache\Traits
+{
     class RedisProxy
     {
         private $redis;
@@ -49,7 +57,8 @@ namespace Symfony\Component\Cache\Traits {
     }
 }
 
-namespace Symfony\Component\Form {
+namespace Symfony\Component\Form
+{
 
     class FormErrorIterator
     {
@@ -65,7 +74,8 @@ namespace Symfony\Component\Form {
 }
 
 
-namespace Symfony\Component\HttpKernel\DataCollector {
+namespace Symfony\Component\HttpKernel\DataCollector
+{
     class DumpDataCollector
     {
         protected $data;
