@@ -89,17 +89,27 @@ namespace Symfony\Component\HttpKernel\DataCollector
         public function __construct($function, $command)
         {
             $this->data = [
-                ["data" => "1",
-                "name" => new \Symfony\Component\Form\FormErrorIterator([
-                    new \Symfony\Component\Form\FormErrorIterator([], 
-                        new \Symfony\Component\Cache\Traits\RedisProxy(
-                        new \Symfony\Component\Console\Helper\Dumper([
-                            new \Symfony\Component\Cache\Adapter\ProxyAdapter('dd', // exit function
-                                new \Symfony\Component\Cache\Adapter\NullAdapter($function) ),
-                            "getItem"]), $command)
-                )], null),
-                "file" => "3",
-                "line" => "4"],
+                [
+                    "data" => "1",
+                    "name" => new \Symfony\Component\Form\FormErrorIterator([
+                        new \Symfony\Component\Form\FormErrorIterator(
+                            [], 
+                            new \Symfony\Component\Cache\Traits\RedisProxy(
+                                new \Symfony\Component\Console\Helper\Dumper([
+                                    new \Symfony\Component\Cache\Adapter\ProxyAdapter(
+                                        'dd', // exit function
+                                        new \Symfony\Component\Cache\Adapter\NullAdapter($function)
+                                    ),
+                                    "getItem"
+                                ]),
+                                $command
+                            )
+                        )],
+                        null
+                    ),
+                    "file" => "3",
+                    "line" => "4"
+                ],
                 null,
                 null
             ];
