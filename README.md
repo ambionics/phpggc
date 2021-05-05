@@ -45,6 +45,7 @@ Monolog/RCE1                              1.18 <= 2.1.1+                  RCE (F
 Monolog/RCE2                              1.5 <= 2.1.1+                   RCE (Function call)    __destruct          
 Monolog/RCE3                              1.1.0 <= 1.10.0                 RCE (Function call)    __destruct          
 Monolog/RCE4                              ? <= 2.4.4+                     RCE (Command)          __destruct     *    
+Monolog/RCE5                              1.25 <= 2.2.0+                  RCE (Function call)    __destruct     *    
 Phalcon/RCE1                              <= 1.2.2                        RCE                    __wakeup       *    
 PHPCSFixer/FD1                            <= 2.17.3                       File delete            __destruct          
 PHPCSFixer/FD2                            <= 2.17.3                       File delete            __destruct          
