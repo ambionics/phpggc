@@ -32,6 +32,7 @@ Guzzle/INFO1                              6.0.0 <= 6.3.2                  phpinf
 Guzzle/RCE1                               6.0.0 <= 6.3.2                  RCE (Function call)    __destruct     *    
 Horde/RCE1                                <= 5.2.22                       RCE (PHP code)         __destruct     *    
 Laminas/FD1                               <= 2.11.2                       File delete            __destruct          
+Laminas/FW1                               2.8.0 <= 3.0.x-dev              File write             __destruct     *
 Laravel/RCE1                              5.4.27                          RCE (Function call)    __destruct          
 Laravel/RCE2                              5.5.39                          RCE (Function call)    __destruct          
 Laravel/RCE3                              5.5.39                          RCE (Function call)    __destruct     *    
