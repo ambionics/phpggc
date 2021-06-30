@@ -3,10 +3,11 @@ namespace Monolog\Handler
 {
     class FingersCrossedHandler
     {
-    	protected $passthruLevel=0;
+    	protected $passthruLevel = 0;
         protected $handler;
         protected $buffer;
         protected $processors;
+        
         function __construct($methods,$command)
         {
             $this->processors = $methods;
