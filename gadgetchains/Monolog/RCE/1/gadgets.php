@@ -28,7 +28,7 @@ namespace Monolog\Handler
         {
             $this->processors = $methods;
             $this->buffer = [$command];
-            $this->handler = clone $this;
+            $this->handler = $this;
         }
     }
 }
