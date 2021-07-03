@@ -5,9 +5,9 @@ namespace PhpCsFixer\Linter
     class ProcessLinter
     {
 
-        function __construct($remote_file)
+        function __construct($remote_path)
         {
-            $this->temporaryFile = $remote_file;
+            $this->temporaryFile = $remote_path;
             $this->fileRemoval = new \PhpCsFixer\FileRemoval();
 
         }

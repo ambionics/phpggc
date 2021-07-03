@@ -13,6 +13,6 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        return new \Archive_Tar($parameters['remote_file']);
+        return new \Archive_Tar($parameters['remote_path']);
     }
 }

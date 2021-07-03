@@ -9,9 +9,9 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        $remote_file = $parameters["remote_file"];
+        $remote_path = $parameters["remote_path"];
 
-        return new \PhpCsFixer\FileRemoval($remote_file);
+        return new \PhpCsFixer\FileRemoval($remote_path);
     }
 }
 

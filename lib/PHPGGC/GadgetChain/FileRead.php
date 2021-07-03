@@ -6,6 +6,25 @@ abstract class FileRead extends \PHPGGC\GadgetChain
 {
     public static $type = self::TYPE_FR;
     public static $parameters = [
-        'remote_file'
+        'remote_path'
     ];
+
+    public function test_setup()
+    {
+        return [
+            'remote_path' => \PHPGGC\Util::rand_file('test file read')
+        ];
+    }
+
+    public function test_confirm($arguments, $output)
+    {
+        $expected = file_get_contents($arguments['remote_path']);
+        return strpos($output, $expected) !== false;
+    }
+
+    public function test_cleanup($arguments)
+    {
+        if(file_exists($arguments['remote_path']))
+            unlink($arguments['remote_path']);
+    }
 }

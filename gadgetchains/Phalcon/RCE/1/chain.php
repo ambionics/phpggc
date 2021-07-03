@@ -19,4 +19,9 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE
     {
         return new \Phalcon\Logger\Adapter\File();
     }
+
+    public function test_setup()
+    {
+        throw new \PHPGGC\Exception("This GC cannot be tested.");
+    }
 }

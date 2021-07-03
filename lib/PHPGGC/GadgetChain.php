@@ -58,6 +58,9 @@ abstract class GadgetChain
         $this->load_gadgets();
     }
 
+    /**
+     * Loads the gadgets required by the chain.
+     */
     protected function load_gadgets()
     {
         $directory = dirname((new \ReflectionClass($this))->getFileName());
@@ -77,7 +80,7 @@ abstract class GadgetChain
      * Modifies given parameters if required.
      * Called before `generate()`.
      * This is called on the gadget chain's parameters, such as for instance
-     * "remote_file" and "local_file" for a file write chain.
+     * "remote_path" and "local_path" for a file write chain.
      *
      * @param array $parameters Gadget chain parameters
      * @return array Modified parameters
@@ -155,5 +158,40 @@ abstract class GadgetChain
         $class = substr($class, strpos($class, '\\') + 1);
         $class = str_replace('\\', '/', $class);
         return $class;
+    }
+
+    # Test methods - Internal use only
+
+    /**
+     * Returns arguments that need to be used to test the gadget chain.
+     * This method can also setup the testing environment, by creating a file
+     * for instance.
+     * 
+     * @return array Arguments the payload need to be generated with, as a
+     *  [key] => [test-value] associative array.
+     */
+    abstract public function test_setup();
+
+    /**
+     * Returns whether the deserialisation of the payload yielded the expected
+     * results.
+     * 
+     * @param array arguments Arguments the payload was generated with
+     * @param string result Output of the test_payload.php command
+     * 
+     * @return bool true if the payload executed successfully.
+     */
+    abstract public function test_confirm($arguments, $output);
+
+    /**
+     * Cleans up the test environment, e.g. removes a file created by
+     * test_setup().
+     * 
+     * @param array arguments Arguments the payload was generated with
+     * 
+     * @return null
+     */
+    public function test_cleanup($arguments)
+    {
     }
 }

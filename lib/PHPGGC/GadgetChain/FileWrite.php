@@ -20,4 +20,29 @@ abstract class FileWrite extends \PHPGGC\GadgetChain
         $parameters['data'] = file_get_contents($local_path);
         return $parameters;
     }
+
+    public function test_setup()
+    {
+        return [
+            'local_path' => \PHPGGC\Util::rand_file('test file write'),
+            'remote_path' => \PHPGGC\Util::rand_path()
+        ];
+    }
+
+    public function test_confirm($arguments, $output)
+    {
+        if(!file_exists($arguments['remote_path']))
+            return false;
+        
+        $expected = file_get_contents($arguments['local_path']);
+        $obtained = file_get_contents($arguments['remote_path']);
+        
+        return strpos($obtained, $expected) !== false;
+    }
+
+    public function test_cleanup($arguments)
+    {
+        if(file_exists($arguments['remote_path']))
+            unlink($arguments['remote_path']);
+    }
 }

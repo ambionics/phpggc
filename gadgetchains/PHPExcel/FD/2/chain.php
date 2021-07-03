@@ -10,6 +10,6 @@ class FD2 extends \PHPGGC\GadgetChain\FileDelete
     
     public function generate(array $parameters)
     {
-        return new \PHPExcel_CachedObjectStorage_DiscISAM($parameters['remote_file']);
+        return new \PHPExcel_CachedObjectStorage_DiscISAM($parameters['remote_path']);
     }
 }

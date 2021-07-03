@@ -10,6 +10,6 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        return new \Swift_ByteStream_TemporaryFileByteStream($parameters['remote_file']);
+        return new \Swift_ByteStream_TemporaryFileByteStream($parameters['remote_path']);
     }
 }

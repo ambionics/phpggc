@@ -10,8 +10,8 @@ class FD2 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        $remote_file = $parameters["remote_file"];
+        $remote_path = $parameters["remote_path"];
 
-        return new \PhpCsFixer\Linter\ProcessLinter($remote_file);
+        return new \PhpCsFixer\Linter\ProcessLinter($remote_path);
     }
 }

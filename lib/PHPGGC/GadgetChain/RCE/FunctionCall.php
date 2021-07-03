@@ -14,4 +14,14 @@ abstract class FunctionCall extends \PHPGGC\GadgetChain\RCE
         'function',
         'parameter'
     ];
+    
+    public function test_setup()
+    {
+        $command = $this->_test_build_command();
+        return [
+            'function' => 'system',
+            'parameter' => 
+                $command
+        ];
+    }
 }

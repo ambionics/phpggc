@@ -14,7 +14,7 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
 
     public function generate(array $parameters)
     {
-        $file = $parameters['remote_file'];
+        $file = $parameters['remote_path'];
 
         return new \TCPDF(
             $file

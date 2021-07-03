@@ -38,46 +38,74 @@ class PHPGGC
     {
         global $argv;
 
-        $parameters = $this->parse_cmdline($argv);
+        $arguments = $this->parse_cmdline($argv);
 
-        if($parameters === null)
+        if($arguments === null)
             return;
 
-        if(count($parameters) < 1)
+        if(count($arguments) < 1)
         {
             $this->help();
             return;
         }
 
-        $class = array_shift($parameters);
+        $class = array_shift($arguments);
         $gc = $this->get_gadget_chain($class);
 
         $this->setup_enhancements();
-        $parameters = $this->get_type_parameters($gc, $parameters);
-        $generated = $this->serialize($gc, $parameters);
 
         if(in_array('test-payload', $this->options))
-            $this->test_payload($gc, $generated);
+        {
+            if(count($arguments) > 0)
+                $this->o(
+                    "WARNING: Testing a payload ignores payload arguments."
+                );
+            $this->test_payload($gc);
+        }
         else
+        {
+            $arguments = $this->get_type_arguments($gc, $arguments);
+            $generated = $this->serialize($gc, $arguments);
             $this->output_payload($generated);
+        }
     }
 
     /**
-     * Runs generated payload using the ./template/test_payload.php script.
-     * We have to use system() here, because the classes used during the
-     * deserialization process are already defined by PHPGGC, and there is no
-     * mechanism allowing to delete classes in PHP. Therefore, a new PHP process
-     * has to be created.
+     * Tests whether the payload works in the current environement.
+     * PHPGGC will generate test arguments, include vendor/autoload.php, run the
+     * payload, and check whether it was run successfully.
+     * The script will exit with status 0 if the payload triggered, 1 otherwise.
      */
-    public function test_payload($gc, $payload)
+    public function test_payload($gc)
     {
         $this->o('Trying to deserialize payload...');
+        $arguments = $gc->test_setup();
+        $payload = $this->serialize($gc, $arguments);
         $vector = isset($this->parameters['phar']) ? 'phar' : $gc::$vector;
-        system(
+        
+        # We have to use system() here, because the classes used during the
+        # deserialization process are already defined by PHPGGC, and there is no
+        # mechanism allowing to delete classes in PHP. Therefore, a new PHP process
+        # has to be created.
+        $output = shell_exec(
             escapeshellarg(DIR_LIB . '/test_payload.php') . ' ' .
             escapeshellarg($vector) . ' ' .
             escapeshellarg(base64_encode($payload))
         );
+        $result = $gc->test_confirm($arguments, $output);
+
+        $gc->test_cleanup($arguments);
+
+        if($result)
+        {
+            $this->o('SUCCESS: Payload triggered !');
+            exit(0);
+        }
+        else
+        {
+            $this->o('FAILURE: Payload did not trigger !');
+            exit(1);
+        }    
     }
 
     /**
@@ -553,7 +581,7 @@ class PHPGGC
         $this->o('CREATION');
         $this->o('  -N, --new <framework> <type>');
         $this->o('    Creates the file structure for a new gadgetchain for given framework');
-        $this->o('    Example: ./phpggc -n Drupal RCE');
+        $this->o('    Example: ./phpggc -N Drupal RCE');
         $this->o('  --test-payload');
         $this->o('    Instead of displaying or storing the payload, includes vendor/autoload.php and unserializes the payload.');
         $this->o('    The test script can only deserialize __destruct, __wakeup, __toString and PHAR payloads.');
@@ -784,16 +812,13 @@ class PHPGGC
     }
 
     /**
-     * Convert command line parameters into an array of named parameters,
+     * Converts command line arguments into an array of named arguments,
      * specific to the type of payload.
      */
-    protected function get_type_parameters($gc, $parameters)
+    protected function get_type_arguments($gc, $arguments)
     {
-        $arguments = $gc::$parameters;
-
-        $values = @array_combine($arguments, $parameters);
-
-        if($values === false)
+        $keys = $gc::$parameters;
+        if(count($keys) != count($arguments))
         {
             $this->o($gc, 2);
             $this->e(
@@ -801,8 +826,7 @@ class PHPGGC
                 $this->_get_command_line_gc($gc)
             );
         }
-
-        return $values;
+        return array_combine($keys, $arguments);
     }
 
     protected function _get_command_line_gc($gc)

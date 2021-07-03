@@ -13,4 +13,12 @@ abstract class Command extends \PHPGGC\GadgetChain\RCE
     public static $parameters = [
         'command'
     ];
+    
+    public function test_setup()
+    {
+        $command = $this->_test_build_command();
+        return [
+            'command' => $command
+        ];
+    }
 }

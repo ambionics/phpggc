@@ -10,6 +10,6 @@ class FD3 extends \PHPGGC\GadgetChain\FileDelete
     
     public function generate(array $parameters)
     {
-        return new \PHPExcel_Shared_XMLWriter($parameters['remote_file']);
+        return new \PHPExcel_Shared_XMLWriter($parameters['remote_path']);
     }
 }

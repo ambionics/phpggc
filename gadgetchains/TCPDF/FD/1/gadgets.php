@@ -3,9 +3,9 @@
 class TCPDF {
     protected $imagekeys;
     
-    function __construct($remote_file) {
+    function __construct($remote_path) {
 		$this->imagekeys = [
-		    $remote_file
+		    $remote_path
         ];
     }
 }

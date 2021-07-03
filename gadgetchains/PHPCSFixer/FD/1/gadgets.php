@@ -6,9 +6,9 @@ namespace PhpCsFixer
     class FileRemoval
     {
 
-        function __construct($remote_file)
+        function __construct($remote_path)
         {
-            $this->files = [$remote_file => $remote_file];
+            $this->files = [$remote_path => $remote_path];
 
         }
 
