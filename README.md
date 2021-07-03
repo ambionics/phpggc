@@ -248,8 +248,23 @@ This can be useful when for some reason non-ascii characters are not allowed (NU
 ### Plus Numbers
 
 Sometimes, PHP scripts verify that the given serialized payload does not contain objects by using a regex such as `/O:[0-9]+:`. This is easily bypassed using `O:+123:...` instead of `O:123:`. One can use `--plus-numbers <types>`, or `-n <types>`, to automatically add these `+` signs in front of symbols.
-For instance, to obfuscate objects and strings, one can use: `--n Os`. Please note that since PHP 7.2, only i and d (float) types can have a +.
+For instance, to obfuscate objects and strings, one can use: `--n Os`. Please note that since PHP 7.2, only `i` and `d` (float) types can have a `+`.
 
+### Testing your chain
+
+To test if the gadget chain you want to use works in the targeted environment, jump to your environment's folder and run the chain argument-free, with the `--test-payload` option.
+
+For instance, to test if `Monolog/RCE2` works on Symfony `4.x`:
+
+```
+$ composer create-project symfony/website-skeleton=4.x some_symfony
+$ cd some_symfony
+$ phpggc monolog/rce2 --test-payload
+Trying to deserialize payload...
+SUCCESS: Payload triggered !
+```
+
+The exit code will be `0` if the payload triggered, `1` otherwise.
 
 # API
 
@@ -309,7 +324,6 @@ Otherwise, I'd be glad to answer your questions.
 
 The `--new <framework> <type>` command-line option can be used to create the directory and file structure for a new gadget chain.
 For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
-
 
 
 ## Docker
