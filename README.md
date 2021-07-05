@@ -316,6 +316,7 @@ Pull requests are more than welcome. Please follow these simple guidelines:
 - Specify at least the version of the library you've built the payload on
 - Refrain from using references unless it is necessary or drastically reduces the size of the payload. If the payload is modified by hand afterwards, this might cause problems.
 - Do not include unused parameters in the gadget definition if they keep their default values. It just makes the payload bigger.
+- Respect code style: for instance, opening brackets `{` are on a new line, and arrays should be written as `[1, 2, 3]` instead of the old, `array(1, 2, 3)`, notation.
 
 Codewise, the directory structure is fairly straightforward: gadgets in _gadgets.php_, description + logic in _chain.php_.
 You can define pre- and post- processing methods, if parameters need to be modified.
