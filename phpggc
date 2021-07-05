@@ -14,4 +14,5 @@ try
 catch(\PHPGGC\Exception $e)
 {
     print("ERROR: " . $e->getMessage() . "\n");
+    exit(1);
 }
