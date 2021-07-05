@@ -8,11 +8,21 @@ abstract class PHPInfo extends \PHPGGC\GadgetChain
 
     public function test_setup()
     {
+        return [];
     }
 
     public function test_confirm($arguments, $output)
     {
-        $expected = '<title>phpinfo()</title>';
-        return strpos($output, $expected) !== false;
+        $expected = [
+            'phpinfo()',
+            'PHP Authors',
+            'Module Authors',
+            'PHP Variables'
+        ];
+        foreach($expected as $needle)
+            if(strpos($output, $needle) === false)
+                return false;
+
+        return true;
     }
 }

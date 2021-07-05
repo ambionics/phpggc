@@ -44,5 +44,7 @@ abstract class FileWrite extends \PHPGGC\GadgetChain
     {
         if(file_exists($arguments['remote_path']))
             unlink($arguments['remote_path']);
+        if(file_exists($arguments['local_path']))
+            unlink($arguments['local_path']);
     }
 }
