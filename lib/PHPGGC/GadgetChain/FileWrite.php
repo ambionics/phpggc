@@ -25,7 +25,7 @@ abstract class FileWrite extends \PHPGGC\GadgetChain
     {
         return [
             'local_path' => \PHPGGC\Util::rand_file('test file write'),
-            'remote_path' => \PHPGGC\Util::rand_path()
+            'remote_path' => \PHPGGC\Util::rand_path('', '.test')
         ];
     }
 

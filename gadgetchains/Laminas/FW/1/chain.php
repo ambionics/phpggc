@@ -2,8 +2,11 @@
 
 namespace GadgetChain\Laminas;
 
-use Laminas\Cache\Psr\CacheItemPool\{CacheItem, CacheItemPoolDecorator};
-use Laminas\Cache\Storage\Adapter\{Filesystem, FilesystemOptions};
+use Laminas\Cache\Psr\CacheItemPool\CacheItem;
+use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
+use Laminas\Cache\Storage\Adapter\Filesystem;
+use Laminas\Cache\Storage\Adapter\FilesystemOptions;
+
 
 class FW1 extends \PHPGGC\GadgetChain\FileWrite
 {
@@ -24,6 +27,7 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
         $parameters['extension'] = isset($infos['extension']) ? $infos['extension'] : '';
         $parameters['filename'] = isset($infos['filename']) ? $infos['filename'] : '';
         $parameters['dirname'] = dirname($parameters['remote_path']);
+
         return $parameters;
     }
 

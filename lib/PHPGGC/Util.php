@@ -10,8 +10,8 @@ class Util
     /**
      * Creates a file in the temporary directory.
      * 
-     * @param string name Filename
-     * @param string contents Contents of the file 
+     * @param string $name Filename
+     * @param string $contents Contents of the file 
      * 
      * @return string Full path to the file
      */
@@ -25,9 +25,9 @@ class Util
     /**
      * Creates a file in the temporary directory.
      * 
-     * @param string contents Contents of the file 
-     * @param string prefix A string to prepend to the filename
-     * @param string suffix A string to append to the filename
+     * @param string $contents Contents of the file 
+     * @param string $prefix A string to prepend to the filename
+     * @param string $suffix A string to append to the filename
      * 
      * @return string Full path to the file
      */
@@ -41,8 +41,8 @@ class Util
     /**
      * Returns a random temporary file path. 
      * 
-     * @param string prefix A string to prepend to the filename
-     * @param string suffix A string to append to the filename
+     * @param string $prefix A string to prepend to the filename
+     * @param string $suffix A string to append to the filename
      * 
      * @return string Full path to the file
      */
@@ -56,7 +56,7 @@ class Util
     /**
      * Returns a temporary file path whose basename is $name
      * 
-     * @param string name Name of the temporary file
+     * @param string $name Name of the temporary file
      * 
      * @return string Full path to the file
      */
