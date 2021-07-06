@@ -8,7 +8,6 @@ Currently, the tool supports gadget chains such as: CodeIgniter4, Doctrine, Drup
 ## Requirements
 
 PHP >= 5.6 is required to run PHPGGC.
-PHP 8 is not yet supported.
 
 
 ## Usage
