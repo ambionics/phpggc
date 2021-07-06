@@ -266,6 +266,41 @@ SUCCESS: Payload triggered !
 
 The exit code will be `0` if the payload triggered, `1` otherwise.
 
+### Testing your chain against every version of a package
+
+If you wish to know which versions of a package a gadget chain works against, you can use `test-gc-compatibility.py`.
+
+```
+$ ./test-gc-compatibility.py monolog/monolog monolog/rce1 monolog/rce3
+Testing 59 versions for monolog/monolog against 2 gadget chains.
+
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ monolog/monolog ┃ Package ┃ monolog/rce1 ┃ monolog/rce3 ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
+│ 2.x-dev         │   OK    │      OK      │      KO      │
+│ 2.3.0           │   OK    │      OK      │      KO      │
+│ 2.2.0           │   OK    │      OK      │      KO      │
+│ 2.1.1           │   OK    │      OK      │      KO      │
+│ 2.1.0           │   OK    │      OK      │      KO      │
+│ 2.0.2           │   OK    │      OK      │      KO      │
+│ 2.0.1           │   OK    │      OK      │      KO      │
+│ 2.0.0           │   OK    │      OK      │      KO      │
+│ 2.0.0-beta2     │   OK    │      OK      │      KO      │
+│ 2.0.0-beta1     │   OK    │      OK      │      KO      │
+│ 1.x-dev         │   OK    │      OK      │      KO      │
+│ 1.26.1          │   OK    │      OK      │      KO      │
+│ 1.26.0          │   OK    │      OK      │      KO      │
+│ 1.25.5          │   OK    │      OK      │      KO      │
+│ 1.25.4          │   OK    │      OK      │      KO      │
+                        ...
+│ 1.0.1           │   OK    │      KO      │      KO      │
+│ 1.0.0           │   OK    │      KO      │      KO      │
+│ 1.0.0-RC1       │   OK    │      KO      │      KO      │
+│ dev-main        │   OK    │      OK      │      KO      │
+│ * dev-phpstan   │   OK    │      OK      │      KO      │
+└─────────────────┴─────────┴──────────────┴──────────────┘
+```
+
 # API
 
 Instead of using PHPGGC as a command line tool, you can program PHP scripts:
@@ -314,7 +349,6 @@ Pull requests are more than welcome. Please follow these simple guidelines:
 
 - `__destruct()` is always the best vector
 - Specify at least the version of the library you've built the payload on
-- Refrain from using references unless it is necessary or drastically reduces the size of the payload. If the payload is modified by hand afterwards, this might cause problems.
 - Do not include unused parameters in the gadget definition if they keep their default values. It just makes the payload bigger.
 - Respect code style: for instance, opening brackets `{` are on a new line, and arrays should be written as `[1, 2, 3]` instead of the old, `array(1, 2, 3)`, notation.
 
@@ -327,7 +361,7 @@ The `--new <framework> <type>` command-line option can be used to create the dir
 For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
 
 
-## Docker
+# Docker
 
 If you don't want to install PHP, you can use `docker build`.
 

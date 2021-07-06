@@ -37,9 +37,96 @@ except ImportError:
     print('$ pip install rich')
     exit()
 
+
 from rich.progress import Progress
 from rich.table import Table
 
+
+class Tester:
+    """Tests gadget chains against a composer package.
+    """
+    _package = None
+    
+    def run(self):
+        args = setup_arguments()
+        self._cwd = os.curdir
+        self._gcs = args.gadget_chain
+        self._executor = Executor()
+        self._package = Package(args.package, executor=self._executor)
+
+        for gc in self._gcs:
+            self.ensure_gc_exists(gc)
+
+        versions = self._package.get_versions()
+        print(
+            f'Testing {len(versions)} versions for '
+            f'[blue]{self._package.name}[/blue] against '
+            f'{len(self._gcs)} gadget chains.'
+        )
+
+        # We'll jump to a temporary directory for phpggc and composer to work
+        # without breaking anything.
+        os.chdir(self._package.work_dir)
+
+        self.test_chains_on_versions(versions)
+
+    def ensure_gc_exists(self, name):
+        """Makes sure that a GC exists.
+        """
+        if not self._executor.phpggc('-i', name):
+            raise TesterException(f'Gadget chain does not exist: {name}')
+
+    def test_chains_on_versions(self, versions):
+        """Contains the main logic. Each version of the package will be
+        installed, and each gadget chain will be tested against it. Results
+        are kept in a table.
+        """
+        table = Table(self._package.name)
+        table.add_column('Package', justify='center')
+
+        for gc in self._gcs:
+            table.add_column(gc, justify='center')
+
+        errored_payload_rows = (
+            (self.__status_str(False), ) + 
+            ('[yellow]-', ) * len(self._gcs)
+        )
+
+        with Progress() as progress:
+            ptask = progress.add_task('Testing chains', total=len(versions))
+
+            for version in versions:
+                progress.update(ptask, advance=1,
+                                description=f'Testing ({version})')
+                try:
+                    tests = self.test_chains_on_version(version)
+                except ValueError:
+                    table.add_row(version, *errored_payload_rows)
+                else:
+                    outputs = [self.__status_str(test) for test in tests]
+                    table.add_row(version, self.__status_str(True), *outputs)
+            
+            progress.update(ptask, visible=False)
+
+        print(table)
+
+    def __status_str(self, test):
+        return test and '[green]OK' or '[red]KO'
+
+    def test_chains_on_version(self, version):
+        self._package.install_version(version)
+        return [
+            self._executor.phpggc('--test-payload', gc)
+            for gc in self._gcs
+        ]
+
+    def cleanup(self):
+        """Cleans up anything we might have used and go back to the original
+        directory.
+        """
+        os.chdir(self._cwd)
+        if self._package:
+            self._package.cleanup()
 
 
 class TesterException(Exception):
@@ -79,9 +166,17 @@ class Executor:
         Returns the arguments required to launch the file, as tuple.
         If nothing works, an exception is raised.
         """
+        # We will change our current directory during the execution.
+        # If we can find php_file in the current path, refer to it using an
+        # absolute path.
+        # Otherwise, just assume it's an alias or from $PATH.
+        path = pathlib.Path(php_file)
+        if path.exists():
+            php_file = str(path.absolute())
+        
         if self._try_run_command(php_file):
             return (php_file, )
-        elif self._try_run_command('php', php_file):
+        elif path.exists() and self._try_run_command('php', php_file):
             return ('php', php_file)
         raise TesterException(f'Unable to run PHP file: {php_file}')
 
@@ -118,11 +213,14 @@ class Executor:
         """
         return self._run(*self._phpggc, *args).returncode == 0
 
+
 class Package:
+    """Represents a composer package.
+    """
     def __init__(self, name, executor):
         self.name = name
         self._executor = executor
-        self._work_dir = pathlib.Path(tempfile.mkdtemp(prefix='phpggc'))
+        self.work_dir = pathlib.Path(tempfile.mkdtemp(prefix='phpggc'))
 
     def get_versions(self):
         """Uses composer to obtain each version (or tag) for the package.
@@ -135,93 +233,35 @@ class Package:
         """Removes any composer related file in the working directory, such as
         composer.json and vendor/.
         """
-        (self._work_dir / 'composer.json').unlink(missing_ok=True)
-        (self._work_dir / 'composer.lock').unlink(missing_ok=True)
-        shutil.rmtree(self._work_dir / 'vendor', ignore_errors=True)
+        (self.work_dir / 'composer.json').unlink(missing_ok=True)
+        (self.work_dir / 'composer.lock').unlink(missing_ok=True)
+        shutil.rmtree(self.work_dir / 'vendor', ignore_errors=True)
         if final:
-            self._work_dir.rmdir()
+            self.work_dir.rmdir()
 
     def install_version(self, version):
         """Uses composer to install a specific version of the package.
         """
         self.clean_workdir()
         _, stderr = self._executor.composer(
-            'require', '-q', '--ignore-platform-reqs', f'{self.name}:{version}'
+            'require',
+            '-q', '--ignore-platform-reqs', f'{self.name}:{version}'
         )
         if stderr:
             raise ValueError(f'Unable to install version: {version}')
 
-
-class Tester:
-    def run(self):
-        args = setup_arguments()
-        self._gcs = args.gadget_chain
-        self._executor = Executor()
-        self._package = Package(args.package, executor=self._executor)
-
-        for gc in self._gcs:
-            self.ensure_gc_exists(gc)
-
-        versions = self._package.get_versions()
-        print(
-            f'Testing {len(versions)} versions for '
-            f'[blue]{self._package.name}[/blue] against '
-            f'{len(self._gcs)} gadget chains.'
-        )
-
-        self.test_chains_on_versions(versions)
-
-    def ensure_gc_exists(self, name):
-        """Makes sure that a GC exists.
-        """
-        if not self._executor.phpggc('-i', name):
-            raise TesterException(f'Gadget chain does not exist: {name}')
-
-    def test_chains_on_versions(self, versions):
-        """Contains the main logic. Each version of the package will be
-        installed, and each gadget chain will be tested against it. Results
-        are kept in a table.
-        """
-        table = Table(self._package.name)
-        table.add_column('Package', justify='center')
-
-        for gc in self._gcs:
-            table.add_column(gc, justify='center')
-
-        errored_payload_rows = (
-            (self.__status_str(False), ) + 
-            ('[yellow]-[/yellow]', ) * len(self._gcs)
-        )
-
-        with Progress() as progress:
-            ptask = progress.add_task('Testing chains', total=len(versions))
-
-            for version in versions:
-                progress.update(ptask, advance=1,
-                                description=f'Testing ({version})')
-                try:
-                    tests = self.test_chains_on_version(version)
-                except ValueError:
-                    table.add_row(version, *errored_payload_rows)
-                else:
-                    outputs = [self.__status_str(test) for test in tests]
-                    table.add_row(version, self.__status_str(True), *outputs)
-
-        self._package.clean_workdir(final=True)
-        print(table)
-
-    def __status_str(self, test):
-        return test and '[green]OK[/green]' or '[red]KO[/red]'
-
-    def test_chains_on_version(self, version):
-        self._package.install_version(version)
-        return [
-            self._executor.phpggc('--test-payload', gc)
-            for gc in self._gcs
-        ]
+    def cleanup(self):
+        self.clean_workdir(final=True)
 
 
-try:
-    Tester().run()
-except TesterException as e:
-    print(f'[red]Error: {e}[/red]')
+if __name__ == '__main__':
+    tester = Tester()
+
+    try:
+        tester.run()
+    except TesterException as e:
+        print(f'[red]Error: {e}[/red]')
+    except KeyboardInterrupt:
+        print(f'[red]Execution interrupted.')
+    finally:
+        tester.cleanup()
