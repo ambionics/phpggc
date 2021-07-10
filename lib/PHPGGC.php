@@ -229,7 +229,7 @@ class PHPGGC
      */
     public static function autoload_register()
     {
-        spl_autoload_register(array(static::class, 'autoload'));
+        spl_autoload_register([static::class, 'autoload']);
     }
 
     /**
