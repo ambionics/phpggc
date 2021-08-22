@@ -239,10 +239,18 @@ a:2:{i:7;O:18:"Slim\Http\Response":2:{s:10:"...
 
 ### ASCII Strings
 
-Uses the `S` serialization format instead of the standard `s`. This replaces every non-ASCII value to an hexadecimal representation:
+Uses the `S` serialization format instead of the standard `s`. This replaces every non-ASCII char to an hexadecimal representation:
 `s:5:"A<null_byte>B<cr><lf>";̀` -> `S:5:"A\00B\09\0D";`
 This can be useful when for some reason non-ascii characters are not allowed (NULL BYTE for instance). Since payloads generally contain them, this makes sure that the payload consists only of ASCII values.
 *Note: this is experimental and it might not work in some cases.*
+
+### Armor Strings
+
+Uses the `S` serialization format instead of the standard `s`. This replaces every char to an hexadecimal representation:
+`s:5:"A<null_byte>B<cr><lf>";̀` -> `S:5:"\41\00\42\09\0D";`
+This comes handy when a firewall or PHP code blocks strings.
+*Note: this is experimental and it might not work in some cases.*
+*Note: this makes each string in the payload grow by a factor of 3.*
 
 ### Plus Numbers
 

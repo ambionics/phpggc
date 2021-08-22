@@ -157,12 +157,24 @@ class PHPGGC
     {
         $enhancements = [];
 
+        if(
+            in_array('ascii-strings', $this->options) &&
+            in_array('armor-strings', $this->options)
+        ) {
+            $this->e(
+                'Both ascii-strings and armor-strings are both set but they ' .
+                'are mutually exclusive'
+            );
+        }
+
         if(isset($this->parameters['wrapper']))
             $enhancements[] = new Enhancement\Wrapper($this->parameters['wrapper']);
         if(in_array('fast-destruct', $this->options))
             $enhancements[] = new Enhancement\FastDestruct();
         if(in_array('ascii-strings', $this->options))
-            $enhancements[] = new Enhancement\ASCIIStrings();
+            $enhancements[] = new Enhancement\ASCIIStrings(false);
+        if(in_array('armor-strings', $this->options))
+            $enhancements[] = new Enhancement\ASCIIStrings(true);
         if(isset($this->parameters['plus-numbers']))
             $enhancements[] = new Enhancement\PlusNumbers(
                 $this->parameters['plus-numbers']
@@ -555,17 +567,24 @@ class PHPGGC
         $this->o('     right after the unserialize() call, as opposed to at the end of the');
         $this->o('     script');
         $this->o('  -a, --ascii-strings');
-        $this->o('     Uses the \'S\' serialization format instead of the standard \'s\'. This');
-        $this->o('     replaces every non-ASCII value to an hexadecimal representation:');
-        $this->o('     s:5:"A<null_byte>B<cr><lf>"; -> S:5:"A\\00B\\09\\0D";');
+        $this->o('     Uses the \'S\' serialization format instead of the standard \'s\' for non-printable chars.');
+        $this->o('     This replaces every non-ASCII value to an hexadecimal representation:');
+        $this->o('       s:5:"A<null_byte>B<cr><lf>"; -> S:5:"A\\00B\\09\\0D";');
         $this->o('     This is experimental and it might not work in some cases.');
+        $this->o('  -A, --armor-strings');
+        $this->o('     Uses the \'S\' serialization format instead of the standard \'s\' for every char.');
+        $this->o('     This replaces every character to an hexadecimal representation:');
+        $this->o('       s:5:"A<null_byte>B<cr><lf>"; -> S:5:"\\41\\00\\42\\09\\0D";');
+        $this->o('     This is experimental and it might not work in some cases.');
+        $this->o('     Note: Since strings grow by a factor of 3 using this option, the payload can get');
+        $this->o('     really long.');
         $this->o('  -n, --plus-numbers <types>');
         $this->o('     Adds a + symbol in front of every number symbol of the given type.');
         $this->o('     For instance, -n iO adds a + in front of every int and object name size:');
         $this->o('     O:3:"Abc":1:{s:1:"x";i:3;} -> O:+3:"Abc":1:{s:1:"x";i:+3;}');
         $this->o('     Note: Since PHP 7.2, only i and d (float) types can have a +');
         $this->o('  -w, --wrapper <wrapper>');
-        $this->o('     Specifies a file containing either or both functions:');
+        $this->o('     Specifies a file containing at least one wrapper functions:');
         $this->o('       - process_parameters($parameters): called right before object is created');
         $this->o('       - process_object($object): called right before the payload is serialized');
         $this->o('       - process_serialized($serialized): called right after the payload is serialized');
@@ -639,6 +658,7 @@ class PHPGGC
             # Enhancements
             'fast-destruct' => false,
             'ascii-strings' => false,
+            'armor-strings' => false,
             'plus-numbers' => true,
             # Encoders
             'soft' => false,
@@ -660,7 +680,9 @@ class PHPGGC
             'phar-jpeg' => 'pj',
             'phar-prefix' => 'pp',
             'phar-filename' => 'pf',
-            'new' => 'N'
+            'new' => 'N',
+            'ascii-strings' => 'a',
+            'armor-strings' => 'A'
         ] + $abbreviations;
 
         # If we are in this function, the argument starts with a dash, so we

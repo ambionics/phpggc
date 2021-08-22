@@ -11,6 +11,11 @@ namespace PHPGGC\Enhancement;
  */
 class ASCIIStrings extends Enhancement
 {
+    public function __construct($full=false)
+    {
+        $this->full = $full;
+    }
+
     public function process_serialized($serialized)
     {
         $new = '';
@@ -25,13 +30,14 @@ class ASCIIStrings extends Enhancement
             )
         )
         {
-
             $p_start = $matches[0][1];
             $p_start_string = $p_start + strlen($matches[0][0]);
             $length = $matches[1][0];
             $p_end_string = $p_start_string + $length;
 
             # Check if this really is a serialized string
+            # This is error-prone: if a stirng contains a serialized string,
+            # for instance, ... 
             if(!(
                 strlen($serialized) > $p_end_string + 2 &&
                 substr($serialized, $p_end_string, 2) == '";'
@@ -47,10 +53,10 @@ class ASCIIStrings extends Enhancement
             for($i=0; $i < strlen($string); $i++)
             {
                 $letter = $string[$i];
-                $clean_string .= ctype_print($letter) && $letter != '\\' ?
-                    $letter :
-                    sprintf("\\%02x", ord($letter));
-                ;
+                if($this->full || !ctype_print($letter) || $letter == '\\')
+                    $letter = sprintf("\\%02x", ord($letter));
+                
+                $clean_string .= $letter;
             }
 
             # Make the replacement
