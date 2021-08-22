@@ -52,6 +52,7 @@ abstract class GadgetChain
     const TYPE_FD = 'File delete';
     const TYPE_SQLI = 'SQL injection';
     const TYPE_INFO = 'phpinfo()';
+    const TYPE_SHELL = 'Write Shell';
 
     function __construct()
     {
