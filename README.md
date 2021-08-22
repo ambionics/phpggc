@@ -73,8 +73,8 @@ Symfony/RCE3                              2.6 <= 2.8.32                     RCE 
 Symfony/RCE4                              3.4.0-34, 4.2.0-11, 4.3.0-7       RCE (Function call)    __destruct     *    
 Symfony/RCE5                              5.2.*                             RCE (Function call)    __destruct          
 TCPDF/FD1                                 <= 6.3.5                          File delete            __destruct     *   
-ThinkPHP/FW1                              5.0.4-5.0.24                       Write Shell            __destruct    *    
-ThinkPHP/FW2                              5.0.0-5.0.03                       Write Shell            __destruct    * 
+ThinkPHP/FW1                              5.0.4-5.0.24                      Write Shell            __destruct    *    
+ThinkPHP/FW2                              5.0.0-5.0.03                      Write Shell            __destruct    * 
 ThinkPHP/RCE1                             5.1.x-5.2.x                       RCE (Function call)    __destruct     *    
 WordPress/Dompdf/RCE1                     0.8.5+ & WP < 5.5.2               RCE (Function call)    __destruct     *    
 WordPress/Dompdf/RCE2                     0.7.0 <= 0.8.4 & WP < 5.5.2       RCE (Function call)    __destruct     *    
