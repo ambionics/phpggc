@@ -21,9 +21,9 @@ namespace PHPGGC;
  *
  * Along with the generate() method, which converts parameters into an object,
  * three generic methods are available:
- * - process_parameters($parameters)
- * - process_object($object)
- * - process_serialized($serialized)
+ * - process_parameters(array $parameters)
+ * - process_object(object $object)
+ * - process_serialized(string $serialized)
  *
  * Those methods are to be found in other PHPGGC classes, for instance the main
  * class for handling CLI, PHPGGC. Refer to their documentation to understand

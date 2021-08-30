@@ -585,9 +585,9 @@ class PHPGGC
         $this->o('     Note: Since PHP 7.2, only i and d (float) types can have a +');
         $this->o('  -w, --wrapper <wrapper>');
         $this->o('     Specifies a file containing at least one wrapper functions:');
-        $this->o('       - process_parameters($parameters): called right before object is created');
-        $this->o('       - process_object($object): called right before the payload is serialized');
-        $this->o('       - process_serialized($serialized): called right after the payload is serialized');
+        $this->o('       - process_parameters(array $parameters): called right before object is created');
+        $this->o('       - process_object(object $object): called right before the payload is serialized');
+        $this->o('       - process_serialized(string $serialized): called right after the payload is serialized');
         $this->o('');
         $this->o('ENCODING');
         $this->o('  -s, --soft   Soft URLencode');
