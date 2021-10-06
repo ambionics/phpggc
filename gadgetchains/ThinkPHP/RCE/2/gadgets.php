@@ -1,69 +1,67 @@
 <?php
 
-namespace think\process\pipes{
-
+namespace think\process\pipes
+{
     use think\model\Pivot;
 
-    class Pipes{
-
+    class Pipes
+    {
     }
 
-    class Windows extends Pipes{
+    class Windows extends Pipes
+    {
         private $files = [];
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->files = [new Pivot($function, $parameter)];
         }
-
     }
-
 }
 
-namespace think\model{
-
+namespace think\model
+{
     use think\db\Query;
 
-    abstract class Relation{
-
+    abstract class Relation
+    {
     }
-
 }
 
-namespace think\model\relation{
-
+namespace think\model\relation
+{
     use think\model\Relation;
-
     use think\db\Query;
 
-    abstract class OneToOne extends Relation{
-
+    abstract class OneToOne extends Relation
+    {
     }
 
-    class HasOne extends OneToOne{
+    class HasOne extends OneToOne
+    {
 
         protected $selfRelation;
         protected $query;
         protected $bindAttr = [];
 
-        function __construct($function, $parameter){
-            $this->bindAttr = ["no","123"];
+        function __construct($function, $parameter)
+        {
+            $this->bindAttr = ["no", "123"];
             $this->selfRelation = false;
             $this->query = new Query($function, $parameter);
         }
-
     }
 }
 
 
-namespace think{
-
+namespace think
+{
     use think\model\relation\HasOne;
-
     use think\console\Output;
-
     use think\db\Query;
 
-    abstract class Model{
+    abstract class Model
+    {
 
         protected $append = [];
         protected $error;
@@ -71,129 +69,130 @@ namespace think{
         protected $selfRelation;
         protected $query;
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->append = ['getError'];
             $this->error = new HasOne($function, $parameter);
             $this->parent = new Output($function, $parameter);
             $this->selfRelation = false;
             $this->query = new Query($function, $parameter);
-
         }
-
     }
 }
 
 
-namespace think\db{
-
+namespace think\db
+{
     use think\console\Output;
 
-    class Query{
+    class Query
+    {
         protected $model;
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->model = new Output($function, $parameter);
         }
-
     }
 }
 
 
-namespace think\console{
-
+namespace think\console
+{
     use think\session\driver\Memcached;
 
-    class Output{
+    class Output
+    {
 
         private $handle = null;
         protected $styles = [];
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->handle = new Memcached($function, $parameter);
             $this->styles = ['getAttr'];
         }
-
     }
-
 }
 
 
-namespace think\session\driver{
-
+namespace think\session\driver
+{
     use think\cache\driver\Memcache;
 
-    class Memcached{
+    class Memcached
+    {
 
         protected $handler = null;
         protected $config  = [];
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->handler = new Memcache($function, $parameter);
             $this->config = [
-                'host'         => '127.0.0.1', 
-                'port'         => 11211, 
-                'expire'       => 3600, 
-                'timeout'      => 0, 
-                'session_name' => 'HEXENS', 
-                'username'     => '', 
-                'password'     => '', 
+                'host'         => '127.0.0.1',
+                'port'         => 11211,
+                'expire'       => 3600,
+                'timeout'      => 0,
+                'session_name' => 'HEXENS',
+                'username'     => '',
+                'password'     => '',
             ];
         }
-
     }
-
 }
 
 
 
-namespace think\cache\driver{
-
+namespace think\cache\driver
+{
     use think\Request;
 
-    class Memcache{
+    class Memcache
+    {
 
         protected $options = [];
         protected $handler = null;
         protected $tag;
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->handler = new Request($function, $parameter);
             $this->options = [
-            'expire'        => 0,
-            'cache_subdir'  => false,
-            'prefix'        => '',
-            'path'          => '',
-            'data_compress' => false,
+                'expire'        => 0,
+                'cache_subdir'  => false,
+                'prefix'        => '',
+                'path'          => '',
+                'data_compress' => false,
             ];
             $this->tag = true;
         }
     }
-
 }
 
 
 
-namespace think{
-
-    class Request{
+namespace think
+{
+    class Request
+    {
 
         protected $get;
         protected $filter;
 
-        function __construct($function, $parameter){
+        function __construct($function, $parameter)
+        {
             $this->get = ["HEXENS<getAttr>no<" => $parameter];
             $this->filter = $function;
         }
     }
-
 }
 
 
-namespace think\model{
-
+namespace think\model
+{
     use think\Model;
 
-    class Pivot extends Model{
-
+    class Pivot extends Model
+    {
     }
-
 }
