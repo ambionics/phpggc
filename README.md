@@ -20,9 +20,6 @@ $ ./phpggc -l
 Gadget Chains
 -------------
 
-Gadget Chains
--------------
-
 NAME                                      VERSION                            TYPE                   VECTOR         I    
 CakePHP/RCE1                              ? <= 3.9.6                         RCE (Command)          __destruct          
 CakePHP/RCE2                              ? <= 4.2.3                         RCE (Function call)    __destruct          
@@ -81,6 +78,7 @@ TCPDF/FD1                                 <= 6.3.5                           Fil
 ThinkPHP/FW1                              5.0.4-5.0.24                       File write             __destruct     *    
 ThinkPHP/FW2                              5.0.0-5.0.03                       File write             __destruct     *    
 ThinkPHP/RCE1                             5.1.x-5.2.x                        RCE (Function call)    __destruct     *    
+ThinkPHP/RCE2                             5.0.24                             RCE (Function call)    __destruct     *    
 WordPress/Dompdf/RCE1                     0.8.5+ & WP < 5.5.2                RCE (Function call)    __destruct     *    
 WordPress/Dompdf/RCE2                     0.7.0 <= 0.8.4 & WP < 5.5.2        RCE (Function call)    __destruct     *    
 WordPress/Guzzle/RCE1                     4.0.0 <= 6.4.1+ & WP < 5.5.2       RCE (Function call)    __toString     *    
@@ -103,7 +101,7 @@ ZendFramework/FD1                         ? <= 1.12.20                       Fil
 ZendFramework/RCE1                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
-ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     * 
+ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 
 ```
 
