@@ -45,10 +45,10 @@ namespace think\model\relation{
         protected $query;
         protected $bindAttr = [];
 
-        function __construct(){
+        function __construct($function, $parameter){
             $this->bindAttr = ["no","123"];
             $this->selfRelation = false;
-            $this->query = new Query();
+            $this->query = new Query($function, $parameter);
         }
 
     }
@@ -73,7 +73,7 @@ namespace think{
 
         function __construct($function, $parameter){
             $this->append = ['getError'];
-            $this->error = new HasOne();
+            $this->error = new HasOne($function, $parameter);
             $this->parent = new Output($function, $parameter);
             $this->selfRelation = false;
             $this->query = new Query($function, $parameter);
@@ -90,7 +90,7 @@ namespace think\db{
 
     class Query{
         protected $model;
-        function __construct(){
+        function __construct($function, $parameter){
             $this->model = new Output($function, $parameter);
         }
 
