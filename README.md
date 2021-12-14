@@ -59,6 +59,7 @@ PHPExcel/FD1                              1.8.2+                             Fil
 PHPExcel/FD2                              <= 1.8.1                           File delete            __destruct          
 PHPExcel/FD3                              1.8.2+                             File delete            __destruct          
 PHPExcel/FD4                              <= 1.8.1                           File delete            __destruct          
+PHPSecLib/RCE1                            2.0.0 <= 2.0.34                    RCE (PHP code)         __destruct     *    
 Pydio/Guzzle/RCE1                         < 8.2.2                            RCE (Function call)    __toString          
 Slim/RCE1                                 3.8.1                              RCE (Function call)    __toString          
 Smarty/FD1                                ?                                  File delete            __destruct          
@@ -102,7 +103,7 @@ ZendFramework/FD1                         ? <= 1.12.20                       Fil
 ZendFramework/RCE1                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
-ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
+ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *   
 
 ```
 
