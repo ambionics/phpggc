@@ -303,7 +303,7 @@ class PHPGGC
 
         $base = DIR_GADGETCHAINS . '/' . $name . '/' . $type . '/';
 
-        for($i=1;file_exists($base . $i);$i++);
+        for($i=1; file_exists($base . $i); $i++);
 
         $base = $base . $i;
         mkdir($base, 0777, true);

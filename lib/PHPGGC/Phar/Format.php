@@ -52,7 +52,6 @@ abstract class Format
 
 		$phar = new \Phar($path);
         $phar->startBuffering();
-        $phar->addFromString("dummy", 'test');
         $phar->addFromString($this->parameters['filename'], 'test');
         $phar->setStub(
             $this->parameters['prefix'] .
