@@ -42,7 +42,8 @@ Laravel/RCE3                              5.5.39                             RCE
 Laravel/RCE4                              5.5.39                             RCE (Function call)    __destruct          
 Laravel/RCE5                              5.8.30                             RCE (PHP code)         __destruct     *    
 Laravel/RCE6                              5.5.*                              RCE (PHP code)         __destruct     *    
-Laravel/RCE7                              ? <= 8.16.1                        RCE (Function call)    __destruct     *    
+Laravel/RCE7                              ? <= 8.16.1                        RCE (Function call)    __destruct     *  
+Laravel/RCE8                              ? <= 8.6.9                         RCE (Function call)    __destruct   
 Magento/FW1                               ? <= 1.9.4.0                       File write             __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0                       SQL injection          __destruct          
 Monolog/RCE1                              1.4.1 <= 1.6.0 1.17.2 <= 2.2.0+    RCE (Function call)    __destruct          
