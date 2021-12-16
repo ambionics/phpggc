@@ -4,7 +4,7 @@ namespace GadgetChain\Laravel;
 
 class RCE3 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '5.5.39';
+    public static $version = '5.5.0 <= 5.8.35';
     public static $vector = '__destruct';
     public static $author = 'BlackFan';
     public static $information = 'This chain triggers an ErrorException after code execution.';

@@ -37,13 +37,13 @@ Horde/RCE1                                <= 5.2.22                          RCE
 Laminas/FD1                               <= 2.11.2                          File delete            __destruct          
 Laminas/FW1                               2.8.0 <= 3.0.x-dev                 File write             __destruct     *    
 Laravel/RCE1                              5.4.27                             RCE (Function call)    __destruct          
-Laravel/RCE2                              5.5.39                             RCE (Function call)    __destruct          
-Laravel/RCE3                              5.5.39                             RCE (Function call)    __destruct     *    
-Laravel/RCE4                              5.5.39                             RCE (Function call)    __destruct          
+Laravel/RCE2                              5.4.0 <= 8.6.9+                    RCE (Function call)    __destruct          
+Laravel/RCE3                              5.5.0 <= 5.8.35                    RCE (Function call)    __destruct     *    
+Laravel/RCE4                              5.4.0 <= 8.6.9+                    RCE (Function call)    __destruct          
 Laravel/RCE5                              5.8.30                             RCE (PHP code)         __destruct     *    
-Laravel/RCE6                              5.5.*                              RCE (PHP code)         __destruct     *    
-Laravel/RCE7                              ? <= 8.16.1                        RCE (Function call)    __destruct     *  
-Laravel/RCE8                              ? <= 8.6.9                         RCE (Function call)    __destruct   
+Laravel/RCE6                              5.5.* <= 5.8.35                    RCE (PHP code)         __destruct     *    
+Laravel/RCE7                              ? <= 8.16.1                        RCE (Function call)    __destruct     *    
+Laravel/RCE8                              7.0.0 <= 8.6.9+                    RCE (Function call)    __destruct     *    
 Magento/FW1                               ? <= 1.9.4.0                       File write             __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0                       SQL injection          __destruct          
 Monolog/RCE1                              1.4.1 <= 1.6.0 1.17.2 <= 2.2.0+    RCE (Function call)    __destruct          
@@ -104,7 +104,7 @@ ZendFramework/FD1                         ? <= 1.12.20                       Fil
 ZendFramework/RCE1                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
-ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *   
+ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *
 
 ```
 
