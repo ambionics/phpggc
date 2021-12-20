@@ -105,7 +105,7 @@ ZendFramework/RCE1                        ? <= 1.12.20                       RCE
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
 ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *
-Kohana/SSRF1                              3.*                                File read (include)    __toString
+Kohana/FR1                                3.*                                File read (include)    __toString
 ```
 
 Filter gadget chains:
