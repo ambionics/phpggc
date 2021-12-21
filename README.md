@@ -33,7 +33,8 @@ Drupal7/RCE1                              7.0.8 < ?                          RCE
 Guzzle/FW1                                6.0.0 <= 6.3.3+                    File write             __destruct          
 Guzzle/INFO1                              6.0.0 <= 6.3.2                     phpinfo()              __destruct     *    
 Guzzle/RCE1                               6.0.0 <= 6.3.2                     RCE (Function call)    __destruct     *    
-Horde/RCE1                                <= 5.2.22                          RCE (PHP code)         __destruct     *    
+Horde/RCE1                                <= 5.2.22                          RCE (PHP code)         __destruct     *
+Kohana/FR1                                3.*                                File read (include)    __toString    
 Laminas/FD1                               <= 2.11.2                          File delete            __destruct          
 Laminas/FW1                               2.8.0 <= 3.0.x-dev                 File write             __destruct     *    
 Laravel/RCE1                              5.4.27                             RCE (Function call)    __destruct          
@@ -105,7 +106,6 @@ ZendFramework/RCE1                        ? <= 1.12.20                       RCE
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
 ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *
-Kohana/FR1                                3.*                                File read (include)    __toString
 ```
 
 Filter gadget chains:
