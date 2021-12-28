@@ -13,17 +13,17 @@ namespace think\process\pipes {
 namespace think\model\concern {
     trait Conversion
     {
-        protected $append = array("Smi1e" => "1");
+        protected $append = array("smi1e" => "1");
     }
 
     trait Attribute
     {
         private $data;
-        private $withAttr = array("Smi1e" => "system");
+        private $withAttr = array("smi1e" => "system");
 
         public function get($system)
         {
-            $this->data = array("Smi1e" => "$system");
+            $this->data = array("smi1e" => "$system");
         }
     }
 }
