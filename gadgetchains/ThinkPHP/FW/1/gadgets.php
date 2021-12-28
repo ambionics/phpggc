@@ -37,6 +37,7 @@ namespace think\model
 
     class Relation
     {
+        protected $query;
     }
 }
 
