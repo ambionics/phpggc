@@ -39,7 +39,6 @@ namespace think\model\relation
 
     class HasOne extends OneToOne
     {
-
         protected $selfRelation;
         protected $query;
         protected $bindAttr = [];
@@ -62,7 +61,6 @@ namespace think
 
     abstract class Model
     {
-
         protected $append = [];
         protected $error;
         protected $parent;
@@ -102,7 +100,6 @@ namespace think\console
 
     class Output
     {
-
         private $handle = null;
         protected $styles = [];
 
@@ -121,7 +118,6 @@ namespace think\session\driver
 
     class Memcached
     {
-
         protected $handler = null;
         protected $config  = [];
 
@@ -149,7 +145,6 @@ namespace think\cache\driver
 
     class Memcache
     {
-
         protected $options = [];
         protected $handler = null;
         protected $tag;
@@ -175,7 +170,6 @@ namespace think
 {
     class Request
     {
-
         protected $get;
         protected $filter;
 
