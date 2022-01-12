@@ -17,7 +17,7 @@ namespace Dompdf\Adapter {
 
 namespace Dompdf {
     class Options {
-        public $debugPng = true;
+        public $debugPng = false;
     }
 
     class Dompdf {
