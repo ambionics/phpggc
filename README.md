@@ -28,13 +28,15 @@ CodeIgniter4/RCE2                         4.0.0-rc.4 <= 4.0.4+               RCE
 CodeIgniter4/RCE3                         -4.1.3+                            RCE (Function call)    __destruct          
 Doctrine/FW1                              ?                                  File write             __toString     *    
 Doctrine/FW2                              2.3.0 <= 2.4.0 v2.5.0 <= 2.8.5     File write             __destruct     *    
+Dompdf/FD1                                1.1.1 <= ?                         File delete            __destruct     *    
+Dompdf/FD2                                ? < 1.1.1                          File delete            __destruct     *    
 Drupal7/FD1                               7.0 < ?                            File delete            __destruct     *    
 Drupal7/RCE1                              7.0.8 < ?                          RCE (Function call)    __destruct     *    
 Guzzle/FW1                                6.0.0 <= 6.3.3+                    File write             __destruct          
 Guzzle/INFO1                              6.0.0 <= 6.3.2                     phpinfo()              __destruct     *    
 Guzzle/RCE1                               6.0.0 <= 6.3.2                     RCE (Function call)    __destruct     *    
-Horde/RCE1                                <= 5.2.22                          RCE (PHP code)         __destruct     *
-Kohana/FR1                                3.*                                File read (include)    __toString    
+Horde/RCE1                                <= 5.2.22                          RCE (PHP code)         __destruct     *    
+Kohana/FR1                                3.*                                File read              __toString     *    
 Laminas/FD1                               <= 2.11.2                          File delete            __destruct          
 Laminas/FW1                               2.8.0 <= 3.0.x-dev                 File write             __destruct     *    
 Laravel/RCE1                              5.4.27                             RCE (Function call)    __destruct          
@@ -83,6 +85,7 @@ ThinkPHP/FW1                              5.0.4-5.0.24                       Fil
 ThinkPHP/FW2                              5.0.0-5.0.03                       File write             __destruct     *    
 ThinkPHP/RCE1                             5.1.x-5.2.x                        RCE (Function call)    __destruct     *    
 ThinkPHP/RCE2                             5.0.24                             RCE (Function call)    __destruct     *    
+Typo3/FD1                                 4.5.35 <= 10.4.1                   File delete            __destruct     *    
 WordPress/Dompdf/RCE1                     0.8.5+ & WP < 5.5.2                RCE (Function call)    __destruct     *    
 WordPress/Dompdf/RCE2                     0.7.0 <= 0.8.4 & WP < 5.5.2        RCE (Function call)    __destruct     *    
 WordPress/Guzzle/RCE1                     4.0.0 <= 6.4.1+ & WP < 5.5.2       RCE (Function call)    __toString     *    
@@ -105,7 +108,7 @@ ZendFramework/FD1                         ? <= 1.12.20                       Fil
 ZendFramework/RCE1                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 ZendFramework/RCE2                        1.11.12 <= 1.12.20                 RCE (Function call)    __toString     *    
 ZendFramework/RCE3                        2.0.1 <= ?                         RCE (Function call)    __destruct          
-ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *
+ZendFramework/RCE4                        ? <= 1.12.20                       RCE (PHP code)         __destruct     *    
 ```
 
 Filter gadget chains:
