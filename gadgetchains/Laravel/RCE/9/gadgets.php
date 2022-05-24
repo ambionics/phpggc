@@ -1,13 +1,15 @@
 <?php
-namespace Illuminate\Contracts\Queue{
+namespace Illuminate\Contracts\Queue
+{
     interface ShouldQueue
     {
-        //
     }
 }
 
-namespace Illuminate\Bus{
-    class Dispatcher{
+namespace Illuminate\Bus
+{
+    class Dispatcher
+    {
         protected $container;
         protected $pipeline;
         protected $pipes = [];
@@ -21,19 +23,23 @@ namespace Illuminate\Bus{
     }
 }
 
-namespace Illuminate\Broadcasting{
-
+namespace Illuminate\Broadcasting
+{
     use Illuminate\Contracts\Queue\ShouldQueue;
 
-    class BroadcastEvent implements ShouldQueue {
+    class BroadcastEvent implements ShouldQueue
+    {
         function __construct()
         {
 
         }
     }
-    class PendingBroadcast{
+
+    class PendingBroadcast
+    {
         protected $events;
         protected $event;
+        
         function __construct($dispatcher,$param)
         {
             $this->event = new BroadcastEvent();
