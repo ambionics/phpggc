@@ -49,13 +49,14 @@ Laravel/RCE7                              ? <= 8.16.1                        RCE
 Laravel/RCE8                              7.0.0 <= 8.6.9+                    RCE (Function call)    __destruct     *    
 Magento/FW1                               ? <= 1.9.4.0                       File write             __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0                       SQL injection          __destruct          
-Monolog/RCE1                              1.4.1 <= 1.6.0 1.17.2 <= 2.2.0+    RCE (Function call)    __destruct          
-Monolog/RCE2                              1.4.1 <= 2.2.0+                    RCE (Function call)    __destruct          
+Monolog/RCE1                              1.4.1 <= 1.6.0 1.17.2 <= 2.7.0+    RCE (Function call)    __destruct          
+Monolog/RCE2                              1.4.1 <= 2.7.0+                    RCE (Function call)    __destruct          
 Monolog/RCE3                              1.1.0 <= 1.10.0                    RCE (Function call)    __destruct          
 Monolog/RCE4                              ? <= 2.4.4+                        RCE (Command)          __destruct     *    
-Monolog/RCE5                              1.25 <= 2.2.0+                     RCE (Function call)    __destruct          
-Monolog/RCE6                              1.10.0 <= 2.2.0+                   RCE (Function call)    __destruct          
-Monolog/RCE7                              1.10.0 <= 2.2.0+                   RCE (Function call)    __destruct     *    
+Monolog/RCE5                              1.25 <= 2.7.0+                     RCE (Function call)    __destruct          
+Monolog/RCE6                              1.10.0 <= 2.7.0+                   RCE (Function call)    __destruct          
+Monolog/RCE7                              1.10.0 <= 2.7.0+                   RCE (Function call)    __destruct     *    
+Monolog/RCE8                              3.0.0 <= 3.1.0+                    RCE (Function call)    __destruct     *    
 Phalcon/RCE1                              <= 1.2.2                           RCE                    __wakeup       *    
 PHPCSFixer/FD1                            <= 2.17.3                          File delete            __destruct          
 PHPCSFixer/FD2                            <= 2.17.3                          File delete            __destruct          

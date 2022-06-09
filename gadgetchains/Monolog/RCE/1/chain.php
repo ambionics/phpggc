@@ -4,7 +4,7 @@ namespace GadgetChain\Monolog;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '1.4.1 <= 1.6.0 1.17.2 <= 2.2.0+';
+    public static $version = '1.4.1 <= 1.6.0 1.17.2 <= 2.7.0+';
     public static $vector = '__destruct';
     public static $author = 'cf';
 
