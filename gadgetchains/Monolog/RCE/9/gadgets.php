@@ -11,7 +11,7 @@ namespace Monolog\Handler
         
         function __construct($function, $parameter)
         {
-            $this->processors = ['end', $function];
+            $this->processors = ['get_object_vars', 'end', $function];
             $this->buffer = [new \Monolog\LogRecord($parameter)];
             $this->handler = $this;
         }

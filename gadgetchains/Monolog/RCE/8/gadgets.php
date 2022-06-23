@@ -45,7 +45,7 @@ namespace Monolog\Handler
         {
             $this->handler = $this;
             $this->buffer = [new \Monolog\LogRecord($parameter)];
-            $this->processors = ['end', $function];
+            $this->processors = ['get_object_vars', 'end', $function];
         }
     }
 }
