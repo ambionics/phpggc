@@ -52,6 +52,7 @@ Laravel/RCE9                              5.4.0 <= 9.1.8+                    RCE
 Magento/FW1                               ? <= 1.9.4.0                       File write             __destruct     *    
 Magento/SQLI1                             ? <= 1.9.4.0                       SQL injection          __destruct          
 Magento2/FD1                              *                                  File delete            __destruct     *    
+Monolog/FW1                               3.0.0 <= 3.1.0+                    File write             __destruct     *    
 Monolog/RCE1                              1.4.1 <= 1.6.0 1.17.2 <= 2.7.0+    RCE (Function call)    __destruct          
 Monolog/RCE2                              1.4.1 <= 2.7.0+                    RCE (Function call)    __destruct          
 Monolog/RCE3                              1.1.0 <= 1.10.0                    RCE (Function call)    __destruct          
@@ -124,14 +125,17 @@ $ ./phpggc -l laravel
 Gadget Chains
 -------------
 
-NAME            VERSION        TYPE                   VECTOR        I    
-Laravel/RCE1    5.4.27         RCE (Function call)    __destruct         
-Laravel/RCE2    5.5.39         RCE (Function call)    __destruct         
-Laravel/RCE3    5.5.39         RCE (Function call)    __destruct    *    
-Laravel/RCE4    5.5.39         RCE (Function call)    __destruct         
-Laravel/RCE5    5.8.30         RCE (PHP code)         __destruct    *    
-Laravel/RCE6    5.5.*          RCE (PHP code)         __destruct    *    
-Laravel/RCE7    ? <= 8.16.1    RCE (Function call)    __destruct    *
+NAME             VERSION            TYPE                   VECTOR        I    
+Laravel/RCE1     5.4.27             RCE (Function call)    __destruct         
+Laravel/RCE10    5.6.0 <= 9.1.8+    RCE (Function call)    __toString         
+Laravel/RCE2     5.4.0 <= 8.6.9+    RCE (Function call)    __destruct         
+Laravel/RCE3     5.5.0 <= 5.8.35    RCE (Function call)    __destruct    *    
+Laravel/RCE4     5.4.0 <= 8.6.9+    RCE (Function call)    __destruct         
+Laravel/RCE5     5.8.30             RCE (PHP code)         __destruct    *    
+Laravel/RCE6     5.5.* <= 5.8.35    RCE (PHP code)         __destruct    *    
+Laravel/RCE7     ? <= 8.16.1        RCE (Function call)    __destruct    *    
+Laravel/RCE8     7.0.0 <= 8.6.9+    RCE (Function call)    __destruct    *    
+Laravel/RCE9     5.4.0 <= 9.1.8+    RCE (Function call)    __destruct         
 
 ```
 
