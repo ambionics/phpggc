@@ -46,9 +46,7 @@ namespace CodeIgniter {
 
             $this->validation = $validation;
             $this->validationRules = array(
-                "id" => array(
-                    "rules" => array($func)
-                )
+                "id" => array($func)
             );
         }
     }
@@ -65,6 +63,6 @@ namespace CodeIgniter\Validation {
 }
 
 namespace CodeIgniter\Database {
-    class BaseBuilder { 
+    class BaseBuilder {
     }
 }
