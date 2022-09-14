@@ -169,10 +169,12 @@ class Executor:
         if path.exists():
             php_file = str(path.absolute())
 
+        php_binary = os.environ.get("PHP_BINARY", "php")
+
         if self._try_run_command(php_file):
             return (php_file,)
-        elif path.exists() and self._try_run_command("php", php_file):
-            return ("php", php_file)
+        elif path.exists() and self._try_run_command(php_binary, php_file):
+            return (php_binary, php_file)
         raise TesterException(f"Unable to run PHP file: {php_file}")
 
     def get_commands(self):
