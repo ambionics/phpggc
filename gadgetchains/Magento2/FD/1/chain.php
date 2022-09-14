@@ -8,11 +8,11 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
     public static $vector = '__destruct';
     public static $author = 'Arjun Shibu (twitter.com/0xsegf)';
     public static $information = 'Deletes a given file/directory in the installation dir';
-    public static $parameters = ['file'];
+    public static $parameters = ['remote_path'];
 
     public function generate(array $parameters)
     {
-        $file = $parameters['file'];
+        $file = $parameters['remote_path'];
 
         return new \Magento\RemoteStorage\Plugin\Image($file);
     }
