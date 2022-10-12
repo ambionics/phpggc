@@ -88,6 +88,7 @@ class PHPGGC
         # mechanism allowing to delete classes in PHP. Therefore, a new PHP process
         # has to be created.
         $output = shell_exec(
+            PHP_BINARY . ' ' .
             escapeshellarg(DIR_LIB . '/test_payload.php') . ' ' .
             escapeshellarg($vector) . ' ' .
             escapeshellarg(base64_encode($payload))
