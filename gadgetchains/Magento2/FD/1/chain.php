@@ -8,7 +8,6 @@ class FD1 extends \PHPGGC\GadgetChain\FileDelete
     public static $vector = '__destruct';
     public static $author = 'Arjun Shibu (twitter.com/0xsegf)';
     public static $information = 'Deletes a given file/directory in the installation dir';
-    public static $parameters = ['remote_path'];
 
     public function generate(array $parameters)
     {
