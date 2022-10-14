@@ -4,11 +4,10 @@ namespace Faker
 {
     class Generator
     {
-        protected $providers = [];
         protected $formatters = [];
+        
         function __construct(&$formatters)
         {
-            $this->formatter = "dispatch";
             $this->formatters = &$formatters;
         }
     }
@@ -28,15 +27,11 @@ namespace Illuminate\Broadcasting
 
 namespace Symfony\Component\Mime\Part
 {
-    abstract class AbstractPart
+    class AbstractPart
     {
         private $headers = null;
 
-        /**
-         * This function is not in the original code. It just allows us to get a
-         * reference to the private $header properties easily.
-         */
-        public function createBroadcast($parameter)
+        public function __construct($parameter)
         {
             return new \Illuminate\Broadcasting\PendingBroadcast($this->headers, $parameter);
         }
@@ -50,7 +45,7 @@ namespace Symfony\Component\Mime\Part
         function __construct($function, $parameter)
         {
             $this->_headers = ["dispatch" => $function];
-            $this->inhann = $this->createBroadcast($parameter);
+            $this->inhann = parent::__construct($parameter);
         }
     }
 }
