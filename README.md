@@ -21,6 +21,7 @@ Gadget Chains
 -------------
 
 NAME                                      VERSION                            TYPE                   VECTOR         I    
+Bitrix/RCE1                               17.x.x <= 22.0.300                 RCE (Function call)    __destruct          
 CakePHP/RCE1                              ? <= 3.9.6                         RCE (Command)          __destruct          
 CakePHP/RCE2                              ? <= 4.2.3                         RCE (Function call)    __destruct          
 CodeIgniter4/RCE1                         4.0.0-beta.1 <= 4.0.0-rc.4         RCE (Function call)    __destruct          
