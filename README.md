@@ -86,7 +86,8 @@ Symfony/RCE1                              3.3                                RCE
 Symfony/RCE2                              2.3.42 < 2.6                       RCE (PHP code)         __destruct     *    
 Symfony/RCE3                              2.6 <= 2.8.32                      RCE (PHP code)         __destruct     *    
 Symfony/RCE4                              3.4.0-34, 4.2.0-11, 4.3.0-7        RCE (Function call)    __destruct     *    
-Symfony/RCE5                              5.2.*                              RCE (Function call)    __destruct          
+Symfony/RCE5                              5.2.*                              RCE (Function call)    __destruct
+Symfony/RCE6 			    	  3.4                                RCE (Command)          __destruct     *
 TCPDF/FD1                                 <= 6.3.5                           File delete            __destruct     *    
 ThinkPHP/FW1                              5.0.4-5.0.24                       File write             __destruct     *    
 ThinkPHP/FW2                              5.0.0-5.0.03                       File write             __destruct     *    
