@@ -4,7 +4,7 @@ namespace GadgetChain\CodeIgniter4;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '4.0.0-beta.1 <= 4.0.0-rc.4';
+    public static $version = '4.0.2 <= 4.0.3';
     public static $vector = '__destruct';
     public static $author = 'eboda';
 
