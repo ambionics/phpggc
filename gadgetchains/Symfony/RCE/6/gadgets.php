@@ -1,6 +1,8 @@
 <?php
-namespace Symfony\Component\Routing\Loader\Configurator{
-    class ImportConfigurator{
+namespace Symfony\Component\Routing\Loader\Configurator
+{
+    class ImportConfigurator
+    {
         private $parent;
 
         function __construct($cmd)
@@ -10,8 +12,10 @@ namespace Symfony\Component\Routing\Loader\Configurator{
     }
 }
 
-namespace Symfony\Component\Cache\Traits{
-    class RedisProxy{
+namespace Symfony\Component\Cache\Traits
+{
+    class RedisProxy
+    {
         private $initializer;
         private $redis;
 
@@ -23,8 +27,10 @@ namespace Symfony\Component\Cache\Traits{
     }
 }
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator{
-    class InstanceofConfigurator{
+namespace Symfony\Component\DependencyInjection\Loader\Configurator
+{
+    class InstanceofConfigurator
+    {
         protected $parent;
 
         function __construct($cmd)
@@ -35,8 +41,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator{
     }  
 }
 
-namespace Symfony\Component\Cache\Simple{
-    class Psr6Cache{
+namespace Symfony\Component\Cache\Simple
+{
+    class Psr6Cache
+    {
         private $pool;
 
         function __construct($cmd)
@@ -47,8 +55,10 @@ namespace Symfony\Component\Cache\Simple{
     }
 }
 
-namespace Symfony\Component\Cache\Adapter{
-    class PhpArrayAdapter{
+namespace Symfony\Component\Cache\Adapter
+{
+    class PhpArrayAdapter
+    {
         private $values;
         private $createCacheItem;
 
