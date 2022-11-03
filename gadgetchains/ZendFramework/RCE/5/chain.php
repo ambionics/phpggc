@@ -2,9 +2,9 @@
 
 namespace GadgetChain\ZendFramework;
 
-class RCE6 extends \PHPGGC\GadgetChain\RCE\FunctionCall
+class RCE5 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '2.0.1 <= ?';
+    public static $version = '2.0.0rc2 <= 2.5.3';
     public static $vector = '__destruct';
     public static $author = 'CyanM0un';
 

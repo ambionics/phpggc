@@ -1,6 +1,8 @@
 <?php
-namespace Zend\Cache\Storage\Adapter{
-    class Memory{
+namespace Zend\Cache\Storage\Adapter
+{
+    class Memory
+    {
         protected $eventHandles;
         protected $events;
 
@@ -12,8 +14,10 @@ namespace Zend\Cache\Storage\Adapter{
     }
 }
 
-namespace Zend\View\Renderer{
-    class PhpRenderer{
+namespace Zend\View\Renderer
+{
+    class PhpRenderer
+    {
         private $__helpers;
 
         function __construct($function, $param)
@@ -23,8 +27,10 @@ namespace Zend\View\Renderer{
     }
 }
 
-namespace Zend\Tag\Cloud{
-    class DecoratorPluginManager{
+namespace Zend\Tag\Cloud
+{
+    class DecoratorPluginManager
+    {
         protected $canonicalNames;
         protected $invokableClasses;
         protected $retrieveFromPeeringManagerFirst;
@@ -40,11 +46,14 @@ namespace Zend\Tag\Cloud{
     }
 }
 
-namespace Zend\Filter {
-    class FilterChain {
+namespace Zend\Filter
+{
+    class FilterChain
+    {
         protected $filters;
 
-        function __construct($function, $param) {
+        function __construct($function, $param)
+        {
             $this->filters = new \SplFixedArray(2);
             $this->filters[0] = array(
                 new \Zend\Json\Expr($param),
@@ -55,11 +64,14 @@ namespace Zend\Filter {
     }
 }
 
-namespace Zend\Json {
-    class Expr {
+namespace Zend\Json
+{
+    class Expr
+    {
         protected $expression;
 
-        function __construct($param) {
+        function __construct($param)
+        {
             $this->expression = $param;
         }
     }
