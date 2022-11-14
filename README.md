@@ -75,7 +75,9 @@ PHPSecLib/RCE1                            2.0.0 <= 2.0.34                    RCE
 Pydio/Guzzle/RCE1                         < 8.2.2                            RCE (Function call)    __toString          
 Slim/RCE1                                 3.8.1                              RCE (Function call)    __toString          
 Smarty/FD1                                ?                                  File delete            __destruct          
-Smarty/SSRF1                              ?                                  SSRF                   __destruct     *    
+Smarty/SSRF1                              ?                                  SSRF                   __destruct     *
+Spiral/RCE1                               2.8                                RCE (Function call)    __destruct
+Spiral/RCE2                               2.8                                RCE (Function call)    __destruct     *
 SwiftMailer/FD1                           -5.4.12+, -6.2.1+                  File delete            __destruct          
 SwiftMailer/FW1                           5.1.0 <= 5.4.8                     File write             __toString          
 SwiftMailer/FW2                           6.0.0 <= 6.0.1                     File write             __toString          
