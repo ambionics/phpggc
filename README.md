@@ -26,7 +26,9 @@ CakePHP/RCE1                              ? <= 3.9.6                         RCE
 CakePHP/RCE2                              ? <= 4.2.3                         RCE (Function call)    __destruct          
 CodeIgniter4/RCE1                         4.0.0-beta.1 <= 4.0.0-rc.4         RCE (Function call)    __destruct          
 CodeIgniter4/RCE2                         4.0.0-rc.4 <= 4.0.4+               RCE (Function call)    __destruct          
-CodeIgniter4/RCE3                         -4.1.3+                            RCE (Function call)    __destruct          
+CodeIgniter4/RCE3                         -4.1.3+                            RCE (Function call)    __destruct
+CodeIgniter4/RCE5                         -4.1.3+                            RCE (Function call)    __destruct
+CodeIgniter4/RCE6                         -4.1.3+                            RCE (Function call)    __destruct
 Doctrine/FW1                              ?                                  File write             __toString     *    
 Doctrine/FW2                              2.3.0 <= 2.4.0 v2.5.0 <= 2.8.5     File write             __destruct     *    
 Dompdf/FD1                                1.1.1 <= ?                         File delete            __destruct     *    
