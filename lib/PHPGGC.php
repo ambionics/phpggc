@@ -232,7 +232,7 @@ class PHPGGC
         }, $classes);
 
         $gcs = array_combine($names, $classes);
-        ksort($gcs);
+        ksort($gcs, SORT_NATURAL);
 
         return $gcs;
     }
