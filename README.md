@@ -41,7 +41,8 @@ Kohana/FR1                                3.*                                Fil
 Laminas/FD1                               <= 2.11.2                          File delete            __destruct          
 Laminas/FW1                               2.8.0 <= 3.0.x-dev                 File write             __destruct     *    
 Laravel/RCE1                              5.4.27                             RCE (Function call)    __destruct          
-Laravel/RCE10                             5.6.0 <= 9.1.8+                    RCE (Function call)    __toString          
+Laravel/RCE10                             5.6.0 <= 9.1.8+                    RCE (Function call)    __toString
+Laravel/RCE12                             5.8.35, 7.0.0, 9.3.10              RCE (Function call)    __destruct     *
 Laravel/RCE2                              5.4.0 <= 8.6.9+                    RCE (Function call)    __destruct          
 Laravel/RCE3                              5.5.0 <= 5.8.35                    RCE (Function call)    __destruct     *    
 Laravel/RCE4                              5.4.0 <= 8.6.9+                    RCE (Function call)    __destruct          
