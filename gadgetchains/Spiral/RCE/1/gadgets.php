@@ -1,4 +1,5 @@
 <?php
+
 namespace Monolog\Handler
 {
     class RotatingFileHandler
@@ -18,8 +19,10 @@ namespace Monolog\Handler
     }
 }
 
-namespace Spiral\Reactor{
-    class FileDeclaration{
+namespace Spiral\Reactor
+{
+    class FileDeclaration
+    {
         private $docComment;
 
         public function __construct($function,$parameter)
@@ -29,8 +32,10 @@ namespace Spiral\Reactor{
     }
 }
 
-namespace PhpOption{
-    class LazyOption{
+namespace PhpOption
+{
+    class LazyOption
+    {
         private $callback;
         private $arguments;
 

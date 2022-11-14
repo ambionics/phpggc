@@ -1,6 +1,9 @@
 <?php
-namespace App{
-    class App{
+
+namespace App
+{
+    class App
+    {
         protected $finalizer;
 
         function __construct($function,$param)
@@ -10,8 +13,10 @@ namespace App{
     }
 }
 
-namespace Spiral\Boot{
-    class Finalizer{
+namespace Spiral\Boot
+{
+    class Finalizer
+    {
         private $finalizers;
 
         function __construct($function,$param)
@@ -21,8 +26,10 @@ namespace Spiral\Boot{
     }
 }
 
-namespace PhpOption{
-    class LazyOption{
+namespace PhpOption
+{
+    class LazyOption
+    {
         private $callback;
         private $arguments;
 
