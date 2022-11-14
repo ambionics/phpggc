@@ -235,7 +235,13 @@ class Package:
         """Uses composer to install a specific version of the package."""
         self.clean_workdir()
         _, stderr = self._executor.composer(
-            "require", "-q", "--ignore-platform-reqs", f"{self.name}:{version}"
+            "require",
+            "--no-scripts",
+            "--no-interaction",
+            "--no-plugins",
+            "--quiet",
+            "--ignore-platform-reqs",
+            f"{self.name}:{version}",
         )
         if stderr:
             raise ValueError(f"Unable to install version: {version}")
