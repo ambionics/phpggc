@@ -123,6 +123,7 @@ ZendFramework/RCE2                        1.11.12 <= 1.12.20                    
 ZendFramework/RCE3                        2.0.1 <= ?                                           RCE (Function call)    __destruct          
 ZendFramework/RCE4                        ? <= 1.12.20                                         RCE (PHP code)         __destruct     *    
 ZendFramework/RCE5                        2.0.0rc2 <= 2.5.3                                    RCE (Function call)    __destruct```
+```
 
 Filter gadget chains:
 
