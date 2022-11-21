@@ -15,24 +15,23 @@ class Swift_Mime_SimpleMimeEntity
 		$this->cache = new Swift_KeyCache_ArrayKeyCache();
 		$this->encoder = new Swift_Mime_ContentEncoder_PlainContentEncoder();
 		$this->cacheKey = "anykey";
-        $this->maxLineLength = 100;
+		$this->maxLineLength = 100;
 	}
 }
 
 class Swift_EmbeddedFile extends Swift_Mime_SimpleMimeEntity{
 
     public function __construct($path) {
-		parent::__construct($path);
-	}
+	parent::__construct($path);
+    }
 }
 
 class Swift_Mime_Headers_OpenDKIMHeader{
     private $fieldName;
 
-	function __construct()
-	{
-        $this->fieldName = "any";
-	}
+    function __construct(){
+	$this->fieldName = "any";
+    }
 }
 
 class Swift_KeyCache_ArrayKeyCache{
@@ -56,6 +55,6 @@ class Swift_ByteStream_FileByteStream{
 
 	function __construct($path)
 	{
-		$this->path = $path;
+	    $this->path = $path;
 	}
 }
