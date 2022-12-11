@@ -217,6 +217,15 @@ class Package:
 
     def get_versions(self):
         """Uses composer to obtain each version (or tag) for the package."""
+        if ":" in self.name:
+            try:
+                versions = self.name.split(":")[1]
+                self.name = self.name.split(":")[0]
+                return [v.strip() for v in versions.split(",")]
+            except IndexError:
+                raise IndexError("Inexistant index")
+            except AttributeError:
+                raise AttributeError("No version defined")
         versions, _ = self._executor.composer("show", "-a", self.name)
         versions = re.search(r"versions :(.*)\ntype", versions).group(1)
         return [v.strip() for v in versions.split(",")]
@@ -240,7 +249,7 @@ class Package:
             "--no-interaction",
             "--no-plugins",
             "--quiet",
-            "--ignore-platform-reqs",
+            "--ignore-platform-req=ext-*",
             f"{self.name}:{version}",
         )
         if stderr:
