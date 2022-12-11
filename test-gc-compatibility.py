@@ -58,6 +58,13 @@ class Tester:
         for gc in self._gcs:
             self.ensure_gc_exists(gc)
 
+        php_version = str(self._executor.php("--version")).split('\\n')[0]
+        print(
+            f"Runing on PHP version "
+            f"[blue]{php_version}[/blue]"
+            f"."
+        )
+
         versions = self._package.get_versions()
         print(
             f"Testing {len(versions)} versions for "
@@ -184,12 +191,14 @@ class Executor:
         work_dir = pathlib.Path(__file__).parent.resolve()
         phpggc = os.environ.get("PHPGGC_PATH", str(work_dir / "phpggc"))
         composer = os.environ.get("COMPOSER_PATH", "composer")
+        php = os.environ.get("PHP_PATH", "php")
 
         if not pathlib.Path(phpggc).is_file():
             raise TesterException("phpggc executable not found")
 
         self._phpggc = self._get_valid_run_command(phpggc)
         self._composer = self._get_valid_run_command(composer)
+        self._php = self._get_valid_run_command(php)
 
     def _run(self, *args):
         """Runs a program with given arguments."""
@@ -205,6 +214,13 @@ class Executor:
         was successful or not.
         """
         return self._run(*self._phpggc, *args).returncode == 0
+
+    def php(self, *args):
+        """Runs PHP with given arguments and returns whether the execution
+        was successful or not.
+        """
+        process = self._run(*self._php, *args)
+        return process.stdout.decode("utf-8"), process.stderr.decode("utf-8")
 
 
 class Package:
