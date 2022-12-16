@@ -16,7 +16,10 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
     public static $version = '1.5.1 <= 2.7.2';
     public static $vector = '__destruct';
     public static $author = 'Remsio';
-    public static $information = 'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine. The chain is based on one chain to write, and on another one to include. Be careful, the POP chain differs depending on the PHP version';
+    public static $information = 
+        'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine. \
+        The chain is based on one chain to write, and on another one to include. \
+        Be careful, the POP chain differs depending on the PHP version';
 
     /**
      * Fast destruct implementation for both chains, mandatory to make sure the payload triggers correctly

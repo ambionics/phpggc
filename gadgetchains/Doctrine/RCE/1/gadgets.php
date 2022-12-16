@@ -2,19 +2,20 @@
 
 namespace Doctrine\Common\Cache\Psr6
 {
-
-    class CacheAdapter {
+    class CacheAdapter
+    {
         public $deferredItems = true;
         public $loader = 1;
-        public $cache;
-        
     }
-    class TypedCacheItem {
+    
+    class TypedCacheItem
+    {
         public $expiry = 99999999999999999;
         public $value = "test";
     }
 
-    class CacheItem {
+    class CacheItem
+    {
         public $expiry = 99999999999999999;
         public $value = "test";
     }
@@ -23,24 +24,28 @@ namespace Doctrine\Common\Cache\Psr6
 
 namespace Symfony\Component\Cache\Adapter
 {
-    class PhpArrayAdapter{
+    class PhpArrayAdapter
+    {
         public $file = "/tmp/aaa.mocksess"; // fixed at the time
     }
 
-    class ProxyAdapter{
-
+    class ProxyAdapter
+    {
     }
 }
 
 
 namespace Symfony\Component\HttpFoundation\Session\Storage
 {
-    class MockFileSessionStorage {
-        public $started =true;
+    class MockFileSessionStorage
+    {
+        public $started = true;
         public $savePath = "/tmp"; // Produces /tmp/aaa.mocksess
         public $id = "aaa";
     }
-    class MetadataBag{
+
+    class MetadataBag
+    {
         public $storageKey = "a";
     }
 }

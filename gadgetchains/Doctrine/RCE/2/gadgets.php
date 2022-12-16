@@ -3,7 +3,8 @@
 namespace Doctrine\Common\Cache\Psr6
 {
 
-    class CacheAdapter {
+    class CacheAdapter
+    {
         public $deferredItems = true;
     }
 
@@ -11,9 +12,12 @@ namespace Doctrine\Common\Cache\Psr6
 
 namespace Symfony\Component\Cache\Traits
 {
-    class RedisProxy {
+    class RedisProxy
+    {
         public $redis;
-        public function __construct ($parameter) {
+        
+        public function __construct ($parameter)
+        {
             $this->redis = $parameter;
         }
 
@@ -22,9 +26,11 @@ namespace Symfony\Component\Cache\Traits
 
 namespace Doctrine\Bundle\DoctrineBundle\Dbal
 {
-    class SchemaAssetsFilterManager {
+    class SchemaAssetsFilterManager
+    {
         public $schemaAssetFilters;
-        public function __construct ($function) {
+        public function __construct ($function)
+        {
             $this->schemaAssetFilters = [$function];
         }
     }
