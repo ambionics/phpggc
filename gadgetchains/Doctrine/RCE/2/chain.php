@@ -12,8 +12,9 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE\FunctionCall
     public static $vector = '__destruct';
     public static $author = 'Remsio';
     public static $information = 
-        'Based on package doctrine/doctrine-bundle, the Symfony bundle for \
-        doctrine. This chain exploits : $schemaAssetFilter($assetName) from \ SchemaAssetsFilterManager __invoke function.';
+        'Based on package doctrine/doctrine-bundle, the Symfony bundle for
+        doctrine. This chain exploits : $schemaAssetFilter($assetName) from
+        SchemaAssetsFilterManager __invoke function.';
 
     public function generate(array $parameters)
     {

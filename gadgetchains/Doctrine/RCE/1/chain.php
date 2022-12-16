@@ -17,8 +17,8 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
     public static $vector = '__destruct';
     public static $author = 'Remsio';
     public static $information = 
-        'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine. \
-        The chain is based on one chain to write, and on another one to include. \
+        'Based on package doctrine/doctrine-bundle, the Symfony bundle for doctrine.
+        The chain is based on one chain to write, and on another one to include.
         Be careful, the POP chain differs depending on the PHP version';
 
     /**
