@@ -58,9 +58,9 @@ class Tester:
         for gc in self._gcs:
             self.ensure_gc_exists(gc)
 
-        php_version = str(self._executor.php("--version")).split('\\n')[0]
+        php_version = self._executor.php("--version")[0].split('\n')[0]
         print(
-            f"Runing on PHP version "
+            f"Running on PHP version "
             f"[blue]{php_version}[/blue]"
             f"."
         )
@@ -176,12 +176,10 @@ class Executor:
         if path.exists():
             php_file = str(path.absolute())
 
-        php_binary = os.environ.get("PHP_BINARY", "php")
-
         if self._try_run_command(php_file):
             return (php_file,)
-        elif path.exists() and self._try_run_command(php_binary, php_file):
-            return (php_binary, php_file)
+        elif path.exists() and self._try_run_command(self._php_path, php_file):
+            return (self._php_path, php_file)
         raise TesterException(f"Unable to run PHP file: {php_file}")
 
     def get_commands(self):
@@ -196,9 +194,9 @@ class Executor:
         if not pathlib.Path(phpggc).is_file():
             raise TesterException("phpggc executable not found")
 
+        self._php_path = os.environ.get("PHP_BINARY", "php")
         self._phpggc = self._get_valid_run_command(phpggc)
         self._composer = self._get_valid_run_command(composer)
-        self._php = self._get_valid_run_command(php)
 
     def _run(self, *args):
         """Runs a program with given arguments."""
@@ -219,7 +217,7 @@ class Executor:
         """Runs PHP with given arguments and returns whether the execution
         was successful or not.
         """
-        process = self._run(*self._php, *args)
+        process = self._run(self._php_path, *args)
         return process.stdout.decode("utf-8"), process.stderr.decode("utf-8")
 
 
