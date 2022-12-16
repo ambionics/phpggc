@@ -144,7 +144,6 @@ Laravel/RCE6     5.5.* <= 5.8.35    RCE (PHP code)         __destruct    *
 Laravel/RCE7     ? <= 8.16.1        RCE (Function call)    __destruct    *    
 Laravel/RCE8     7.0.0 <= 8.6.9+    RCE (Function call)    __destruct    *    
 Laravel/RCE9     5.4.0 <= 9.1.8+    RCE (Function call)    __destruct         
-
 ```
 
 Every gadget chain has:
