@@ -1,4 +1,12 @@
-FROM php:7.4-cli-alpine AS builder
+FROM php:8.1-cli-alpine AS builder
+
+RUN apk add python3 py3-pip curl
+
+RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+
+RUN alias composer='php /usr/bin/composer'
+
+RUN pip install rich
 
 COPY . /phpggc
 
