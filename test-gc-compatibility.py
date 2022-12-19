@@ -17,6 +17,26 @@ Required executables:
 
 Dependencies:
     $ pip install rich
+    
+Versions:
+    You can specify package version by adding a semicolon to the package name:
+    
+    # Tests version 1.6.0 and 1.6.3
+    $ ./test-gc-compatibility.py doctrine/doctrine-bundle:1.6.0,1.6.3 doctrine/rce1
+    
+    or with a range:
+    
+    # Tests from version 5.0.0 to 6.1.3
+    $ ./test-gc-compatibility.py doctrine/doctrine-bundle:1.6.0..1.12.3 doctrine/rce1
+    
+    If no upper or lower version is present, every version before (resp. after)
+    the specified one will be tested:
+    
+    # from doctrine 1.12.0 to the newest
+    $ ./test-gc-compatibility.py doctrine/doctrine-bundle:1.12.0.. doctrine/rce1
+    # from the first version of doctrine to 1.6.0
+    $ ./test-gc-compatibility.py doctrine/doctrine-bundle:..1.6.0 doctrine/rce1
+    
 
 Credit goes to @M4yFly for the original idea and implementation.
 """
@@ -58,14 +78,14 @@ class Tester:
         for gc in self._gcs:
             self.ensure_gc_exists(gc)
 
-        php_version = self._executor.php("--version")[0].split('\n')[0]
+        php_version = self._executor.php("--version")[0].split("\n")[0]
         print(
             f"Running on PHP version "
             f"[blue]{php_version}[/blue]"
             f"."
         )
 
-        versions = self._package.get_versions()
+        versions = self._package.get_target_versions()
         print(
             f"Testing {len(versions)} versions for "
             f"[blue]{self._package.name}[/blue] against "
@@ -225,25 +245,53 @@ class Package:
     """Represents a composer package."""
 
     def __init__(self, name, executor):
-        self.name = name
+        self.extract_name_versions(name)
         self._executor = executor
         self.work_dir = pathlib.Path(tempfile.mkdtemp(prefix="phpggc"))
-
-    def get_versions(self):
-        """Uses composer to obtain each version (or tag) for the package."""
-        if ":" in self.name:
-            try:
-                versions = self.name.split(":")[1]
-                self.name = self.name.split(":")[0]
-                return [v.strip() for v in versions.split(",")]
-            except IndexError:
-                raise IndexError("Inexistant index")
-            except AttributeError:
-                raise AttributeError("No version defined")
+        
+    def extract_name_versions(self, name):
+        if ":" not in name:
+            self.name = name
+            self.versions = None
+        else:
+            self.name, self.versions = name.split(":")
+            
+    def get_package_versions(self):
         versions, _ = self._executor.composer("show", "-a", self.name)
         versions = re.search(r"versions :(.*)\ntype", versions).group(1)
         return [v.strip() for v in versions.split(",")]
 
+    def get_target_versions(self):
+        """Uses composer to obtain each version (or tag) for the package.
+        """
+        if self.versions is None:
+            return self.get_package_versions()
+            
+        package_versions = None
+        target_versions = []
+        
+        def get_version_idx_or_raise(version):
+            try:
+                return package_versions.index(version)
+            except ValueError:
+                raise ValueError(f"Version {version} could not be found")
+        
+        for version in self.versions.split(','):
+            # range
+            if '..' in version:
+                vmin, vmax = version.split('..')
+                if package_versions is None:
+                    package_versions = self.get_package_versions()
+                
+                vmin_idx = get_version_idx_or_raise(vmin) if vmin else len(package_versions)
+                vmax_idx = get_version_idx_or_raise(vmax) if vmax else 0
+                # Versions are stored from biggest to smallest
+                target_versions += package_versions[vmax_idx:vmin_idx+1]
+            else:
+                target_versions.append(version)
+        
+        return target_versions
+                
     def clean_workdir(self, final=False):
         """Removes any composer related file in the working directory, such as
         composer.json and vendor/.
