@@ -238,7 +238,6 @@ class Executor:
         work_dir = pathlib.Path(__file__).parent.resolve()
         phpggc = os.environ.get("PHPGGC_PATH", str(work_dir / "phpggc"))
         composer = os.environ.get("COMPOSER_PATH", "composer")
-        php = os.environ.get("PHP_PATH", "php")
 
         if not pathlib.Path(phpggc).is_file():
             raise TesterException("phpggc executable not found")
