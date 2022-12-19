@@ -1,8 +1,10 @@
 <?php
-class WikiPublishTask{
+class WikiPublishTask
+{
     private $cookiesFile;
 
-    function __construct($path){
+    function __construct($path)
+    {
         $this->cookiesFile = $path;
     }
 }
