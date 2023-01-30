@@ -48,6 +48,7 @@ import os
 import re
 import tempfile
 import shutil
+from concurrent.futures import ProcessPoolExecutor
 
 try:
     from rich import print
@@ -61,6 +62,10 @@ from rich.progress import Progress
 from rich.table import Table
 
 
+class UnableToInstallPackageException(Exception):
+    """A package cannot be installed."""
+
+
 class Tester:
     """Tests gadget chains against a composer package."""
 
@@ -69,10 +74,10 @@ class Tester:
 
     def run(self):
         args = setup_arguments()
-        self._cwd = os.curdir
-        self._gcs = args.gadget_chain
+        self._gcs: list[str] = args.gadget_chain
         self._executor = Executor()
         self._package = Package(args.package, executor=self._executor)
+        self._workers = args.workers
 
         for gc in self._gcs:
             self.ensure_gc_exists(gc)
@@ -86,10 +91,6 @@ class Tester:
             f"[blue]{self._package.name}[/blue] against "
             f"{len(self._gcs)} gadget chains."
         )
-
-        # We'll jump to a temporary directory for phpggc and composer to work
-        # without breaking anything.
-        os.chdir(self._package.work_dir)
 
         self.test_chains_on_versions(versions)
 
@@ -113,19 +114,28 @@ class Tester:
             self._gcs
         )
 
-        with Progress() as progress:
+        with Progress() as progress, ProcessPoolExecutor(self._workers) as ppe:
             ptask = progress.add_task("Testing chains", total=len(versions))
+            
+            futures = {version: 
+                ppe.submit(self.test_chains_on_version, version)
+                for version in versions
+            }
+            for version, future in futures.items():
+                future.add_done_callback(lambda f: progress.update(ptask, advance=1, description=f"Testing ({version})"))
 
-            for version in versions:
-                progress.update(ptask, advance=1, description=f"Testing ({version})")
+            for version, future in futures.items():
                 try:
-                    tests = self.test_chains_on_version(version)
-                except ValueError:
+                    tests = future.result()
+                except KeyboardInterrupt:
+                    ppe.shutdown(cancel_futures=True)
+                    raise
+                except UnableToInstallPackageException:
                     table.add_row(version, *errored_payload_rows)
                 else:
                     outputs = [self.__status_str(test) for test in tests]
                     table.add_row(version, self.__status_str(True), *outputs)
-
+            
             progress.update(ptask, visible=False)
 
         print(table)
@@ -134,17 +144,14 @@ class Tester:
         return test and "[green]OK" or "[red]KO"
 
     def test_chains_on_version(self, version):
-        self._package.install_version(version)
-        return [self._executor.phpggc("--test-payload", gc) for gc in self._gcs]
+        pv = PackageVersion(self._package.name, version, self._executor)
+        
+        try:
+            pv.install()
+            return [self._executor.phpggc("--test-payload", gc) for gc in self._gcs]
+        finally:
+            pv.cleanup()
 
-    def cleanup(self):
-        """Cleans up anything we might have used and go back to the original
-        directory.
-        """
-        if self._cwd:
-            os.chdir(self._cwd)
-            if self._package:
-                self._package.cleanup()
 
 
 class TesterException(Exception):
@@ -191,6 +198,7 @@ Versions:
     )
     parser.add_argument("package")
     parser.add_argument("gadget_chain", nargs="+")
+    parser.add_argument("--workers", "-w", type=int, required=False, help="Number of workers to use.Defaults to the number of CPU cores.")
 
     return parser.parse_args()
 
@@ -272,17 +280,16 @@ class Executor:
 class Package:
     """Represents a composer package."""
 
-    def __init__(self, name, executor):
+    def __init__(self, name: str, executor: Executor):
         self.extract_name_versions(name)
         self._executor = executor
-        self.work_dir = pathlib.Path(tempfile.mkdtemp(prefix="phpggc"))
 
     def extract_name_versions(self, name):
         if ":" not in name:
             self.name = name
             self.versions = None
         else:
-            self.name, self.versions = name.split(":", 1)
+            self.name, self.versions = name.split(":")
 
     def get_package_versions(self):
         versions, _ = self._executor.composer("show", "-a", self.name)
@@ -321,19 +328,29 @@ class Package:
 
         return target_versions
 
-    def clean_workdir(self, final=False):
+
+class PackageVersion:
+    def __init__(self, package: str, version: str, executor: Executor):
+        self.package = package
+        self.version = version
+        self._executor = executor
+        self.work_dir = pathlib.Path(tempfile.mkdtemp(prefix="phpggc"))
+        
+    def cleanup(self):
         """Removes any composer related file in the working directory, such as
         composer.json and vendor/.
         """
         (self.work_dir / "composer.json").unlink(missing_ok=True)
         (self.work_dir / "composer.lock").unlink(missing_ok=True)
         shutil.rmtree(self.work_dir / "vendor", ignore_errors=True)
-        if final:
-            self.work_dir.rmdir()
+        self.work_dir.rmdir()
 
-    def install_version(self, version):
+    def install(self):
         """Uses composer to install a specific version of the package."""
-        self.clean_workdir()
+        # We'll jump to a temporary directory for phpggc and composer to work
+        # without breaking anything.
+        # We can safely change directories as we are not in the original process
+        os.chdir(self.work_dir)
         _, stderr = self._executor.composer(
             "require",
             "--no-scripts",
@@ -341,14 +358,11 @@ class Package:
             "--no-plugins",
             "--quiet",
             "--ignore-platform-req=ext-*",
-            f"{self.name}:{version}",
+            f"{self.package}:{self.version}",
         )
         if stderr:
-            raise ValueError(f"Unable to install version: {version}")
-
-    def cleanup(self):
-        self.clean_workdir(final=True)
-
+            raise UnableToInstallPackageException(f"Unable to install version: {self.version}")
+    
 
 if __name__ == "__main__":
     tester = Tester()
@@ -359,5 +373,3 @@ if __name__ == "__main__":
         print(f"[red]Error: {e}[/red]")
     except KeyboardInterrupt:
         print(f"[red]Execution interrupted.")
-    finally:
-        tester.cleanup()
