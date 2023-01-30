@@ -116,13 +116,17 @@ class Tester:
 
         with Progress() as progress, ProcessPoolExecutor(self._workers) as ppe:
             ptask = progress.add_task("Testing chains", total=len(versions))
-            
-            futures = {version: 
-                ppe.submit(self.test_chains_on_version, version)
+
+            futures = {
+                version: ppe.submit(self.test_chains_on_version, version)
                 for version in versions
             }
             for version, future in futures.items():
-                future.add_done_callback(lambda f: progress.update(ptask, advance=1, description=f"Testing ({version})"))
+                future.add_done_callback(
+                    lambda f: progress.update(
+                        ptask, advance=1, description=f"Testing ({version})"
+                    )
+                )
 
             for version, future in futures.items():
                 try:
@@ -135,7 +139,7 @@ class Tester:
                 else:
                     outputs = [self.__status_str(test) for test in tests]
                     table.add_row(version, self.__status_str(True), *outputs)
-            
+
             progress.update(ptask, visible=False)
 
         print(table)
@@ -145,13 +149,12 @@ class Tester:
 
     def test_chains_on_version(self, version):
         pv = PackageVersion(self._package.name, version, self._executor)
-        
+
         try:
             pv.install()
             return [self._executor.phpggc("--test-payload", gc) for gc in self._gcs]
         finally:
             pv.cleanup()
-
 
 
 class TesterException(Exception):
@@ -198,7 +201,13 @@ Versions:
     )
     parser.add_argument("package")
     parser.add_argument("gadget_chain", nargs="+")
-    parser.add_argument("--workers", "-w", type=int, required=False, help="Number of workers to use.Defaults to the number of CPU cores.")
+    parser.add_argument(
+        "--workers",
+        "-w",
+        type=int,
+        required=False,
+        help="Number of workers to use.Defaults to the number of CPU cores.",
+    )
 
     return parser.parse_args()
 
@@ -335,7 +344,7 @@ class PackageVersion:
         self.version = version
         self._executor = executor
         self.work_dir = pathlib.Path(tempfile.mkdtemp(prefix="phpggc"))
-        
+
     def cleanup(self):
         """Removes any composer related file in the working directory, such as
         composer.json and vendor/.
@@ -348,8 +357,8 @@ class PackageVersion:
     def install(self):
         """Uses composer to install a specific version of the package."""
         # We'll jump to a temporary directory for phpggc and composer to work
-        # without breaking anything.
-        # We can safely change directories as we are not in the original process
+        # without breaking anything. We can safely change directories as we are
+        # not in the original process
         os.chdir(self.work_dir)
         _, stderr = self._executor.composer(
             "require",
@@ -361,8 +370,10 @@ class PackageVersion:
             f"{self.package}:{self.version}",
         )
         if stderr:
-            raise UnableToInstallPackageException(f"Unable to install version: {self.version}")
-    
+            raise UnableToInstallPackageException(
+                f"Unable to install version: {self.version}"
+            )
+
 
 if __name__ == "__main__":
     tester = Tester()
