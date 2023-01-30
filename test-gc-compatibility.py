@@ -75,7 +75,7 @@ class Tester:
     def run(self):
         args = setup_arguments()
         self._gcs: list[str] = args.gadget_chain
-        self._executor = Executor()
+        self._executor = Executor(args.create_project)
         self._package = Package(args.package, executor=self._executor)
         self._workers = args.workers
 
@@ -202,11 +202,17 @@ Versions:
     parser.add_argument("package")
     parser.add_argument("gadget_chain", nargs="+")
     parser.add_argument(
+        "--create-project",
+        "-c",
+        action='store_true',
+        help="Use the `create-project` command instead of `require` when installing packages.",
+    )
+    parser.add_argument(
         "--workers",
         "-w",
         type=int,
         required=False,
-        help="Number of workers to use.Defaults to the number of CPU cores.",
+        help="Number of workers to use. Defaults to the number of CPU cores.",
     )
 
     return parser.parse_args()
@@ -215,8 +221,9 @@ Versions:
 class Executor:
     """Small wrapper to execute composer and phpggc."""
 
-    def __init__(self):
+    def __init__(self, create_project: bool):
         self.get_commands()
+        self.create_project = create_project
 
     def _try_run_command(self, *cmd):
         """Tries to run a command to completion: if no exception happens and the
@@ -271,12 +278,19 @@ class Executor:
         """Runs composer and returns stdout and stderr as a tuple."""
         process = self._run(*self._composer, *args)
         return process.stdout.decode("utf-8"), process.stderr.decode("utf-8")
+    
+    def install(self, *args):
+        command = "create-project" if self.create_project else "require"
+        suffix = "." if self.create_project else ""
+        return self.composer(command, *args, suffix)
+        
 
     def phpggc(self, *args):
         """Runs PHPGGC with given arguments and returns whether the execution
         was successful or not.
         """
-        return self._run(*self._phpggc, *args).returncode == 0
+        process = self._run(*self._phpggc, *args)
+        return process.returncode == 0
 
     def php(self, *args):
         """Runs PHP with given arguments and returns whether the execution
@@ -349,10 +363,7 @@ class PackageVersion:
         """Removes any composer related file in the working directory, such as
         composer.json and vendor/.
         """
-        (self.work_dir / "composer.json").unlink(missing_ok=True)
-        (self.work_dir / "composer.lock").unlink(missing_ok=True)
-        shutil.rmtree(self.work_dir / "vendor", ignore_errors=True)
-        self.work_dir.rmdir()
+        shutil.rmtree(self.work_dir, ignore_errors=True)
 
     def install(self):
         """Uses composer to install a specific version of the package."""
@@ -360,8 +371,7 @@ class PackageVersion:
         # without breaking anything. We can safely change directories as we are
         # not in the original process
         os.chdir(self.work_dir)
-        _, stderr = self._executor.composer(
-            "require",
+        _, stderr = self._executor.install(
             "--no-scripts",
             "--no-interaction",
             "--no-plugins",
