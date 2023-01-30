@@ -282,7 +282,7 @@ class Package:
             self.name = name
             self.versions = None
         else:
-            self.name, self.versions = name.split(":")
+            self.name, self.versions = name.split(":", 1)
 
     def get_package_versions(self):
         versions, _ = self._executor.composer("show", "-a", self.name)
