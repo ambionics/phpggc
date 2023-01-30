@@ -4,7 +4,7 @@ namespace GadgetChain\Laravel;
 
 class RCE14 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = 'test on 5.8.35, 7.0.0, 9.3.10';
+    public static $version = '5.3.0 <= 9.5.1+';
     public static $vector = '__destruct';
     public static $author = 'CyanM0un';
 

@@ -4,10 +4,10 @@ namespace GadgetChain\Laravel;
 
 class RCE16 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '5.8.0 <= 6.0.0';
+    public static $version = '5.6.0 <= v9.5.1+';
     public static $vector = '__destruct';
     public static $author = 'CyanM0un';
-    public static $information = 'add a entry for rce10';
+    public static $information = '';
 
     public function generate(array $parameters)
     {
