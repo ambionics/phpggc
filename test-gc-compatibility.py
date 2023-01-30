@@ -280,9 +280,8 @@ class Executor:
         return process.stdout.decode("utf-8"), process.stderr.decode("utf-8")
     
     def install(self, *args):
-        command = "create-project" if self.create_project else "require"
-        suffix = "." if self.create_project else ""
-        return self.composer(command, *args, suffix)
+        command = ("create-project", ".") if self.create_project else ("require",)
+        return self.composer(*command, *args)
         
 
     def phpggc(self, *args):
