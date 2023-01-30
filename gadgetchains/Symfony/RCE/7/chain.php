@@ -13,6 +13,6 @@ class RCE7 extends \PHPGGC\GadgetChain\RCE\FunctionCall
         $function = $parameters['function'];
         $parameter = $parameters['parameter'];
 
-        return new \Symfony\Component\Cache\Adapter\TagAwareAdapter($function,$parameter); 
+        return new \Symfony\Component\Cache\Adapter\TagAwareAdapter($function, $parameter); 
     }
 }
