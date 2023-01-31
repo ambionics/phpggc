@@ -196,6 +196,10 @@ Versions:
     $ ./test-gc-compatibility.py doctrine/doctrine-bundle:1.12.0.. doctrine/rce1
     # from the first version of doctrine to 1.6.0
     $ ./test-gc-compatibility.py doctrine/doctrine-bundle:..1.6.0 doctrine/rce1
+    
+Using "create-project":
+    Some GC require a full project to be installed, instead of just a package.
+    Use the `-c` flag to use the `create-project` command instead of `require`.
 """,
         formatter_class=argparse.RawTextHelpFormatter,
     )
@@ -280,8 +284,13 @@ class Executor:
         return process.stdout.decode("utf-8"), process.stderr.decode("utf-8")
     
     def install(self, *args):
-        command = ("create-project", ".") if self.create_project else ("require",)
-        return self.composer(*command, *args)
+        if self.create_project:
+            prefix = "create-project"
+            suffix = (".", )
+        else:
+            prefix = "require"
+            suffix = ()
+        return self.composer(prefix, *args, *suffix)
         
 
     def phpggc(self, *args):
@@ -315,7 +324,12 @@ class Package:
 
     def get_package_versions(self):
         versions, _ = self._executor.composer("show", "-a", self.name)
-        versions = re.search(r"versions :(.*)\ntype", versions).group(1)
+        try:
+            versions = re.search(r"versions :(.*)\ntype", versions).group(1)
+        except AttributeError:
+            print(f"[red]Package [b]{self.name}[/b] has not version candidates (misspelled ?)")
+            exit(1)    
+            
         return [v.strip() for v in versions.split(",")]
 
     def get_target_versions(self):
