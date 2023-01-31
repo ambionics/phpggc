@@ -1,25 +1,25 @@
 <?php
 
-namespace Illuminate\Broadcasting
-{
+namespace Illuminate\Broadcasting {
     class PendingBroadcast
     {
         protected $events;
 
-        function __construct($function,$param)
+        function __construct($function, $param)
         {
-            $this->events = new \Faker\ValidGenerator($function,$param);
+            $this->events = new \Faker\ValidGenerator($function, $param);
         }
     }
 }
 
-namespace Faker{
-    class ValidGenerator{
+namespace Faker {
+    class ValidGenerator
+    {
         protected $generator;
         protected $maxRetries;
         protected $validator;
 
-        function __construct($function,$param)
+        function __construct($function, $param)
         {
             $this->maxRetries = 1;
             $this->validator = $function;
@@ -27,7 +27,8 @@ namespace Faker{
         }
     }
 
-    class DefaultGenerator{
+    class DefaultGenerator
+    {
         protected $default;
 
         function __construct($param)

@@ -1,6 +1,6 @@
 <?php
-namespace Monolog\Handler
-{
+
+namespace Monolog\Handler {
     class RotatingFileHandler
     {
         protected $mustRotate;
@@ -8,37 +8,36 @@ namespace Monolog\Handler
         protected $filenameFormat;
         protected $dateFormat;
 
-        function __construct($function,$param)
+        function __construct($function, $param)
         {
             $this->dateFormat = "l";
             $this->mustRotate = true;
             $this->filename = "anything";
-            $this->filenameFormat = new \Illuminate\Validation\Rules\RequiredIf($function,$param);
+            $this->filenameFormat = new \Illuminate\Validation\Rules\RequiredIf($function, $param);
         }
     }
 }
 
-namespace Illuminate\Validation\Rules
-{
+namespace Illuminate\Validation\Rules {
     class RequiredIf
     {
         public $condition;
 
-        public function __construct($function,$param)
+        public function __construct($function, $param)
         {
-            $this->condition = [new \Illuminate\Auth\RequestGuard($function,$param),"user"];
+            $this->condition = [new \Illuminate\Auth\RequestGuard($function, $param), "user"];
         }
     }
 }
 
-namespace Illuminate\Auth
-{
-    class RequestGuard{
+namespace Illuminate\Auth {
+    class RequestGuard
+    {
         protected $callback;
         protected $request;
         protected $provider;
 
-        public function __construct($function,$param)
+        public function __construct($function, $param)
         {
             $this->callback = "call_user_func";
             $this->request = $function;
