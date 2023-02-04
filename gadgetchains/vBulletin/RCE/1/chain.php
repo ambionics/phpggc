@@ -2,7 +2,7 @@
 
 namespace GadgetChain\vBulletin;
 
-include(__DIR__ . "/../../../Monolog/RCE/1/chain.php");
+require_once(__DIR__ . "/../../../Monolog/RCE/1/chain.php");
 
 # See https://www.ambionics.io/blog/vbulletin-unserializable-but-unreachable
 class RCE1 extends \GadgetChain\Monolog\RCE1
