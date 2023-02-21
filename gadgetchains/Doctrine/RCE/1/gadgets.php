@@ -28,10 +28,6 @@ namespace Symfony\Component\Cache\Adapter
     {
         public $file = "/tmp/aaa.mocksess"; // fixed at the time
     }
-
-    class ProxyAdapter
-    {
-    }
 }
 
 
