@@ -170,6 +170,11 @@ Exec through proc_open()
 ./phpggc Symfony/RCE1 <command>
 ```
 
+For RCE gadgets, the executed command can have 3 formatting types depending on how the gadget works:
+- RCE (Command): ./phpggc Symfony/RCE1 id
+- RCE (PHP code): ./phpggc Symfony/RCE2 'phpinfo();'
+- RCE (Function call): ./phpggc Symfony/RCE4 system id
+
 Once you have selected a chain, run `./phpggc <gadget-chain> [parameters]` to obtain the payload.
 For instance, to obtain a payload for Monolog, you'd do:
 
