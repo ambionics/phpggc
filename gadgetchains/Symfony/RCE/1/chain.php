@@ -4,7 +4,7 @@ namespace GadgetChain\Symfony;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\Command
 {
-    public static $version = '3.3';
+    public static $version = 'v3.1.0 <= v3.4.34';
     public static $vector = '__destruct';
     public static $author = 'cf';
     public static $information = 'Executes given command through proc_open()';
