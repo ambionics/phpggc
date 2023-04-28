@@ -387,7 +387,7 @@ class PackageVersion:
         _, stderr = self._executor.install(
             "--no-scripts",
             "--no-interaction",
-            "--no-plugins",
+            # "--no-plugins",
             "--quiet",
             "--ignore-platform-req=ext-*",
             f"{self.package}:{self.version}",
