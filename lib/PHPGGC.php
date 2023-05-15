@@ -20,9 +20,12 @@ PHPGGC::include_gadget_chains();
  * This class is meant to handle CLI parameters and return a serialized payload
  * under different forms. 
  */
-class PHPGGC
+final class PHPGGC
 {
-    protected $chains;
+    private $chains;
+    private $options;
+    private $parameters;
+    private $enhancements;
 
     public function __construct()
     {

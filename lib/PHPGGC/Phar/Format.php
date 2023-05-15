@@ -11,6 +11,8 @@ abstract class Format
 {
     protected $format = '';
 	public $data;
+    public $metadata;
+    public $dummy_metadata;
     public $parameters = [
         'filename' => 'test.txt',
         'prefix' => ''

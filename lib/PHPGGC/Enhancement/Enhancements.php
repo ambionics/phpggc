@@ -4,6 +4,8 @@ namespace PHPGGC\Enhancement;
 
 class Enhancements
 {
+    private $enhancements;
+
     public function __construct($enhancements)
     {
         $this->enhancements = $enhancements;
