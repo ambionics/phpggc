@@ -22,7 +22,7 @@ if(file_exists('test.php'))
 if(!file_exists('vendor/autoload.php'))
 {
     print('Unable to load either test.php or vendor/autoload.php' . "\n");
-    exit(-1);
+    exit(1);
 }
 
 require('vendor/autoload.php');
