@@ -4,7 +4,7 @@ namespace GadgetChain\Symfony;
 
 class RCE10 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '2.0.5 <= 5.4.24 (all)';
+    public static $version = '2.0.4 <= 5.4.24 (all)';
     public static $vector = '__toString';
     public static $author = 'cfreal';
 
