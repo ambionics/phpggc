@@ -6,7 +6,7 @@ class FW2 extends \PHPGGC\GadgetChain\FileWrite
 {
     public static $version = '6.0.0 <= 6.0.1';
     public static $vector = '__toString';
-    public static $author = 'cf';
+    public static $author = 'cfreal';
 
     public function process_parameters(array $parameters)
     {

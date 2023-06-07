@@ -6,7 +6,7 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
 {
     public static $version = '2.5.2';
     public static $vector = 'DebugImport';
-    public static $author = 'cf';
+    public static $author = 'cfreal';
     public static $information = '
     	This chain is supposed to be uploaded through the /_profiler/import
     	page. It will produce an error but the file will be created in the

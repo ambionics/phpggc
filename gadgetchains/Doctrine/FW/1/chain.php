@@ -15,7 +15,7 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
 {
     public static $version = '?';
     public static $vector = '__toString';
-    public static $author = 'cf';
+    public static $author = 'cfreal';
     public static $information = '
         We do not have full control of the path. If you enter
         /var/www/toto/shell.php as the remote_path, it will be converted to

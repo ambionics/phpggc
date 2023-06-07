@@ -6,7 +6,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '5.4.27';
     public static $vector = '__destruct';
-    public static $author = 'cf';
+    public static $author = 'cfreal';
 
     public function generate(array $parameters)
     {
