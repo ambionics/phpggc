@@ -4,7 +4,7 @@ namespace GadgetChain\Snappy;
 
 class FD1 extends \PHPGGC\GadgetChain\FileDelete
 {
-    public static $version = '1.4.2 <= ?';
+    public static $version = '*';
     public static $vector = '__destruct';
     public static $author = 'coiffeur';
     public static $information = '
