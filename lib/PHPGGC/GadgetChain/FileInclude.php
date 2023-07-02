@@ -2,10 +2,10 @@
 
 namespace PHPGGC\GadgetChain;
 
-abstract class FileDelete extends \PHPGGC\GadgetChain
+abstract class FileInclude extends \PHPGGC\GadgetChain
 {
-    public static $type = 'FD';
-    public static $type_description = 'File delete';
+    public static $type = 'FI';
+    public static $type_description = 'File include';
 
     public static $parameters = [
         'remote_path'
@@ -14,13 +14,13 @@ abstract class FileDelete extends \PHPGGC\GadgetChain
     public function test_setup()
     {
         return [
-            'remote_path' => \PHPGGC\Util::rand_file('test file delete')
+            'remote_path' => \PHPGGC\Util::rand_file('<?php echo "test" . "file" . "include"; ?>')
         ];
     }
 
     public function test_confirm($arguments, $output)
     {
-        return !file_exists($arguments['remote_path']);
+        return strpos($output, "testfileinclude") !== false;
     }
 
     public function test_cleanup($arguments)

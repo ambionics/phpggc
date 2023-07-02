@@ -9,7 +9,8 @@ namespace PHPGGC\GadgetChain\RCE;
  */
 abstract class Command extends \PHPGGC\GadgetChain\RCE
 {
-    public static $type = self::TYPE_RCE_COMMAND;
+    public static $type_description = 'RCE: Command';
+
     public static $parameters = [
         'command'
     ];
@@ -21,4 +22,5 @@ abstract class Command extends \PHPGGC\GadgetChain\RCE
             'command' => $command
         ];
     }
+
 }

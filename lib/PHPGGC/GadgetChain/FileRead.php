@@ -4,7 +4,9 @@ namespace PHPGGC\GadgetChain;
 
 abstract class FileRead extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_FR;
+    public static $type = 'FR';
+    public static $type_description = 'File read';
+
     public static $parameters = [
         'remote_path'
     ];

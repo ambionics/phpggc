@@ -4,7 +4,8 @@ namespace PHPGGC\GadgetChain;
 
 abstract class PHPInfo extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_INFO;
+    public static $type = 'INFO';
+    public static $type_description = 'phpinfo()';
 
     public function test_setup()
     {

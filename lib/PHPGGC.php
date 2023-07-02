@@ -270,15 +270,6 @@ final class PHPGGC
         # Check type
 
         $type = strtoupper($type);
-        $reflection = new ReflectionClass($namespace);
-        $constant = 'TYPE_' . $type;
-        $value = $reflection->getConstant($constant);
-
-        if($value === false)
-        {
-            $this->o('Invalid type: ' . $type);
-            return;
-        }
 
         # Match base class from type
 
@@ -287,12 +278,11 @@ final class PHPGGC
         foreach($files as $file)
         {
             $classname = substr(basename($file), 0, -4);
-            $classname = $namespace . '\\' . $classname;
-            $reflection = new ReflectionClass($classname);
+            $classname = get_class($namespace . '\\' . $classname);
 
-            if($reflection->getProperty('type')->getValue() === $value)
+            if($classname::$type === $type)
             {
-                $baseclass = $reflection;
+                $baseclass = $classname;
                 break;
             }
         }
@@ -517,7 +507,7 @@ final class PHPGGC
             $data[] = [
                 $chain::get_name(),
                 $chain::$version,
-                $chain::$type,
+                $chain::$type_description,
                 $chain::$vector,
                 ($chain::$information ? '*' : '')
             ];
@@ -848,7 +838,7 @@ final class PHPGGC
         {
             $this->o($gc, 2);
             $this->e(
-                'Invalid arguments for type "' . $gc::$type . '" ' . "\n" .
+                'Invalid arguments for type "' . $gc::$type_description . '" ' . "\n" .
                 $this->_get_command_line_gc($gc)
             );
         }

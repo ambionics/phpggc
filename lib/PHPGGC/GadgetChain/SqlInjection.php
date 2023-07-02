@@ -4,7 +4,9 @@ namespace PHPGGC\GadgetChain;
 
 abstract class SqlInjection extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_SQLI;
+    public static $type = 'SQLI';
+    public static $type_description = 'SQL injection';
+
     public static $parameters = [
         'sql'
     ];

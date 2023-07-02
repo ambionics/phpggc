@@ -4,7 +4,9 @@ namespace PHPGGC\GadgetChain;
 
 abstract class FileWrite extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_FW;
+    public static $type = 'FW';
+    public static $type_description = 'File write';
+
     public static $parameters = [
         'remote_path',
         'local_path'

@@ -4,6 +4,7 @@ namespace GadgetChain\Phalcon;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE
 {
+    public static $type_description = 'RCE: eval(php://input)';
     public static $version = '<= 1.2.2';
     public static $vector = '__wakeup';
     public static $author = 'Raz0r';

@@ -3,7 +3,9 @@ namespace PHPGGC\GadgetChain;
 
 abstract class SSRF extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_SSRF;
+    public static $type = 'SSRF';
+    public static $type_description = 'SSRF';
+
     public static $parameters = [
         'uri'
     ];

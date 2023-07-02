@@ -32,26 +32,20 @@ namespace PHPGGC;
 abstract class GadgetChain
 {
     public $name;
+    /**
+     * @var string Short typename of the gadget chain. Also serves as directory name.
+     */
     public static $type;
+    /**
+     * @param string Short description of the type.
+     */
+    public static $type_description;
     public static $version = '?';
     # Vector to start the chain: __destruct, __toString, offsetGet, etc.
     public static $vector = '';
     public static $author = '';
     public static $parameters = [];
     public static $information;
-
-    # Types
-    const TYPE_RCE = 'RCE';
-    const TYPE_RCE_FUNCTIONCALL = 'RCE (Function call)';
-    const TYPE_RCE_PHPCODE = 'RCE (PHP code)';
-    const TYPE_RCE_COMMAND = 'RCE (Command)';
-    const TYPE_CMD = 'CMD';
-    const TYPE_SSRF = 'SSRF';
-    const TYPE_FR = 'File read';
-    const TYPE_FW = 'File write';
-    const TYPE_FD = 'File delete';
-    const TYPE_SQLI = 'SQL injection';
-    const TYPE_INFO = 'phpinfo()';
 
     function __construct()
     {
@@ -127,7 +121,7 @@ abstract class GadgetChain
         $infos = [
             'Name' => static::get_name(),
             'Version' => static::$version,
-            'Type' => static::$type,
+            'Type' => static::$type_description,
             'Vector' => static::$vector
         ];
 

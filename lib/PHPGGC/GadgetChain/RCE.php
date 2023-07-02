@@ -4,7 +4,10 @@ namespace PHPGGC\GadgetChain;
 
 abstract class RCE extends \PHPGGC\GadgetChain
 {
-    public static $type = self::TYPE_RCE;
+
+    public static $type = 'RCE';
+    public static $type_description = 'RCE';
+
     # TBD by subclasses
     public static $parameters = [];
 
