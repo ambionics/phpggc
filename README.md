@@ -24,14 +24,17 @@ NAME                                      VERSION                               
 Bitrix/RCE1                               17.x.x <= 22.0.300                                   RCE (Function call)    __destruct          
 CakePHP/RCE1                              ? <= 3.9.6                                           RCE (Command)          __destruct          
 CakePHP/RCE2                              ? <= 4.2.3                                           RCE (Function call)    __destruct          
+CodeIgniter4/FR1                          4.0.0 <= 4.3.6                                       File read              __toString     *    
 CodeIgniter4/RCE1                         4.0.2 <= 4.0.3                                       RCE (Function call)    __destruct          
-CodeIgniter4/RCE2                         4.0.0-rc.4 <= 4.0.4+                                 RCE (Function call)    __destruct          
-CodeIgniter4/RCE3                         -4.1.3+                                              RCE (Function call)    __destruct          
+CodeIgniter4/RCE2                         4.0.0-rc.4 <= 4.3.6                                  RCE (Function call)    __destruct          
+CodeIgniter4/RCE3                         4.0.4 <= 4.3.6                                       RCE (Function call)    __destruct          
 CodeIgniter4/RCE4                         4.0.0-beta.1 <= 4.0.0-rc.4                           RCE (Function call)    __destruct          
+CodeIgniter4/RCE5                         -4.1.3+                                              RCE (Function call)    __destruct          
+CodeIgniter4/RCE6                         -4.1.3 <= 4.2.10+                                    RCE (Function call)    __destruct          
 Doctrine/FW1                              ?                                                    File write             __toString     *    
 Doctrine/FW2                              2.3.0 <= 2.4.0 v2.5.0 <= 2.8.5                       File write             __destruct     *    
-Doctrine/RCE1                             1.5.1 <= 2.7.2                                       RCE (PHP code)         __destruct     * 
-Doctrine/RCE2                             1.11.0 <= 2.3.2                                      RCE (Function call)    __destruct     * 
+Doctrine/RCE1                             1.5.1 <= 2.7.2                                       RCE (PHP code)         __destruct     *    
+Doctrine/RCE2                             1.11.0 <= 2.3.2                                      RCE (Function call)    __destruct     *    
 Dompdf/FD1                                1.1.1 <= ?                                           File delete            __destruct     *    
 ...
 ```
