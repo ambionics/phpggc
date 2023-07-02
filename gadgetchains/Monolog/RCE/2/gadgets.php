@@ -6,6 +6,7 @@ namespace Monolog\Handler
     {
         # Socket is not declared in earlier versions
         #protected $socket;
+        public $socket;
 
         function __construct($x)
         {
