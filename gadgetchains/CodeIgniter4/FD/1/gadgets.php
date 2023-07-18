@@ -6,7 +6,7 @@ namespace CodeIgniter\Cache\Handlers {
 
         public function __construct($remote_path) {
             $this->redis = new \CodeIgniter\Session\Handlers\MemcachedHandler(
-                new \CodeIgniter\Cache\Handlers\FileHandler(),
+                new \CodeIgniter\Cache\Handlers\FileHandler($remote_path),
                 $remote_path
             );
         }
@@ -14,11 +14,10 @@ namespace CodeIgniter\Cache\Handlers {
 
     class FileHandler {
         protected $prefix;
-        protected $path;
+        protected $path = "";
 
-        public function __construct() {
-            $this->prefix = "";
-            $this->path = "";
+        public function __construct($remote_path) {
+            $this->prefix = dirname($remote_path) . "/";
         }
     }
 }
@@ -30,7 +29,7 @@ namespace CodeIgniter\Session\Handlers {
 
         public function __construct($memcached, $remote_path) {
             $this->memcached = $memcached;
-            $this->lockKey = $remote_path;
+            $this->lockKey = basename($remote_path);
         }
     }
 }
