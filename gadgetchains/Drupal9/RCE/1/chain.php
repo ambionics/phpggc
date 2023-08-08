@@ -4,7 +4,7 @@ namespace GadgetChain\Drupal9;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '-8.9.6 <= 9.5.10';
+    public static $version = '-8.9.6 <= 9.5.10+';
     public static $vector = '__destruct';
     public static $author = 'rioru';
     public static $information = 
