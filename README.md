@@ -324,6 +324,8 @@ You can define pre- and post- processing methods, if parameters need to be modif
 Hopefully, the already implemented gadgets should be enough for you to build yours.
 Otherwise, I'd be glad to answer your questions.
 
+Please test as many versions as you can. The nomenclature for versions is as such: `[-]<lower-version> <= <higher-version>[+]`. The `-` and `+` signs indicate that your payload may work on respectively lower and higher versions. For instance, if your gadget chain works from version 2.0.0 to version 4.4.1, which is the last version at the time, use `2.0.0 <= 4.4.1+`.
+
 The `--new <framework> <type>` command-line option can be used to create the directory and file structure for a new gadget chain.
 For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetchain.
 
