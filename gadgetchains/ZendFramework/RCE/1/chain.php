@@ -14,6 +14,10 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         - Payload gets executed twice
     ';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
         $code = $parameters['code'];
