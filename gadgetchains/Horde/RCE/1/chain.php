@@ -13,6 +13,10 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         See https://srcincite.io/blog/2020/08/19/a-smorgashorde-of-vulnerabilities-a-comparative-analysis-of-discovery.html
     ';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
 	    $code = $parameters['code'] . ';die;';
