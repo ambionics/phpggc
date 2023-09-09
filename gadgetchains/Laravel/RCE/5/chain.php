@@ -12,6 +12,10 @@ class RCE5 extends \PHPGGC\GadgetChain\RCE\PHPCode
         Requires Mockery, which is in the require-dev package. 
     ';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
         $code = '<?php ' . $parameters['code'] . ' exit; ?>';
