@@ -44,7 +44,11 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
         $replace_include = 'i:' . 2000 . ';';
         return preg_replace($find_include, $replace_include, $serialized2);
   	}
-
+    
+    public static $parameters = [
+        'code'
+    ];
+    
     public function generate(array $parameters)
     {
         $code = $parameters['code'];
