@@ -9,6 +9,10 @@ class RCE3 extends \PHPGGC\GadgetChain\RCE\PHPCode
     public static $author = 'crlf';
     public static $information = 'Executes through eval() ( <?php \'.$code.\';die(); ?> )';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
         $code = $parameters['code'];
