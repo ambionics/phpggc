@@ -9,6 +9,10 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\PHPCode
     public static $author = 'crlf';
     public static $information = 'Generates warnings and notices.';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
         $code = $parameters['code'];
