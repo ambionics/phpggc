@@ -13,6 +13,10 @@ class RCE4 extends \PHPGGC\GadgetChain\RCE\PHPCode
         - Works on PHP >= 7.0.0
     ';
 
+    public static $parameters = [
+        'code'
+    ];
+
     public function generate(array $parameters)
     {
         return new \Zend_Log(
