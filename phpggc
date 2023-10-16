@@ -1,4 +1,4 @@
-#!/usr/bin/env php -d phar.readonly=0
+#!/usr/bin/env -S php -d phar.readonly=0
 <?php
 
 error_reporting(E_ALL);
