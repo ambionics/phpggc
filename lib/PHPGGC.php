@@ -412,7 +412,7 @@ final class PHPGGC
                     $serialized = urlencode($serialized);
                     break;
                 case 'soft':
-                    $keys = str_split("%\x00\n\r\t+;");
+                    $keys = str_split("%\x00\n\r\t+; ");
                     $values = array_map('urlencode', $keys);
                     $serialized = str_replace($keys, $values, $serialized);
                     break;
