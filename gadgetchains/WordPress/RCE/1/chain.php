@@ -2,7 +2,7 @@
 
 namespace GadgetChain\WordPress;
 
-class RCE1 extends \PHPGGC\GadgetChain\RCE\Command
+class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
     public static $version = '< 6.3.2';
     public static $vector = '__toString';
