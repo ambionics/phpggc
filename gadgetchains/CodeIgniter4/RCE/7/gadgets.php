@@ -29,7 +29,8 @@ namespace Faker
     }
 }
 
-namespace CodeIgniter\Cache\Handlers {
+namespace CodeIgniter\Cache\Handlers 
+{
     class RedisHandler 
     {
         protected $redis;
