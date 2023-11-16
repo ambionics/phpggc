@@ -30,32 +30,15 @@ namespace Faker
     }
 }
 
-namespace CodeIgniter\Session\Handlers
+namespace CodeIgniter\Cache\Handlers 
 {
-    class MemcachedHandler
+    class RedisHandler 
     {
-        public $lockKey = "Firebasky";
-        public $memcached;
+        protected $redis;
 
-        public function __construct($memcached)
+        function __construct($function, $parameter)
         {
-            $this->memcached = $memcached;
-        }
-    }
-}
-
-namespace CodeIgniter\Cache\Handlers
-{
-    class RedisHandler
-    {
-        public $redis;
-
-        public function __construct($func, $param)
-        {
-            $this->redis =
-                new \CodeIgniter\Session\Handlers\MemcachedHandler(
-                    new \Faker\ValidGenerator((new \Faker\DefaultGenerator($param)), $func)
-                );
+            $this->redis = new \Faker\ValidGenerator(new \Faker\DefaultGenerator($parameter), $function);
         }
     }
 }
