@@ -4,7 +4,7 @@ namespace GadgetChain\WordPress;
 
 class RCE1 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '< 6.3.2';
+    public static $version = '<= 6.3.1';
     public static $vector = '__toString';
     public static $author = 'pandhacker';
     public static $information = 'https://wpscan.com/blog/finding-a-rce-gadget-chain-in-wordpress-core/ (@marcs0h)';
