@@ -9,7 +9,8 @@ namespace Illuminate\Routing
         protected $controller;
         protected $options;
 
-        function __construct($function, $parameter) {
+        function __construct($function, $parameter) 
+        {
             $this->name = "name";
             $this->options = [];
             $this->registrar = new \Illuminate\Database\DatabaseManager($function, $parameter);
