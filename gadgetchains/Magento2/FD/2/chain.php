@@ -6,7 +6,7 @@ class FD2 extends \PHPGGC\GadgetChain\FileDelete
 {
     public static $version = '*';
     public static $vector = '__destruct';
-    public static $author = 'Maxime Rinaudo (www.fenrisk.com)';
+    public static $author = 'Maxime Rinaudo';
     public static $information = 'Deletes an arbitrary file';
 
     public function generate(array $parameters)
