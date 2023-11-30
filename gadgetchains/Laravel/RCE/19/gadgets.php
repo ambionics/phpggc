@@ -6,7 +6,7 @@ namespace Laravel\Prompts {
 
         function __construct($command)
         {
-            $this->initialTtyMode = ";".$command.";";
+            $this->initialTtyMode = ";".$command.";#";
         }
     }
 }
