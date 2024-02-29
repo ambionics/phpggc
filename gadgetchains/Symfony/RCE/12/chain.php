@@ -4,11 +4,10 @@ namespace GadgetChain\Symfony;
 
 class RCE12 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    // This chain is still valid for latest version of Symfony 1.15 if it's installed with git clone
-    // which triggers submodules (not via composer)
-    public static $version = '1.3.0 < 1.5.13~17';
+    public static $version = '1.3.0 <= 1.5.13~17';
     public static $vector = '__destruct';
     public static $author = 'darkpills';
+    public static $information = 'Works until 1.5.13, and until 1.5.17 if installed via git method (not composer)';
 
     public function generate(array $parameters)
     {
