@@ -7,7 +7,7 @@ class RCE15 extends \PHPGGC\GadgetChain\RCE\FunctionCall
     public static $version = '1.0.0 <= 1.1.9';
     public static $vector = '__wakeup';
     public static $author = 'darkpills';
-    public static $information = 'With sfPropelPlugin enabled, which contains Creole ORM';
+    public static $information = 'With Creole ORM';
 
     public function generate(array $parameters)
     {
