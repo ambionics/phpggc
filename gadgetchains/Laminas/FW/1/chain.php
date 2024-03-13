@@ -20,7 +20,7 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
         (e.g. asking for `foo` will create `foo.`)
     ';
 
-    public function process_parameters($parameters)
+    public function process_parameters(array $parameters)
     {
         $parameters = parent::process_parameters($parameters);
         $infos = pathinfo($parameters['remote_path']);
