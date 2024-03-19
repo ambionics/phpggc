@@ -21,6 +21,4 @@ class RCE12 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 
         return $cache;
     }
-
-  
 }

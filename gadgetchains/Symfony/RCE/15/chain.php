@@ -12,7 +12,6 @@ class RCE15 extends \PHPGGC\GadgetChain\RCE\FunctionCall
     public function generate(array $parameters)
     {
         $escaper = new \sfOutputEscaperArrayDecorator($parameters['function'], array($parameters['parameter']));
-
         $tableInfo = new \MySQLiTableInfo($escaper);
     
         return $tableInfo;
