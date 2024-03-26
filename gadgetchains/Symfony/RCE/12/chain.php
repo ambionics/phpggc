@@ -7,7 +7,7 @@ class RCE12 extends \PHPGGC\GadgetChain\RCE\FunctionCall
     public static $version = '1.3.0 <= 1.5.13~17';
     public static $vector = '__destruct';
     public static $author = 'darkpills';
-    public static $information = 'Works until 1.5.13, and until 1.5.17 if installed via git method (not composer)';
+    public static $information = 'Works until 1.5.13, and until 1.5.17 if installed via git method, not composer (CVE-2024-28859)';
 
     public function generate(array $parameters)
     {
