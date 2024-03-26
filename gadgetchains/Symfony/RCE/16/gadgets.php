@@ -2,22 +2,24 @@
 
 class sfOutputEscaperArrayDecorator
 {
-  protected $value;
+    protected $value;
 
-  protected $escapingMethod;
+    protected $escapingMethod;
 
-  public function __construct($escapingMethod, $value) {
-    $this->escapingMethod = $escapingMethod;
-    $this->value = $value;
-  }
+    public function __construct($escapingMethod, $value)
+    {
+        $this->escapingMethod = $escapingMethod;
+        $this->value = $value;
+    }
 }
 
-class sfNamespacedParameterHolder implements Serializable 
+class sfNamespacedParameterHolder implements Serializable
 {
     protected $prop = null;
 
-    public function __construct($prop) {
-      $this->prop = $prop;
+    public function __construct($prop)
+    {
+        $this->prop = $prop;
     }
 
     public function serialize()
@@ -27,6 +29,5 @@ class sfNamespacedParameterHolder implements Serializable
 
     public function unserialize($serialized)
     {
-        
     }
 }
