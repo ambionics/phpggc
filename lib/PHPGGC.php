@@ -193,7 +193,10 @@ final class PHPGGC
         $parameters = $this->process_parameters($gc, $parameters);
         $object = $gc->generate($parameters);
         $object = $this->process_object($gc, $object);
-        $serialized = serialize($object);
+        if(in_array('session-encode', $this->options))
+            $serialized = $this->session_encode($object);
+        else
+            $serialized = serialize($object);
         $serialized = $this->process_serialized($gc, $serialized);
         return $serialized;
     }
@@ -364,6 +367,26 @@ final class PHPGGC
 
         $phar = new $class($serialized, compact('prefix', 'filename', 'jpeg'));
         return $phar->generate();
+    }
+
+    #
+    # Session Encode
+    #
+
+    /**
+     * Uses session_encode() instead of serialize().
+     * 
+     * This is useful if you have an existing arbitrary file write primitive, but the
+     * web root directory is non-writable. In such cases, it is possible to forge a 
+     * session file containing an unserialize() payload and trigger the chain by 
+     * visiting any webpage that invokes session_start().
+     */
+    function session_encode($object)
+    {
+        $_SESSION['_'] = $object;
+        $serialized = session_encode();
+        session_destroy();
+        return $serialized;
     }
 
     /**
@@ -554,6 +577,10 @@ final class PHPGGC
         $this->o('  -pf, --phar-filename <filename>');
         $this->o('     Defines the name of the file contained in the generated PHAR (default: test.txt)');
         $this->o('');
+        $this->o('SESSION ENCODE');
+        $this->o('  -se, --session-encode');
+        $this->o('     Uses session_encode() instead of serialize() to generate the payload.');
+        $this->o('');
         $this->o('ENHANCEMENTS');
         $this->o('  -f, --fast-destruct');
         $this->o('     Applies the fast-destruct technique, so that the object is destroyed');
@@ -648,6 +675,8 @@ final class PHPGGC
             'phar-jpeg' => true,
             'phar-prefix' => true,
             'phar-filename' => true,
+            # Session Encode
+            'session-encode' => false,
             # Enhancements
             'fast-destruct' => false,
             'ascii-strings' => false,
@@ -675,7 +704,8 @@ final class PHPGGC
             'phar-filename' => 'pf',
             'new' => 'N',
             'ascii-strings' => 'a',
-            'armor-strings' => 'A'
+            'armor-strings' => 'A',
+            'session-encode' => 'se',
         ] + $abbreviations;
 
         # If we are in this function, the argument starts with a dash, so we
@@ -782,6 +812,10 @@ final class PHPGGC
                     $this->o($gc, 2);
                     $this->o($this->_get_command_line_gc($gc));
                     return;
+                case 'session-encode':
+                    session_name('phpggc');
+                    session_start();
+                    break;
             }
         }
 
