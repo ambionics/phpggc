@@ -99,7 +99,6 @@ final class PHPGGC
         $result = $gc->test_confirm($arguments, $output);
 
         $gc->test_cleanup($arguments);
-
         if($result)
         {
             $this->o('SUCCESS: Payload triggered !');
