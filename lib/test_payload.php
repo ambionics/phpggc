@@ -21,7 +21,7 @@ if(file_exists('test.php'))
 }
 if(!file_exists('vendor/autoload.php'))
 {
-    print('Unable to load either test.php or vendor/autoload.php' . "\n");
+    fwrite(STDERR, 'Unable to load either test.php or vendor/autoload.php' . "\n");
     exit(1);
 }
 
@@ -44,7 +44,7 @@ switch($vector)
 	case '__destruct':
 	case '__wakeup':
 		$payload = unserialize($payload);
-   		break;
-   	default:
+        break;
+    default:
 		print('Unable to test payload via vector "' . $vector . '"' . "\n");
 }
