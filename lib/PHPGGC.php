@@ -432,11 +432,11 @@ final class PHPGGC
                     $serialized = base64_encode($serialized);
                     break;
                 case 'url':
-                    $serialized = urlencode($serialized);
+                    $serialized = rawurlencode($serialized);
                     break;
                 case 'soft':
                     $keys = str_split("%\x00\n\r\t+; ");
-                    $values = array_map('urlencode', $keys);
+                    $values = array_map('rawurlencode', $keys);
                     $serialized = str_replace($keys, $values, $serialized);
                     break;
                 case 'json':
