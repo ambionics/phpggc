@@ -9,7 +9,7 @@ namespace PHPGGC\GadgetChain\RCE;
  */
 abstract class FunctionCall extends \PHPGGC\GadgetChain\RCE
 {
-    public static $type_description = 'RCE: Command';
+    public static $type_description = 'RCE: Function Call';
 
     public static $parameters = [
         'function',
