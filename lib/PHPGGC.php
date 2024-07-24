@@ -280,11 +280,11 @@ final class PHPGGC
         foreach($files as $file)
         {
             $classname = substr(basename($file), 0, -4);
-            $classname = get_class($namespace . '\\' . $classname);
+            $classname = $namespace . '\\' . $classname;
 
             if($classname::$type === $type)
             {
-                $baseclass = $classname;
+                $baseclass = new ReflectionClass($classname);
                 break;
             }
         }
