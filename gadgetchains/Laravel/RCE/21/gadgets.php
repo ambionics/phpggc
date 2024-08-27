@@ -1,7 +1,11 @@
 <?php
-namespace Faker{
-    class DefaultGenerator{
+
+namespace Faker
+{
+    class DefaultGenerator
+    {
         protected $default;
+
         public function __construct($cmd)
         {
             $this->default = $cmd;
@@ -12,35 +16,43 @@ namespace Faker{
         protected $generator;
         protected $validator;
         protected $maxRetries;
-        public function __construct($function,$cmd){
-            $this->generator=new DefaultGenerator($cmd);
-            $this->maxRetries=9;
-            $this->validator=$function;
+
+        public function __construct($function, $cmd)
+        {
+            $this->generator = new DefaultGenerator($cmd);
+            $this->maxRetries = 9;
+            $this->validator = $function;
         }
     }
 }
 
-namespace Mockery\Generator{
+namespace Mockery\Generator 
+{
     use Faker\ValidGenerator;
+
     class DefinedTargetClass
     {
         private $rfc;
-        public function __construct($function,$cmd)
+        
+        public function __construct($function, $cmd)
         {
-            $this->rfc=new ValidGenerator($function,$cmd);
+            $this->rfc = new ValidGenerator($function, $cmd);
         }
     }
 }
 
-namespace{
+namespace
+{
     use Mockery\Generator\DefinedTargetClass;
-    class Swift_KeyCache_DiskKeyCache{
-        private $_keys=['fallingskies'=>['fallingskies'=>'fallingskies']];
+
+    class Swift_KeyCache_DiskKeyCache
+    {
+        private $_keys = ['fallingskies' => ['fallingskies' => 'fallingskies']];
         private $_path;
-        public function __construct($function,$cmd){
-            $this->_path=new DefinedTargetClass($function,$cmd);
+
+        public function __construct($function, $cmd)
+        {
+            $this->_path = new DefinedTargetClass($function, $cmd);
         }
     }
 }
-
-?>
