@@ -3,7 +3,7 @@
 namespace PHPGGC\Enhancement;
 
 /**
-* Public Attributes
+* Public Properties
 * Attempts to convert references to protected properties within the serialized
 * payload to public.
 *
@@ -17,9 +17,9 @@ namespace PHPGGC\Enhancement;
 * As an added bonus, payloads are slightly smaller without the prefixes.
 *
 * Converting protected properties to public tends to work in more recent PHP
-* versions but can cause problems in older versions such as PHP 5.6.
+* versions but can cause problems in older versions (before PHP 7.2).
 */
-class PublicAttributes extends Enhancement
+class PublicProperties extends Enhancement
 {
 
     /**
@@ -28,6 +28,7 @@ class PublicAttributes extends Enhancement
      */
     public function process_serialized($serialized)
     {
+       // Encode the payload to make null bytes easier to work with.
        $encoded_payload = urlencode($serialized);
        preg_match_all('/s%3A([0-9]*)%3A%22%00%2A%00/', $encoded_payload, $matches);
        $replace_pairs = [];
