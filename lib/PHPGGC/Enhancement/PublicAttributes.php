@@ -37,5 +37,5 @@ class PublicAttributes extends Enhancement
        }
        $encoded_payload = strtr($encoded_payload, $replace_pairs);
        return urldecode($encoded_payload);
-  	}
+    }
 }
