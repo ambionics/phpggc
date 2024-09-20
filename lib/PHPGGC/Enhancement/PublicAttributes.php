@@ -31,10 +31,10 @@ class PublicAttributes extends Enhancement
        preg_match_all('/s%3A([0-9]*)%3A%22%00%2A%00/', $encoded_payload, $matches);
        $replace_pairs = [];
        if (is_array($matches[1])) {
-         $lengths = array_unique($matches[1]);
-         foreach ($lengths as $length) {
-             $replace_pairs['s%3A' . $length . '%3A%22%00%2A%00'] = 's%3A' . $length - 3 . '%3A%22';
-         }
+           $lengths = array_unique($matches[1]);
+           foreach ($lengths as $length) {
+               $replace_pairs['s%3A' . $length . '%3A%22%00%2A%00'] = 's%3A' . $length - 3 . '%3A%22';
+           }
        }
        $encoded_payload = strtr($encoded_payload, $replace_pairs);
        return urldecode($encoded_payload);
