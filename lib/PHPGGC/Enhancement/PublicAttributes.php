@@ -11,7 +11,8 @@ namespace PHPGGC\Enhancement;
 * object it prepends the property name with an asterisk surrounded by null
 * bytes, which are easy to lose if the payload is transmitted or stored as plain
 * text without encoding. If that happens, the payload will fail to unserialize
-* because the string length of the property names will be incorrect.
+* because the string length of the property name (and the name itself) will be
+* incorrect.
 *
 * As an added bonus, payloads are slightly smaller without the prefixes.
 *
