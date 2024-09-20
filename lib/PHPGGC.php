@@ -174,8 +174,8 @@ final class PHPGGC
             $enhancements[] = new Enhancement\Wrapper($this->parameters['wrapper']);
         if(in_array('fast-destruct', $this->options))
             $enhancements[] = new Enhancement\FastDestruct();
-        if(in_array('public-attributes', $this->options))
-            $enhancements[] = new Enhancement\PublicAttributes();
+        if(in_array('public-properties', $this->options))
+            $enhancements[] = new Enhancement\PublicProperties();
         if(in_array('ascii-strings', $this->options))
             $enhancements[] = new Enhancement\ASCIIStrings(false);
         if(in_array('armor-strings', $this->options))
@@ -681,7 +681,7 @@ final class PHPGGC
             'session-encode' => false,
             # Enhancements
             'fast-destruct' => false,
-            'public-attributes' => false,
+            'public-properties' => false,
             'ascii-strings' => false,
             'armor-strings' => false,
             'plus-numbers' => true,
