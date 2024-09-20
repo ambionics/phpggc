@@ -14,8 +14,8 @@ namespace PHPGGC\Enhancement;
 *
 * As an added bonus, payloads are slightly smaller without the prefixes.
 *
-* Converting protected properties to tends to work in more recent PHP versions
-* but can cause problems in older versions such as PHP 5.6.
+* Converting protected properties to public tends to work in more recent PHP
+* versions but can cause problems in older versions such as PHP 5.6.
 */
 class PublicAttributes extends Enhancement
 {
