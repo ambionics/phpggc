@@ -10,7 +10,8 @@ namespace PHPGGC\Enhancement;
 * This can be useful because when PHP serializes a protected property of an
 * object it prepends the property name with an asterisk surrounded by null
 * bytes, which are easy to lose if the payload is transmitted or stored as plain
-* text without encoding.
+* text without encoding. If that happens, the payload will fail to unserialize
+* because the string length of the property names will be incorrect.
 *
 * As an added bonus, payloads are slightly smaller without the prefixes.
 *
