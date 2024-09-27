@@ -600,6 +600,11 @@ final class PHPGGC
         $this->o('     This is experimental and it might not work in some cases.');
         $this->o('     Note: Since strings grow by a factor of 3 using this option, the payload can get');
         $this->o('     really long.');
+        $this->o('  --pubic-properties');
+        $this->o('     Attempts to convert references to protected or private properties within the serialized');
+        $this->o('     payload to public. The resulting payload should contain no null bytes and may be a little');
+        $this->o('     shorter.');
+        $this->o('     This is experimental and it might not work in some cases.');
         $this->o('  -n, --plus-numbers <types>');
         $this->o('     Adds a + symbol in front of every number symbol of the given type.');
         $this->o('     For instance, -n iO adds a + in front of every int and object name size:');
