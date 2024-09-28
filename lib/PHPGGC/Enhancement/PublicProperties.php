@@ -35,7 +35,7 @@ class PublicProperties extends Enhancement
        $encoded_payload = urlencode($serialized);
        preg_match_all('/s%3A([0-9]*)%3A%22%00(([[:alnum:]_]|%2A)*)%00/', $encoded_payload, $matches);
        $replace_pairs = [];
-       if (is_array($matches[1])) {
+       if (count($matches[1]) > 0) {
            foreach ($matches[1] as $i => $length) {
                $search = 's%3A' . $length . '%3A%22%00' . $matches[2][$i] . '%00';
                $reduction = strlen(urldecode($matches[2][$i])) + 2;
