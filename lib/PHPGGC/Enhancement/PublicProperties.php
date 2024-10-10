@@ -31,7 +31,7 @@ class PublicProperties extends Enhancement
      */
     public function process_serialized($serialized)
     {
-        return preg_replace_callback('/\bs:([0-9]*):"\x00([[:alnum:]_]*|\*)\x00/', [$this, 'remove_prefix'], $serialized);
+        return preg_replace_callback('/\bs:(\d+):"\x00(\w+|\*)\x00/', [$this, 'remove_prefix'], $serialized);
     }
 
     public function remove_prefix($matches)
