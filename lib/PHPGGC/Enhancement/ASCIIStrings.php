@@ -11,6 +11,8 @@ namespace PHPGGC\Enhancement;
  */
 class ASCIIStrings extends Enhancement
 {
+    private $full;
+    
     public function __construct($full=false)
     {
         $this->full = $full;
