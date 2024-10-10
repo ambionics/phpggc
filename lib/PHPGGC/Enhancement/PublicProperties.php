@@ -40,6 +40,6 @@ class PublicProperties extends Enhancement
         $reduction = strlen($matches[2]) + 2;
         $search = 's:' . $length . ':"' . chr(0) . $matches[2] . chr(0);
         $replace = 's:' . $length - $reduction . ':"';
-        return str_replace($matches[0], $search, $replace);
+        return str_replace($search, $replace, $matches[0]);
     }
 }
