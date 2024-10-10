@@ -36,7 +36,6 @@ class PublicProperties extends Enhancement
 
     public function remove_prefix($matches)
     {
-        print_r($matches);
         $length = $matches[1];
         $reduction = strlen($matches[2]) + 2;
         $search = 's:' . $length . ':"' . chr(0) . $matches[2] . chr(0);
