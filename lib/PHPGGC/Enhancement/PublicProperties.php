@@ -31,17 +31,16 @@ class PublicProperties extends Enhancement
      */
     public function process_serialized($serialized)
     {
-       preg_match_all('/s:([0-9]*):"\x00(([[:alnum:]_]|\*)*)\x00/', $serialized, $matches);
-       $replace_pairs = [];
-       if (count($matches[1]) > 0) {
-           foreach ($matches[1] as $i => $length) {
-               $search = 's:' . $length . ':"' . chr(0) . $matches[2][$i] . chr(0);
-               $reduction = strlen($matches[2][$i]) + 2;
-               $replace = 's:' . $length - $reduction . ':"';
-               $replace_pairs[$search] = $replace;
-           }
-           $serialized = strtr($serialized, $replace_pairs);
-       }
-       return $serialized;
+        return preg_replace_callback('/s:([0-9]*):"\x00(([[:alnum:]_]|\*)*)\x00/', [$this, 'remove_prefix'], $serialized);
+    }
+
+    public function remove_prefix($matches)
+    {
+        print_r($matches);
+        $length = $matches[1];
+        $reduction = strlen($matches[2]) + 2;
+        $search = 's:' . $length . ':"' . chr(0) . $matches[2] . chr(0);
+        $replace = 's:' . $length - $reduction . ':"';
+        return str_replace($matches[0], $search, $replace);
     }
 }
