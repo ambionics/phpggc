@@ -31,19 +31,17 @@ class PublicProperties extends Enhancement
      */
     public function process_serialized($serialized)
     {
-       // Encode the payload to make null bytes easier to work with.
-       $encoded_payload = urlencode($serialized);
-       preg_match_all('/s%3A([0-9]*)%3A%22%00(([[:alnum:]_]|%2A)*)%00/', $encoded_payload, $matches);
+       preg_match_all('/s:([0-9]*):"\x00(([[:alnum:]_]|\*)*)\x00/', $serialized, $matches);
        $replace_pairs = [];
        if (count($matches[1]) > 0) {
            foreach ($matches[1] as $i => $length) {
-               $search = 's%3A' . $length . '%3A%22%00' . $matches[2][$i] . '%00';
-               $reduction = strlen(urldecode($matches[2][$i])) + 2;
-               $replace = 's%3A' . $length - $reduction . '%3A%22';
+               $search = 's:' . $length . ':"' . chr(0) . $matches[2][$i] . chr(0);
+               $reduction = strlen($matches[2][$i]) + 2;
+               $replace = 's:' . $length - $reduction . ':"';
                $replace_pairs[$search] = $replace;
            }
-           $encoded_payload = strtr($encoded_payload, $replace_pairs);
+           $serialized = strtr($serialized, $replace_pairs);
        }
-       return urldecode($encoded_payload);
+       return $serialized;
     }
 }
