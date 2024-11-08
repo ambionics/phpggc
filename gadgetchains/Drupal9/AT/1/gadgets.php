@@ -40,7 +40,7 @@ namespace Drupal\views\Plugin\views\display {
     }
 }
 
-namespace Drupal\mysql\Driver\Database\mysql {
+namespace Drupal\Core\Database\Query {
     class Update {
         protected $connectionTarget = 'default';
         protected $connectionKey = 'default';
@@ -58,9 +58,7 @@ namespace Drupal\mysql\Driver\Database\mysql {
             $this->uniqueIdentifier = uniqid('', TRUE);
         }
     }
-}
 
-namespace Drupal\Core\Database\Query {
     class Condition
     {
         protected $conditions;
