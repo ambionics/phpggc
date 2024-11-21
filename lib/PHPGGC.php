@@ -710,6 +710,7 @@ final class PHPGGC
             'phar-jpeg' => 'pj',
             'phar-prefix' => 'pp',
             'phar-filename' => 'pf',
+            'public-properties' => 'pub',
             'new' => 'N',
             'ascii-strings' => 'a',
             'armor-strings' => 'A',
