@@ -26,8 +26,8 @@ class PublicProperties extends Enhancement
 {
 
     /**
-     * Post process step of the public-attributes technique: removes prefixes
-     * denoting protected properties, converting them to public.
+     * Post process step of the public-properties technique: removes prefixes
+     * denoting protected or private properties, converting them to public.
      */
     public function process_serialized($serialized)
     {
@@ -37,9 +37,7 @@ class PublicProperties extends Enhancement
     public function remove_prefix($matches)
     {
         $length = $matches[1];
-        $reduction = strlen($matches[2]) + 2;
-        $search = 's:' . $length . ':"' . chr(0) . $matches[2] . chr(0);
-        $replace = 's:' . ($length - $reduction) . ':"';
-        return str_replace($search, $replace, $matches[0]);
+        $reduction = strlen($matches[2]) + 2; // prefix + 2 null bytes
+        return 's:' . ($length - $reduction) . ':"';
     }
 }
