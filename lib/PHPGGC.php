@@ -174,6 +174,8 @@ final class PHPGGC
             $enhancements[] = new Enhancement\Wrapper($this->parameters['wrapper']);
         if(in_array('fast-destruct', $this->options))
             $enhancements[] = new Enhancement\FastDestruct();
+        if(in_array('public-properties', $this->options))
+            $enhancements[] = new Enhancement\PublicProperties();
         if(in_array('ascii-strings', $this->options))
             $enhancements[] = new Enhancement\ASCIIStrings(false);
         if(in_array('armor-strings', $this->options))
@@ -598,6 +600,11 @@ final class PHPGGC
         $this->o('     This is experimental and it might not work in some cases.');
         $this->o('     Note: Since strings grow by a factor of 3 using this option, the payload can get');
         $this->o('     really long.');
+        $this->o('  --public-properties');
+        $this->o('     Attempts to convert references to protected or private properties within the serialized');
+        $this->o('     payload to public. The resulting payload should contain no null bytes and may be a little');
+        $this->o('     shorter.');
+        $this->o('     This is experimental and it might not work in some cases.');
         $this->o('  -n, --plus-numbers <types>');
         $this->o('     Adds a + symbol in front of every number symbol of the given type.');
         $this->o('     For instance, -n iO adds a + in front of every int and object name size:');
@@ -679,6 +686,7 @@ final class PHPGGC
             'session-encode' => false,
             # Enhancements
             'fast-destruct' => false,
+            'public-properties' => false,
             'ascii-strings' => false,
             'armor-strings' => false,
             'plus-numbers' => true,
@@ -702,6 +710,7 @@ final class PHPGGC
             'phar-jpeg' => 'pj',
             'phar-prefix' => 'pp',
             'phar-filename' => 'pf',
+            'public-properties' => 'pub',
             'new' => 'N',
             'ascii-strings' => 'a',
             'armor-strings' => 'A',
