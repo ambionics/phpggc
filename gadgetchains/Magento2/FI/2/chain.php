@@ -19,7 +19,7 @@ class FI2 extends \PHPGGC\GadgetChain\FileInclude
         $parameters = parent::process_parameters($parameters);
         // Remove the prefix and suffix if they have been specified, as they
         // will be added by the application.
-        $parameters['remote_path'] = preg_replace('#(^rsl::|.php$)#i', '', $parameters['remote_path']);
+        $parameters['remote_path'] = preg_replace('#(rsl::|.php$)#i', '', $parameters['remote_path']);
         return $parameters;
     }
 
