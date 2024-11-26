@@ -19,7 +19,7 @@ class FI1 extends \PHPGGC\GadgetChain\FileInclude
         $parameters = parent::process_parameters($parameters);
         // Remove the .php suffix if it has been specified, as it will be added
         // by the application.
-        $parameters['remote_path'] = preg_replace('#.php$#i', '', $parameters['remote_path']);
+        $parameters['remote_path'] = preg_replace('#\.php$#i', '', $parameters['remote_path']);
         $parameters['remote_path'] = '/../../../pub/' . ltrim($parameters['remote_path'], '/');
         return $parameters;
     }
