@@ -6,6 +6,7 @@ class PropelDateTime extends DateTime
 	private $tzString;
 
   public function __construct($dateString, $tzString) {
+    parent::__construct();
     $this->dateString = $dateString;
     $this->tzString = $tzString;
   }
