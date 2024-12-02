@@ -4,10 +4,9 @@ namespace GadgetChain\Laravel;
 
 class RCE22 extends \PHPGGC\GadgetChain\RCE\FunctionCall
 {
-    public static $version = '2.0.2+';
+    public static $version = 'v10.0.0 <= v11.34.2+';
     public static $vector = '__destruct';
     public static $author = 'mcdruid';
-    public static $information = 'https://github.com/krayin/laravel-crm';
 
     public function generate(array $parameters)
     {
