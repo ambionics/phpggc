@@ -8,6 +8,7 @@ class SQLI1 extends \PHPGGC\GadgetChain\SqlInjection
     public static $vector = '__destruct';
     public static $author = 'paul-axe, mcdruid';
     public static $information = 'See: https://gist.github.com/paul-axe/2a384bb5f2d430dd3b63b2484af960f4
+    See: https://www.drupal.org/sa-core-2024-008
     Drupal7/SSRF1 can be used to extract db credentials for SQL injection.';
 
     public function generate(array $parameters)
