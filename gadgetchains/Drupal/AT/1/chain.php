@@ -1,6 +1,6 @@
 <?php
 
-namespace GadgetChain\Drupal9;
+namespace GadgetChain\Drupal;
 
 class AT1 extends \PHPGGC\GadgetChain\AccountTakeover
 {
