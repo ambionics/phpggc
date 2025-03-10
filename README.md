@@ -203,6 +203,13 @@ This comes handy when a firewall or PHP code blocks strings.
 Sometimes, PHP scripts verify that the given serialized payload does not contain objects by using a regex such as `/O:[0-9]+:`. This is easily bypassed using `O:+123:...` instead of `O:123:`. One can use `--plus-numbers <types>`, or `-n <types>`, to automatically add these `+` signs in front of symbols.
 For instance, to obfuscate objects and strings, one can use: `--n Os`. Please note that since PHP 7.2, only `i` and `d` (float) types can have a `+`.
 
+### Public Properties
+
+Attempts to convert references to protected or private properties within the serialized payload to public.
+This can be useful because when PHP serializes a non-public property of an object it prepends the property name with an asterisk (for protected) or the class name (for private) surrounded by null bytes, which are easy to lose if the payload is transmitted or stored as plain text without encoding. If that happens, the payload will fail to unserialize because the string length of the property name (and the name itself) will be incorrect.
+As an added bonus, payloads are slightly smaller without the prefixes. Converting properties to public tends to work in more recent PHP versions but can cause problems in older versions (before PHP 7.2).
+This functionality may not work properly if a chain includes one or more objects that have a custom serialize / unserialize implementation.
+
 ### Testing your chain
 
 To test if the gadget chain you want to use works in the targeted environment, jump to your environment's folder and run the chain argument-free, with the `--test-payload` option.
