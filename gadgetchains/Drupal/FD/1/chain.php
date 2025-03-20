@@ -4,7 +4,7 @@ namespace GadgetChain\Drupal;
 
 class FD1 extends \PHPGGC\GadgetChain\FileDelete
 {
-    public static $version = '>= 8.0.0 < 10.2.11 || >= 10.3.0 < 10.3.9 || >= 11.0.0 < 11.0.8';
+    public static $version = '>= 10.3.0 < 10.3.9 || >= 11.0.0 < 11.0.8';
     public static $vector = '__wakeup';
     public static $author = 'mcdruid';
     public static $information = 'See: https://www.drupal.org/sa-core-2024-006';
