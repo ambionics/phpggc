@@ -1,11 +1,12 @@
 <?php
 
-namespace GadgetChain\Drupal;
+namespace GadgetChain\Drupal\PsySH;
 
 class INFO1 extends \PHPGGC\GadgetChain\PHPInfo
 {
-    public static $version = '>= 8.0.0 < 10.2.11 || >= 10.3.0 < 10.3.9 || >= 11.0.0 < 11.0.8';
+    public static $version = '>= v0.9.0 < v0.12.6';
     public static $vector = '__wakeup';
+    
     public static $author = 'mcdruid';
     public static $information = 'See: https://www.drupal.org/sa-core-2024-007
         This requires PsySH which is bundled with drush. It is common but not
