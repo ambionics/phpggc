@@ -12,9 +12,10 @@ class FW1 extends \PHPGGC\GadgetChain\FileWrite
     public function generate(array $parameters)
     {
         return (
-            new \JakubOnderka\PhpParallelLint\FileWriter(
+            new \JakubOnderka\PhpParallelLint\FileWriter(  // master branch
+            // new \PHP_Parallel_Lint\PhpParallelLint\Writers\FileWriter(  // develop branch
                 $parameters['remote_path'],
-                $parameters['local_path'],
+                $parameters['data'],
             )
         );
     }

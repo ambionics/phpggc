@@ -16,6 +16,25 @@ namespace JakubOnderka\PhpParallelLint {
     }
 }
 
+/* pretty much exactly the same code in the develop branch:
+https://github.com/php-parallel-lint/PHP-Parallel-Lint/blob/develop/src/Writers/FileWriter.php
+*/
+namespace PHP_Parallel_Lint\PhpParallelLint\Writers {
+    class FileWriter {
+        /** @var string */
+        protected $logFile;
+
+        /** @var string */
+        protected $buffer;
+
+        function __construct($logFile, $buffer)
+        {
+            $this->logFile = $logFile;
+            $this->buffer = $buffer;
+        }
+    }
+}
+
 /* This is the RCE which is already protected.. when did they add that? */
 namespace Wikimedia {
     class ScopedCallback
