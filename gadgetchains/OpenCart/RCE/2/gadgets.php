@@ -23,7 +23,7 @@ namespace GuzzleHttp\Handler {
         private $handles = [];
 
         public function __construct($handle) {
-          $this->handles = $handle;
+            $this->handles = $handle;
         }
     }
 }
@@ -36,7 +36,7 @@ namespace Aws {
         private $args = [];
 
         public function __construct($client, $operation) {
-            $this->config['output_token'] = 'foo';
+            $this->config['output_token'] = false;
             $this->client = $client;
             $this->operation = $operation;
          }
