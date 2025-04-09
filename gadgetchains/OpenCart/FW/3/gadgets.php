@@ -27,12 +27,9 @@ namespace {
             $this->data = $data;
         }
     }
-}
 
-namespace Twig\Cache
-{
-    class FilesystemCache
+    class Twig_Cache_Filesystem
     {
-
+        // for OpenCart 3.0.3.3 or older.
     }
 }

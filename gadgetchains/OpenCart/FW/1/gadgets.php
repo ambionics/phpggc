@@ -2,7 +2,7 @@
 
 namespace Opencart\System\Library\DB
 {
-    class MySQLi
+    class mysqli
     {
         private object|null $connection;
 
