@@ -4,10 +4,11 @@ namespace GadgetChain\MediaWiki;
 
 class FD1 extends \PHPGGC\GadgetChain\FileDelete
 {
-    public static $version = '1.43.0+';
+    public static $version = '1.21.0+';
     public static $vector = '__destruct';
     public static $author = 'mcdruid';
-    public static $information = '';
+    public static $information = 'Reported - but declined - at:
+    https://phabricator.wikimedia.org/T389781';
 
     public function generate(array $parameters)
     {
