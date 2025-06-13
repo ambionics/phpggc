@@ -29,7 +29,6 @@ namespace PHPGGC;
  * class for handling CLI, PHPGGC. Refer to their documentation to understand
  * their usage.
  */
-#[\AllowDynamicProperties]
 abstract class GadgetChain
 {
     public $name;

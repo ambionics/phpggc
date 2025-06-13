@@ -24,12 +24,6 @@ namespace React\EventLoop
             $this->timers = $timers;
         }
     }
-
-    /*
-     * This sort of works, but the payload uses the new class name.
-    class_alias(ExtEvLoop::class, 'RectorPrefix202411\React\EventLoop\ExtEvLoop');
-    class_alias(ExtEvLoop::class, 'RectorPrefix202505\React\EventLoop\ExtEvLoop');
-    */
 }
 
 namespace RectorPrefix202411\React\EventLoop {
