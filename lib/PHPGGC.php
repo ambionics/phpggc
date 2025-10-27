@@ -170,12 +170,12 @@ final class PHPGGC
             );
         }
 
+        if(in_array('public-properties', $this->options))
+            $enhancements[] = new Enhancement\PublicProperties();
         if(isset($this->parameters['wrapper']))
             $enhancements[] = new Enhancement\Wrapper($this->parameters['wrapper']);
         if(in_array('fast-destruct', $this->options))
             $enhancements[] = new Enhancement\FastDestruct();
-        if(in_array('public-properties', $this->options))
-            $enhancements[] = new Enhancement\PublicProperties();
         if(in_array('ascii-strings', $this->options))
             $enhancements[] = new Enhancement\ASCIIStrings(false);
         if(in_array('armor-strings', $this->options))
