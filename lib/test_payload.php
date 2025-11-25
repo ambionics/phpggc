@@ -43,6 +43,7 @@ switch($vector)
 	    break;
 	case '__destruct':
 	case '__wakeup':
+	case '__unserialize':
 		$payload = unserialize($payload);
         break;
     default:
