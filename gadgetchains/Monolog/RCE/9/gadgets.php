@@ -32,7 +32,7 @@ namespace Monolog
         
         function __construct($parameter)
         {
-            $this->mixed = $parameter;
+            $this->formatted = $parameter;
         }
     }
 }

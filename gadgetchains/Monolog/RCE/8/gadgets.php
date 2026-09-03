@@ -15,7 +15,7 @@ namespace Monolog
         function __construct($parameter)
         {
             $this->level = \Monolog\Level::Debug;
-            $this->mixed = $parameter;
+            $this->formatted = $parameter;
         }
     }
 }

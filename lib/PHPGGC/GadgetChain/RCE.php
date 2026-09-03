@@ -11,6 +11,9 @@ abstract class RCE extends \PHPGGC\GadgetChain
     # TBD by subclasses
     public static $parameters = [];
 
+    public $__test_rand_token;
+    public $__test_rand_path;
+    
     /**
      * The result of the command is not necessarily visible. We write the output
      * to a file instead to be able to tell if the payload worked, even if
